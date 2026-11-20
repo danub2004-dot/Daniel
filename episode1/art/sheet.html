@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Лист персонажей — серия 1</title>
+<style>
+  body{margin:0;background:#0a0f11;color:#cfd6cf;font-family:Inter,"DejaVu Sans",sans-serif;width:2160px}
+  h1{font-size:56px;margin:50px 60px 6px;letter-spacing:.5px} .sub{margin:0 60px 30px;color:#7f8f8a;font-size:26px}
+  h2{font-size:34px;margin:40px 60px 16px;color:#e8742e;text-transform:uppercase;letter-spacing:3px}
+  .row{display:flex;gap:24px;padding:0 60px;flex-wrap:wrap}
+  .card{flex:none;width:318px;box-sizing:border-box;background:#121b1e;border:1px solid #1f2d31;border-radius:18px;padding:14px;text-align:center}
+  .card b{display:block;font-size:26px;margin-top:6px;color:#e6ebe4} .card span{display:block;font-size:19px;color:#7f8f8a;line-height:1.35;margin-top:4px}
+  svg{display:block}
+  .pal{display:flex;gap:10px;padding:0 60px} .pal div{width:118px;height:70px;border-radius:10px;font-size:15px;display:flex;align-items:flex-end;padding:6px;box-sizing:border-box;color:#fff;text-shadow:0 1px 2px #000}
+</style></head><body>
+<h1>«Выживание в лесу». Серия 1: «Люди на заимке»</h1>
+<div class="sub">Лист персонажей, реквизита и фонов. Плоский 2D, всё нарисовано кодом (SVG).</div>
+<div id="root"></div>
+<script src="assets.js"></script>
+<script>
+const R = document.getElementById('root');
+const svg = (w, h, vb, inner, bg = '#121b1e') => `<svg width="${w}" height="${h}" viewBox="${vb}">${DEFS}<rect x="-9999" y="-9999" width="99999" height="99999" fill="${bg}"/>${inner}</svg>`;
+const card = (inner, name, desc) => `<div class="card">${inner}<b>${name}</b><span>${desc}</span></div>`;
+const chr = (inner) => svg(290, 445, '-170 -500 340 520', `<ellipse cx="0" cy="0" rx="150" ry="20" fill="#0c1214"/>` + inner);
+let h = '';
+h += `<h2>Герои</h2><div class="row">`;
+h += card(chr(misha({ worry: .3 })), 'Миша, 47', 'пожарный в отпуске<br>куртка с потёртыми полосами');
+h += card(chr(misha({ worry: 1, armL: 20, head: -.4 })), 'Миша: вина', 'брови домиком, взгляд в сторону');
+h += card(chr(misha({ x: 40, worry: .8, armL: 50 }) + matchFlame({ x: -135, y: -262, s: .7, t: 1 })), 'Миша: спичка', 'рука вперёд, огонёк светит');
+h += card(chr(tyoma({ curious: 1, mouth: .6, head: .3 })), 'Тёма, 16', 'младший брат, «почемучка»<br>оранжевая заплатка на худи');
+h += card(chr(tyoma({ blank: 1 })), 'Тёма: «привык»', 'бледный, пустые глаза,<br>улыбка как у местных');
+h += card(chr(oldman({}) ), 'Старик', 'старожил, ватник, посох<br>«Как ты. С братом.»');
+h += `</div><div class="row" style="margin-top:24px">`;
+h += card(chr(oldman({ x: 30, point: .8, head: .4 })), 'Старик: показывает', '«Дорога — за забором»');
+['Геолог, 70-е', 'Турист, 90-е', 'Женщина в платке', 'Турист, 2010-е'].forEach((n, i) => h += card(chr(local({ v: i })), 'Местный: ' + n, 'бледный, одинаковая улыбка'));
+h += card(chr(local({ v: 1, glow: true })), 'Местный у огня', 'глаза отражают пламя');
+h += `</div>`;
+h += `<h2>Монстр</h2><div class="row">`;
+h += card(svg(290, 334, '-200 -520 400 540', bird({ neck: .2 })), 'Незнакомая птица', 'чёрная, костяной клюв,<br>светящийся глаз');
+h += card(svg(290, 334, '-200 -520 400 540', bird({ neck: 1, beak: 1 })), 'Птица: крик', 'шея вытягивается,<br>клюв раскрыт');
+h += card(svg(290, 334, '-200 -520 400 540', bird({ neck: .6, eye: .3 }) + `<rect x="-200" y="-520" width="400" height="540" fill="#000" opacity=".45"/>` + `<circle cx="138" cy="-330" r="5" fill="#e9e3a2"/>`), 'Птица в тени', 'виден только глаз');
+h += `</div>`;
+h += `<h2>Реквизит</h2><div class="row">`;
+h += card(svg(290, 230, '-230 -180 460 360', burntMap({})), 'Обгоревшая карта', 'пустое зелёное пятно');
+h += card(svg(290, 290, '-150 -150 300 300', matchbox({ n: 3 })), 'Коробок: 3 спички', 'счётчик надежды');
+h += card(svg(290, 230, '-320 -300 640 360', tent({})), 'Оранжевая палатка', 'та же заплатка, что у Тёмы');
+h += card(svg(290, 230, '-240 -200 480 240', [0, 1, 2, 3].map(v => backpack({ v, x: -165 + v * 110, y: 20, s: .8 })).join('')), 'Ничьи рюкзаки', 'советский, старый, новый');
+h += card(svg(290, 290, '-150 -280 300 340', fire({ t: 1.3, size: .7 })), 'Сигнальный костёр', 'мигает и искрит');
+h += card(svg(290, 290, '-110 -180 220 300', [[-60, 30, '#4a3c2c'], [20, 70, '#3c4630', '#566240'], [50, -20, '#4a2c28', '#6a3e36'], [-30, -60, '#3a3a40', '#565662'], [70, 40, '#4a3c2c']].map(([x, y, c, c2]) => oldBox({ x, y, c, c2, rot: x })).join('')), 'Пустые коробки', 'в конце дороги');
+h += `</div>`;
+h += `<h2>Фоны (9:16)</h2><div class="row">`;
+const BG = (fn, extra, name, desc) => card(svg(290, 516, '0 0 1080 1920', fn(1.5, { lit: .8 }) + (extra || '') + overlay(1.5)), name, desc);
+h += BG(bgDawnVillage, misha({ x: 470, y: 1780, s: .9, flip: true }) + tyoma({ x: 640, y: 1790, s: .9, head: .5 }), '1. Деревня в тумане', 'рассвет, 0–25 с');
+h += BG(bgFence, [0, 1, 2, 3].map(v => backpack({ v, x: 200 + v * 190, y: 1680 + v * 30, s: 1.3 })).join('') + bird({ x: 830, y: 485, s: .8, flip: true, neck: .5 }), '2. Забор и птица', 'ничьи рюкзаки, 25–35 с');
+h += BG(bgNight, fire({ x: 540, y: 1560, t: 1.5, size: 1.3 }) + local({ x: 230, y: 1640, s: 1, glow: true, v: 0 }) + local({ x: 850, y: 1650, s: 1, glow: true, v: 2, flip: true }), '3. Костёр ночью', 'местные у огня, 35–52 с');
+h += BG(bgRoad, oldBox({ x: 470, y: 1300, s: 1.4, rot: 20 }) + oldBox({ x: 600, y: 1340, s: 1.6, rot: -30, c: '#3c4630' }) + oldBox({ x: 540, y: 1420, s: 2, rot: 8, c: '#4a2c28' }), '4. Дорога обрывается', 'коробки в траве, 52–64 с');
+h += BG(bgFlashback, tent({ x: 540, y: 1560, s: 1.3 }) + fire({ x: 540, y: 1560, t: 1.5, size: 2 }) + misha({ x: 240, y: 1820, s: 1, worry: 1, head: .5 }), '5. Флешбэк: пожар', 'вчера, красные тона');
+h += BG(bgEdge, tent({ x: 660, y: 1600, s: 1.05 }) + local({ x: 360, y: 1640, s: .9, v: 3 }) + local({ x: 960, y: 1640, s: .9, v: 1, flip: true }), '6. Край деревни', 'новая палатка, финал');
+h += `</div>`;
+h += `<h2>Палитра</h2><div class="pal">` + [['#070d10', 'ночь'], ['#122127', 'тайга'], ['#25383b', 'сумерки'], ['#7a8c89', 'туман'], ['#8c7863', 'рассвет'], ['#3b3127', 'брёвна'], ['#d4552a', 'палатка'], ['#e8742e', 'огонь'], ['#8e2b22', 'тревога'], ['#b6bdac', 'местные'], ['#e9e3a2', 'глаза'], ['#c49a80', 'кожа']].map(([c, n]) => `<div style="background:${c}">${n}</div>`).join('') + `</div><div style="height:60px"></div>`;
+R.innerHTML = h;
+</script></body></html>
