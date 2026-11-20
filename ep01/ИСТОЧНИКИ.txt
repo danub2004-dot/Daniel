@@ -1,0 +1,54 @@
+ЭПИДЕМИЯ · Серия 1 «За кордоном» — ИСТОЧНИКИ ЗВУКА И ГОЛОСА
+
+Все музыкальные и шумовые фрагменты взяты с Freesound.org и распространяются по лицензии
+Creative Commons 0 (CC0 1.0, общественное достояние): https://creativecommons.org/publicdomain/zero/1.0/
+Лицензия каждого звука проверена на его странице 20.11.2026. Указание авторов по CC0 не требуется, но мы его даём.
+
+МУЗЫКА / ФОН
+  • terror ambience.mp3 by burning-mir
+    https://freesound.org/people/burning-mir/sounds/155142/
+    Лицензия: CC0 · Где в ролике: мрачный фон под всем роликом (0:00–1:30), на 19 дБ тише голоса
+
+ЗВУКОВЫЕ ЭФФЕКТЫ
+  • Distant Thunder and Rain from Half Open Window 1.aif by RutgerMuller
+    https://freesound.org/people/RutgerMuller/sounds/158692/
+    Лицензия: CC0 · Где в ролике: дождь у больницы (0:04–0:14, 0:19–0:29)
+  • sneeze.wav by moxobna
+    https://freesound.org/people/moxobna/sounds/54505/
+    Лицензия: CC0 · Где в ролике: чих после «чихали» (0:01)
+  • Faulty Fluorescent Light Starter & Hum.wav by EverydaySounds
+    https://freesound.org/people/EverydaySounds/sounds/125064/
+    Лицензия: CC0 · Где в ролике: гудение и щелчки лампы в подъезде (0:00, 0:40)
+  • Footsteps_Down_Stairs.wav by georgisound
+    https://freesound.org/people/georgisound/sounds/368835/
+    Лицензия: CC0 · Где в ролике: сапоги на лестнице во время обхода (0:40) и приглушённо за дверью (0:52)
+  • Keys Unlocking Door.aif by ftpalad
+    https://freesound.org/people/ftpalad/sounds/119918/
+    Лицензия: CC0 · Где в ролике: ключ в замке (0:44)
+  • DoorCreak.wav by 0XMUSEX0
+    https://freesound.org/people/0XMUSEX0/sounds/168650/
+    Лицензия: CC0 · Где в ролике: скрип двери квартиры бабы Шуры (0:47)
+  • Phone call disconnect by JonasTisell
+    https://freesound.org/people/JonasTisell/sounds/610144/
+    Лицензия: CC0 · Где в ролике: сброс звонка «абонент недоступен» (0:58)
+  • door_knock.wav by wjtaylor
+    https://freesound.org/people/wjtaylor/sounds/268500/
+    Лицензия: CC0 · Где в ролике: стук в дверь (1:18)
+  • Suitcase Latch.wav by ThunderQuads
+    https://freesound.org/people/ThunderQuads/sounds/467205/
+    Лицензия: CC0 · Где в ролике: щелчок замков чемодана (1:20)
+  • wind.ogg by sleepCircle
+    https://freesound.org/people/sleepCircle/sounds/22331/
+    Лицензия: CC0 · Где в ролике: ветер у забора (0:19) и на финале (1:26)
+
+ГОЛОС
+  • Синтез речи ElevenLabs (модель Eleven v3), голос «Stanislav» из библиотеки голосов ElevenLabs.
+    Создано на платном тарифе Creator — коммерческое использование разрешено условиями ElevenLabs.
+
+ГРАФИКА И АНИМАЦИЯ
+  • Нарисованы с нуля кодом (SVG), сторонние изображения не использовались.
+
+ШРИФТЫ
+  • Inter и JetBrains Mono — лицензия SIL Open Font License 1.1.
+
+Чужая музыка (в том числе популярные треки) в ролике не используется.

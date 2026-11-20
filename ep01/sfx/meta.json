@@ -1,0 +1,90 @@
+{
+ "drone": {
+  "user": "burning-mir",
+  "id": "155142",
+  "title": "Freesound - terror ambience.mp3 by burning-mir",
+  "lic": "CC0",
+  "dur": "121.353",
+  "prev": "https://cdn.freesound.org/previews/155/155142_2098884-hq.mp3"
+ },
+ "rain": {
+  "user": "RutgerMuller",
+  "id": "158692",
+  "title": "Freesound - Distant Thunder and Rain from Half Open Window 1.aif by RutgerMuller",
+  "lic": "CC0",
+  "dur": "88.0",
+  "prev": "https://cdn.freesound.org/previews/158/158692_179538-hq.mp3"
+ },
+ "sneeze": {
+  "user": "moxobna",
+  "id": "54505",
+  "title": "Freesound - sneeze.wav by moxobna",
+  "lic": "CC0",
+  "dur": "2.52637",
+  "prev": "https://cdn.freesound.org/previews/54/54505_43834-hq.mp3"
+ },
+ "steps": {
+  "user": "georgisound",
+  "id": "368835",
+  "title": "Freesound - Footsteps_Down_Stairs.wav by georgisound",
+  "lic": "CC0",
+  "dur": "24.2229",
+  "prev": "https://cdn.freesound.org/previews/368/368835_6790631-hq.mp3"
+ },
+ "knock": {
+  "user": "wjtaylor",
+  "id": "268500",
+  "title": "Freesound - door_knock.wav by wjtaylor",
+  "lic": "CC0",
+  "dur": "2.0778",
+  "prev": "https://cdn.freesound.org/previews/268/268500_4989900-hq.mp3"
+ },
+ "creak": {
+  "user": "0XMUSEX0",
+  "id": "168650",
+  "title": "Freesound - DoorCreak.wav by 0XMUSEX0",
+  "lic": "CC0",
+  "dur": "10.0863",
+  "prev": "https://cdn.freesound.org/previews/168/168650_3079181-hq.mp3"
+ },
+ "wind": {
+  "user": "sleepCircle",
+  "id": "22331",
+  "title": "Freesound - wind.ogg by sleepCircle",
+  "lic": "CC0",
+  "dur": "34.23",
+  "prev": "https://cdn.freesound.org/previews/22/22331_124894-hq.mp3"
+ },
+ "key": {
+  "user": "ftpalad",
+  "id": "119918",
+  "title": "Freesound - Keys Unlocking Door.aif by ftpalad",
+  "lic": "CC0",
+  "dur": "4.9049",
+  "prev": "https://cdn.freesound.org/previews/119/119918_1990698-hq.mp3"
+ },
+ "phone": {
+  "user": "JonasTisell",
+  "id": "610144",
+  "title": "Freesound - Phone call disconnect by JonasTisell",
+  "lic": "CC0",
+  "dur": "3.62395",
+  "prev": "https://cdn.freesound.org/previews/610/610144_3910073-hq.mp3"
+ },
+ "flicker": {
+  "user": "EverydaySounds",
+  "id": "125064",
+  "title": "Freesound - Faulty Fluorescent Light Starter & Hum.wav by EverydaySounds",
+  "lic": "CC0",
+  "dur": "22.4919",
+  "prev": "https://cdn.freesound.org/previews/125/125064_2273054-hq.mp3"
+ },
+ "latch": {
+  "user": "ThunderQuads",
+  "id": "467205",
+  "title": "Freesound - Suitcase Latch.wav by ThunderQuads",
+  "lic": "CC0",
+  "dur": "3.09868",
+  "prev": "https://cdn.freesound.org/previews/467/467205_9871357-hq.mp3"
+ }
+}
