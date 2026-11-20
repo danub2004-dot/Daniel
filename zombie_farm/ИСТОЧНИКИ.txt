@@ -1,0 +1,20 @@
+ИСТОЧНИКИ ЗВУКА — «Ферма. Зомби-апокалипсис»
+
+Голос рассказчика: ElevenLabs, модель eleven_v3, голос «Nester Surovy - Gravely yet Refined»
+(id pM78bgjPVk0JXtaEnFoj, библиотека ElevenLabs), тариф Creator — коммерческое использование разрешено.
+
+Фон и эффекты — только Freesound, лицензия Creative Commons 0 (CC0, общественное достояние),
+проверена на странице каждого звука. Указание авторства не требуется, но приводим его.
+
+1. Фон (дрон): "spacedrone3.wav" — Elektrocell
+   https://freesound.org/people/Elektrocell/sounds/20705/  — CC0
+2. Ветер: "Halloween - Graveyard At Night Howling Wind.mp3" — mistersherlock
+   https://freesound.org/people/mistersherlock/sounds/159509/  — CC0
+3. Скрип ворот: "Metal_Gate_01.wav" — SilentStrikeZ
+   https://freesound.org/people/SilentStrikeZ/sounds/389646/  — CC0
+4. Гуси вдали: "geese honking" — videog
+   https://freesound.org/people/videog/sounds/149192/  — CC0
+5. Гуси кричат (финал): "Canada Geese Honks" — Kinoton
+   https://freesound.org/people/Kinoton/sounds/423346/  — CC0
+
+Музыки нет. Сведение: sound/mix.py (фон ≈19 дБ тише голоса, итог −14 LUFS, true peak −1 dBTP).
