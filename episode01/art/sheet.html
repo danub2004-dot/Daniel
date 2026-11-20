@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Лист персонажей</title>
+<style>
+  body{margin:0;background:#06080e;color:#dfe6f2;font-family:'Inter Display',Inter,sans-serif;width:1200px}
+  h1{font-weight:900;font-size:54px;letter-spacing:3px;margin:0;color:#e8a33d}
+  .head{padding:36px 40px 10px}
+  .sub{color:#8592a6;font-size:20px;margin-top:6px}
+  h2{font-size:22px;font-weight:800;letter-spacing:2px;color:#7fdcff;margin:28px 40px 8px;text-transform:uppercase}
+  .row{display:flex;gap:18px;padding:0 40px}
+  .card{background:#0c1120;border:1px solid #1d2539;border-radius:14px;overflow:hidden}
+  .cap{font-size:16px;padding:8px 12px 12px;color:#b8c2d2;line-height:1.35}
+  .cap b{color:#fff;font-size:18px}
+  .sw{width:118px;height:70px;border-radius:10px;display:flex;align-items:flex-end;padding:6px;box-sizing:border-box;font:600 13px 'JetBrains Mono';color:#fff;text-shadow:0 1px 2px #000}
+</style></head><body>
+<div class="head"><h1>СТРАННЫЙ СИГНАЛ</h1><div class="sub">Серия 1 «Сообщения» · лист персонажей и фонов · плоский 2D, тёмная палитра</div></div>
+<div id="root"></div>
+<script src="art.js"></script>
+<script>
+const root=document.getElementById('root');
+const svg=(w,h,inner,vb)=>`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${vb||`0 0 ${w} ${h}`}">${defs()}${inner}</svg>`;
+const card=(inner,cap,w)=>`<div class="card" style="width:${w}px">${inner}<div class="cap">${cap}</div></div>`;
+const floor=(w,h)=>`<rect width="${w}" height="${h}" fill="#0f1526"/><ellipse cx="${w/2}" cy="${h-34}" rx="${w*0.36}" ry="14" fill="#000" opacity=".5"/>`;
+let html='';
+html+=`<h2>Герои</h2><div class="row">`;
+html+=card(svg(260,540,floor(260,540)+`<g transform="translate(130,505) scale(1)">${mark({phone:true,glow:1,armR:[-12,158],eyes:'wide',brow:-3,look:2})}</g>`),'<b>Марк, 28</b><br>водитель ночного маршрута №7. Куртка автопарка с жёлтой полосой, наушник, пауэрбанк в кармане (красный огонёк = 10%)',260);
+html+=card(svg(200,540,floor(200,540)+`<g transform="translate(100,505)">${mark({back:true})}</g>`),'<b>Марк, спиной</b><br>для «не оборачивайся»',200);
+html+=card(svg(230,540,floor(230,540)+`<g transform="translate(150,505) scale(1.2)">${tema({beam:true,armL:[38,30],eyes:'open',mouth:'o'})}</g>`),'<b>Тёма, 10</b><br>брат. Пижама, кеды без шнурков, фонарик. Вопросы без остановки',230);
+html+=card(svg(190,540,floor(190,540)+`<g transform="translate(95,505) scale(1.2)">${tema({torch:false,phone:true,glow:1,armR:[-8,160],eyes:'open',mouth:'smile',look:3})}</g>`),'<b>Тёма с телефоном</b><br>ему тоже пишут',190);
+html+=`</div><div class="row" style="margin-top:18px">`;
+html+=card(svg(300,560,`<rect width="300" height="560" fill="#0a0d18"/><circle cx="150" cy="120" r="140" fill="url(#gCyan)" opacity=".12"/><g transform="translate(150,545) scale(.6)">${breather({breath:.8})}</g>`),'<b>Дышащий</b><br>то, что в трубке. Почти не виден, стоит за светом фонаря. Вместо рта — звуковая волна дыхания',300);
+html+=card(svg(782,560,`<rect width="782" height="560" fill="#0a0d18"/>`+[0,1,2,3,4].map((v,i)=>`<g transform="translate(${90+i*150},540)">${neighbor(v)}</g>`).join('')),'<b>Соседи</b><br>силуэты, лица подсвечены телефонами снизу, белые точки глаз без зрачков. Старик в очках, женщина с пучком, мужчина в кепке, женщина в бигуди, подросток в капюшоне',782);
+html+=`</div>`;
+html+=`<h2>Локации (кадр 9:16)</h2><div class="row">`;
+const bg=(f,cap)=>card(svg(267,474,f,'0 0 1080 1920'),cap,267);
+html+=bg(bgBedroom(),'<b>Спальня</b><br>окно с шторой, в доме напротив горит окно. Часы 02:47, календарь «Август»');
+html+=bg(bgHighway({truck:.15}),'<b>Трасса</b><br>обочина, фонари (будут мигать), элеватор, остановка «ТРАССА» №7');
+html+=bg(bgRoute({dot:.5}),'<b>Маршрут №7</b><br>кольцо, конечная — Садовая, 7, дом Марка');
+html+=bg(bgHouse(),'<b>Дом Марка</b><br>дверь открыта, в окне — все соседи с телефонами');
+html+=`</div>`;
+html+=`<h2>Экран телефона и палитра</h2><div class="row">`;
+const ph=(o,cap)=>card(svg(200,410,`<rect width="200" height="410" fill="#0a0d18"/><g transform="translate(18,12) scale(.39)">${phoneScreen(o)}</g>`),cap,200);
+html+=ph({msgs:['Не смотри в окно.','Выйди из дома. Сейчас.','Или он проснётся не один.'],battery:2},'<b>Сообщения</b>');
+html+=ph({call:true,wave:.8,battery:2},'<b>Вызов: дыхание</b>');
+html+=ph({title:'НЕИЗВЕСТНЫЙ',msgs:['Спроси, взял ли он ключи.','Оставь дверь открытой.','Приведи его домой.'],battery:61,done:true},'<b>Телефон Тёмы</b><br>всё выполнено ✓✓');
+const pal=[['#090c16','ночь'],['#141a2c','стены'],['#2b4555','куртка'],['#6a2e39','пижама'],['#e8a33d','фонари'],['#7fdcff','экраны'],['#e2463f','тревога'],['#0d1120','силуэты']];
+html+=`<div class="card" style="width:512px;padding:14px;box-sizing:border-box"><div style="display:flex;flex-wrap:wrap;gap:10px">${pal.map(([c,n])=>`<div class="sw" style="background:${c};border:1px solid #2a3248">${n}<br>${c}</div>`).join('')}</div>
+<div class="cap" style="padding:14px 2px 0">Два источника света: <b style="color:#e8a33d">жёлтые фонари</b> (мир, безопасно) и <b style="color:#7fdcff">голубые экраны</b> (сигнал, опасно). <b style="color:#e2463f">Красный</b> — заряд и ключевые слова.</div></div>`;
+html+=`</div><div style="height:40px"></div>`;
+root.innerHTML=html;
+</script></body></html>
