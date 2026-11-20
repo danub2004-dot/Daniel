@@ -177,7 +177,8 @@
         <path d="M120,340 C150,380 180,440 196,520 L178,600 L110,600 C100,500 96,420 120,340Z" fill="${mix(cc, '#fff', 0.22)}" opacity="0.6"/>
         <path d="M280,340 C250,380 220,440 204,520 L222,600 L290,600 C300,500 304,420 280,340Z" fill="${mix(cc, '#000', 0.12)}" opacity="0.6"/>
         ${Array.from({ length: 40 }, (_, i) => `<circle cx="${20 + (i * 97) % 360}" cy="${380 + (i * 53) % 210}" r="3" fill="#fff" opacity="0.12"/>`).join('')}
-        <path d="M60,560 C140,540 260,540 340,560" stroke="${mix(cc, '#fff', 0.3)}" stroke-width="16" fill="none"/>`;
+        <path d="M60,560 C140,540 260,540 340,560" stroke="${mix(cc, '#fff', 0.3)}" stroke-width="16" fill="none"/>
+        ${c.tag ? `<g transform="translate(92,440) rotate(-8)"><rect width="100" height="46" fill="#f2ead8"/><rect width="100" height="46" fill="none" stroke="#a02040" stroke-width="3"/><text x="50" y="33" text-anchor="middle" font-family="JetBrains Mono" font-weight="800" font-size="27" fill="#a02040">${c.tag}</text></g>` : ''}`;
     } else if (c.cloth === 'leather') {
       s += `<path d="M168,330 C180,352 220,352 232,330 L236,600 L164,600Z" fill="#1a1a1e"/>
         <path d="M160,326 L120,352 L158,410 L136,428 L186,520 L176,600 L150,600 L120,440 Z" fill="${mix(cc, '#000', 0.25)}"/>
@@ -272,7 +273,7 @@
       });
     }
     // глаза
-    body += eye(200 - ex, ey, -1, c, e) + eye(200 + ex, ey, 1, c, e);
+    body += eye(200 - ex, ey, -1, c, e) + eye(200 + ex, ey, 1, c, e.wink ? Object.assign({}, e, { lid: 0.97 }) : e);
     if (c.scar) body += `<path d="M${200 - ex - 18},${ey - 36} L${200 - ex - 8},${ey - 16}" stroke="${mix(c.skin, '#fff', 0.3)}" stroke-width="3" opacity="0.7"/>`;
     // нос
     const nsW = 1 + (w - 1) * 0.8;
@@ -293,6 +294,15 @@
     body += `<path d="M${X(-21)},${lc} C${X(-8)},${my + 1} ${X(8)},${my + 1 - sm * 2} ${X(21)},${rc - sm * 4}" stroke="${mouthL}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
     body += `<path d="M${X(-17)},${my + 3 + mo * 14} C${X(-8)},${my + 13 + mo * 14} ${X(8)},${my + 13 + mo * 14} ${X(17)},${my + 3 + mo * 14} C${X(8)},${my + 7 + mo * 14} ${X(-8)},${my + 7 + mo * 14} ${X(-17)},${my + 3 + mo * 14}Z" fill="${lipC}" opacity="0.7"/>`;
     body += `<ellipse cx="200" cy="${my + 22 + mo * 12}" rx="16" ry="5" fill="${mix(c.skin, '#3a2030', 0.4)}" opacity="0.4" filter="url(#blur2)"/>`;
+    if (e.cheek) {
+      const k = e.cheek;
+      [-1, 1].forEach(sd => {
+        body += `<ellipse cx="${X(sd * 50)}" cy="${252 + L * 0.5}" rx="${16 + 30 * k}" ry="${14 + 26 * k}" fill="${c.skin}"/>
+          <ellipse cx="${X(sd * 50)}" cy="${262 + L * 0.5}" rx="${16 + 30 * k}" ry="${8 + 14 * k}" fill="${mix(c.skin, '#4a3040', 0.4)}" opacity="0.35" filter="url(#blur4)"/>
+          <ellipse cx="${X(sd * 54)}" cy="${240 + L * 0.5}" rx="${8 + 10 * k}" ry="${6 + 7 * k}" fill="#fff0e0" opacity="${0.35 * k}" filter="url(#blur2)"/>`;
+      });
+      body += `<ellipse cx="200" cy="${my}" rx="${22 - 10 * k}" ry="${6 + 2 * k}" fill="${lipC}"/><path d="M${200 - 10 + 4 * k},${my} L${200 + 10 - 4 * k},${my}" stroke="${mouthL}" stroke-width="2.5"/>`;
+    }
     if (o.prop !== false) body += prop(c);
 
     // делим по свету: правая половина — та же картинка, но в холодной тени (через нос)
