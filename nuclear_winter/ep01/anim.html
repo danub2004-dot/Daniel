@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Дверь убежища</title>
+<style>html,body{margin:0;background:#000;overflow:hidden}svg{display:block}</style></head>
+<body><svg id="v" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="zima_assets.js"></script>
+<script src="words.js"></script>
+<script>
+const A = window.ART, P = A.PAL, WD = window.WORDS;
+const DUR = 80.5;
+// ---------- утилиты ----------
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const sm = x => { x = clamp(x); return x * x * (3 - 2 * x); };
+const k = (t, a, b) => sm((t - a) / (b - a));
+const lerp = (a, b, x) => a + (b - a) * x;
+const lines = []; WD.forEach(w => { (lines[w.line] = lines[w.line] || []).push(w); });
+const L = i => lines[i][0].s;
+const Le = i => lines[i][lines[i].length - 1].e;
+// время слова: строка i, первое слово, начинающееся с префикса
+const W = (i, pre) => { const w = lines[i].find(w => w.w.toLowerCase().replace(/[«»,.:!?…—]/g, '').startsWith(pre)); if (!w) throw new Error('no word ' + pre + ' in ' + i); return w.s; };
+function cam(inner, s, cx, cy) { return `<g transform="translate(540,960) scale(${s}) translate(${-cx},${-cy})">${inner}</g>`; }
+const at = (x, y, s, inner, rot = 0) => `<g transform="translate(${x},${y}) rotate(${rot}) scale(${s})">${inner}</g>`;
+
+// позы: поворот частей тела вокруг суставов
+const PIV = {
+  misha: { armL: [-58, -292], armR: [58, -292], legL: [-20, -172], legR: [20, -172], head: [0, -310], mouth: [0, -323] },
+  vera: { armL: [-46, -264], armR: [46, -264], legL: [-16, -110], legR: [16, -110], head: [0, -284], mouth: [0, -294] },
+  commandant: { armL: [-74, -292], armR: [74, -292], legL: [-24, -90], legR: [24, -90], head: [0, -310], mouth: [0, -318] },
+  saveliev: { armL: [-48, -302], armR: [48, -302], legL: [-15, -70], legR: [15, -70], head: [0, -330], mouth: [0, -338] },
+  extra: { armL: [-28, -396], armR: [28, -396], head: [0, -410] }
+};
+function pose(name, o = {}) {
+  let s = A[name]({ breath: false }).replace(/ style="transform-origin:[^"]*"/g, '');
+  const pv = PIV[name];
+  for (const part of ['armL', 'armR', 'legL', 'legR', 'head']) {
+    if (o[part]) s = s.replace(`<g class="${part}"`, `<g class="${part}" transform="rotate(${o[part]} ${pv[part][0]} ${pv[part][1]})"`);
+  }
+  if (o.mouth > 0.05) {
+    const [mx, my] = pv.mouth;
+    const add = `<ellipse cx="${mx}" cy="${my}" rx="6" ry="${1 + 5 * o.mouth}" fill="#2a1714"/>`;
+    s = s.replace(/(<g class="head"[^>]*>)([\s\S]*?)(\n  <\/g>)/, (m, a, b, c) => a + b + add + c);
+  }
+  if (o.bob) s = `<g transform="translate(0,${o.bob})">${s}</g>`;
+  return s;
+}
+// цикл ходьбы/бега
+function walk(t, speed = 1, amp = 28) { const p = Math.sin(t * Math.PI * 2 * speed); return { legL: p * amp, legR: -p * amp, armL: -p * amp * 0.8, armR: p * amp * 0.8, bob: -Math.abs(Math.cos(t * Math.PI * 2 * speed)) * 10 }; }
+// говорит ли герой сейчас (по словам строки)
+function talking(t, i0, i1) { for (let i = i0; i <= i1; i++) for (const w of lines[i]) if (t >= w.s && t <= w.e) return 0.4 + 0.6 * Math.abs(Math.sin((t - w.s) * 22)); return 0; }
+
+// живой пар изо рта
+function puffs(x, y, t, s = 1, phase = 0) {
+  let o = '';
+  for (let j = 0; j < 3; j++) {
+    const c = ((t + phase + j * 0.75) % 2.25) / 2.25;
+    o += `<ellipse cx="${x + c * 90 * s}" cy="${y - c * 50 * s}" rx="${(10 + c * 34) * s}" ry="${(7 + c * 20) * s}" fill="${P.snow}" opacity="${(0.32 * (1 - c) * Math.min(1, c * 6)).toFixed(3)}"/>`;
+  }
+  return o;
+}
+// снег/пепел
+function fall(t, n, seed, opt = {}) {
+  const r = A.rng(seed); let o = ''; const sp = opt.speed || 120, wind = opt.wind || 30, col = opt.color || '#c9d4de', sz = opt.size || 1;
+  for (let i = 0; i < n; i++) {
+    const x0 = r() * 1300 - 110, y0 = r() * 2000, v = sp * (0.6 + r() * 0.8), rad = (1.5 + r() * 4) * sz, op = 0.25 + r() * 0.55, ph = r() * 6;
+    const y = ((y0 + v * t) % 2000) - 40, x = ((x0 + wind * t + Math.sin(t * 1.3 + ph) * 18) % 1300 + 1300) % 1300 - 110;
+    o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}" fill="${col}" opacity="${op.toFixed(2)}"/>`;
+  }
+  return o;
+}
+// темнота с «дырой» фонаря (в экранных координатах)
+let mid = 0;
+function torch(x, y, r, dark = 0.94) {
+  const id = 'tm' + (mid++);
+  return `<defs><radialGradient id="${id}g"><stop offset="0" stop-color="#000"/><stop offset="0.55" stop-color="#000" stop-opacity="0.15"/><stop offset="1" stop-color="#000" stop-opacity="1"/></radialGradient>
+  <mask id="${id}"><rect width="1080" height="1920" fill="#fff"/><circle cx="${x}" cy="${y}" r="${r}" fill="url(#${id}g)"/></mask></defs>
+  <rect width="1080" height="1920" fill="#000" opacity="${dark}" mask="url(#${id})"/>
+  <circle cx="${x}" cy="${y}" r="${r * 0.7}" fill="${P.lampSoft}" opacity="0.06"/>`;
+}
+const shade = (op, col = '#000') => `<rect width="1080" height="1920" fill="${col}" opacity="${op}"/>`;
+function frostCorners(g) {
+  return `<g opacity="${0.25 + 0.5 * g}">
+   <path d="M0,0 L${520 * g},0 L${380 * g},${60 * g} L${300 * g},${180 * g} L${160 * g},${200 * g} L${120 * g},${380 * g} L0,${560 * g} Z" fill="${P.frost}"/>
+   <path d="M1080,0 L${1080 - 480 * g},0 L${1080 - 360 * g},${80 * g} L${1080 - 260 * g},${160 * g} L${1080 - 120 * g},${340 * g} L1080,${620 * g} Z" fill="${P.frost}"/>
+   <path d="M0,1920 L0,${1920 - 500 * g} L${100 * g},${1920 - 380 * g} L${260 * g},${1920 - 300 * g} L${440 * g},1920 Z" fill="${P.frost}" opacity="0.7"/>
+   <path d="M1080,1920 L1080,${1920 - 460 * g} L${1080 - 140 * g},${1920 - 320 * g} L${1080 - 380 * g},1920 Z" fill="${P.frost}" opacity="0.7"/></g>`;
+}
+// таймер сирены: 3:00 → 0:00 за время от «Сирена» до «Сирена стихает»
+function timer(t, big) {
+  const t0 = L(5), t1 = L(12);
+  const rem = Math.max(0, 180 * (1 - (t - t0) / (t1 - t0)));
+  const mm = Math.floor(rem / 60), ss = Math.floor(rem % 60);
+  const txt = `0${mm}:${ss < 10 ? '0' : ''}${ss}`;
+  const blink = rem < 25 && Math.floor(t * 4) % 2 ? 0.45 : 1;
+  const y = lerp(820, 210, big), fs = lerp(230, 96, big);
+  return `<text x="540" y="${y}" font-family="DejaVu Sans Mono" font-weight="bold" font-size="${fs}" fill="${P.siren}" text-anchor="middle" opacity="${blink}" stroke="#000" stroke-width="6" paint-order="stroke">${txt}</text>`;
+}
+function sirenGlow(t, a = 1) { const p = Math.pow(Math.sin(t * Math.PI * 1.6), 2); return shade(0.22 * p * a, P.siren); }
+
+const ext = (bg, sky, ground, gy) => `<rect x="-2000" y="-2000" width="5080" height="${gy + 2000}" fill="${sky}"/><rect x="-2000" y="${gy}" width="5080" height="3000" fill="${ground}"/>` + bg;
+const STREET = () => ext(A.bgStreet(), '#2a2827', '#aeb9c4', 1430), DOOR = () => ext(A.bgDoor(), '#1a2028', '#aeb9c4', 1500),
+  BASE = () => ext(A.bgBasement(), '#0b0f14', '#0a0d11', 1500), HALL = () => ext(A.bgHall(), '#0c1016', '#161c24', 1240), POST = () => ext(A.bgPost(), '#0e1218', '#2b2219', 1260);
+// ---------- сцены ----------
+const S = [];
+const scene = (a, b, f) => S.push({ a, b, f });
+const shake = (t, a) => `translate(${(Math.sin(t * 91) * a).toFixed(1)},${(Math.cos(t * 77) * a).toFixed(1)})`;
+
+// 1. Подвал: фонарь включается на лице Миши, затем — на стене с днями
+scene(0, L(1) - 0.25, t => {
+  const p = k(t, W(0, 'прошло') - 0.3, W(0, 'прошло') + 0.9);
+  const s = lerp(1.75, 1.3, p) - 0.05 * k(t, 0, 3), cx = lerp(820, 470, p), cy = lerp(1000, 910, p);
+  let g = BASE() + at(820, 1700, 2, pose('misha', { head: Math.sin(t * 0.8) * 2 })) + puffs(820 + 50, 1700 - 650, t, 2);
+  g += fall(t, 40, 3, { speed: 25, wind: 8, color: '#8d8a85', size: 0.6 });
+  let o = cam(g, s, cx + Math.sin(t * 0.7) * 6, cy + Math.cos(t * 0.5) * 6);
+  const on = t < 0.12 ? 0 : (t < 0.2 ? 1 : t < 0.27 ? 0.2 : 1);
+  o += on ? torch(540 + Math.sin(t * 1.7) * 14, 900 + Math.cos(t * 1.3) * 10, 470) : shade(1);
+  return o;
+});
+// 2. Улица: мёртвое солнце в пепле
+scene(L(1) - 0.25, L(2) - 0.2, t => {
+  const lt = t - (L(1) - 0.25);
+  let g = STREET();
+  const fade = k(t, W(1, 'солнца'), W(1, 'солнца') + 0.8);
+  g += `<circle cx="740" cy="380" r="250" fill="#2a2827" opacity="${fade * 0.7}"/>`;
+  g += fall(t, 160, 9, { speed: 90, wind: -25, color: '#8d8a85' });
+  return cam(g, 1.05 + lt * 0.05, 700, 700);
+});
+// 3. Радио и термометр
+scene(L(2) - 0.2, L(3) - 0.2, t => {
+  const lt = t - L(2);
+  const crack = Math.sin(t * 53) > 0.6 ? 3 : 0;
+  const merc = lerp(0.62, 0.05, k(t, W(2, 'мороз'), Le(2)));
+  let g = `<rect width="1080" height="1920" fill="#0f141b"/>` + BASE();
+  g += `<g transform="${shake(t, crack)}">${at(330, 1100, 3.0, A.radio())}</g>`;
+  for (let j = 0; j < 3; j++) { const c = ((t * 1.2 + j / 3) % 1); g += `<path d="M${560 + c * 120},${900 - c * 30} q30,${-60 - c * 40} 0,${-130 - c * 60}" stroke="${P.lampSoft}" stroke-width="6" fill="none" opacity="${0.5 * (1 - c)}"/>`; }
+  g += at(820, 1030, 3.6, A.thermometer(merc));
+  if (t > W(2, 'минус')) g += `<text x="820" y="1500" font-family="Inter" font-weight="900" font-size="120" fill="${P.frost}" text-anchor="middle" opacity="${k(t, W(2, 'минус'), W(2, 'минус') + 0.4)}">−50°</text>`;
+  return cam(g, 1.05 + lt * 0.02, 540, 1050) + shade(0.25);
+});
+// 4. Подвал, общий план: иней ползёт, свет мигает на «никто»
+scene(L(3) - 0.2, L(4) - 0.2, t => {
+  const lt = t - L(3);
+  const flick = t > W(3, 'никто') && t < W(3, 'никто') + 0.9 ? (Math.sin(t * 60) > 0 ? 0.65 : 0) : 0;
+  let g = BASE();
+  g += at(390, 1690, 1.3, pose('vera', { armL: Math.sin(t * 6) * 8 })) + puffs(390 + 30, 1690 - 390, t, 1.3, 0.6);
+  g += at(680, 1700, 1.35, pose('misha', {})) + puffs(680 + 38, 1700 - 440, t, 1.35);
+  g += frostCorners(k(t, L(3), Le(3) + 0.3));
+  return cam(g, 1.15 - lt * 0.02, 540, 1350) + torch(540, 820, 700, 0.72) + shade(flick);
+});
+// 5. Улица: камера едет к двери завода
+scene(L(4) - 0.2, L(5) - 0.25, t => {
+  const p = k(t, W(4, 'через') - 0.6, Le(4) + 0.2);
+  let g = STREET();
+  const lampOn = Math.sin(t * 5) > -0.3 ? 1 : 0.3;
+  g += `<circle cx="845" cy="1266" r="${30 + 8 * Math.sin(t * 5)}" fill="${P.lamp}" opacity="${0.35 * lampOn}"/>`;
+  g += fall(t, 140, 21, { speed: 100, wind: -20, color: '#8d8a85' });
+  return cam(g, lerp(1.0, 2.3, p), lerp(540, 845, p), lerp(960, 1330, p));
+});
+// 6. Сирена: люди бегут через улицу, огромный таймер
+scene(L(5) - 0.25, L(6) - 0.15, t => {
+  const lt = t - L(5);
+  let g = STREET() + fall(t, 140, 33, { speed: 140, wind: 60, color: '#8d8a85' });
+  for (let i = 0; i < 9; i++) {
+    const sp = 240 + (i * 53) % 140, x = -150 + ((lt + 0.4) * sp + i * 150) % 1400, y = 1560 + (i * 37) % 180;
+    const bob = -Math.abs(Math.sin((lt + i) * 9)) * 14;
+    g += at(x, y + bob, 0.55 + (y - 1560) / 900, A.crowdPerson(['#1c222a', '#232a33', '#1a1f26'][i % 3], 1, i % 2), 8);
+  }
+  let o = cam(g, 1.08, 540, 1100) + sirenGlow(t);
+  const big = k(t, W(5, 'потом'), Le(5) + 0.3);
+  if (t > W(5, 'три') - 0.1) o += timer(t, big);
+  return o;
+});
+// 7. Бег: Вера считает бинты на бегу
+scene(L(6) - 0.15, W(7, 'падает') - 0.05, t => {
+  const lt = t - L(6) + 0.15;
+  const off = -(lt * 220) % 1080;
+  let bg = STREET();
+  let g = `<g transform="translate(${off},0)">${bg}</g><g transform="translate(${off + 1080},0)">${bg}</g>`;
+  const wv = walk(lt, 1.6, 30), wm = walk(lt + 0.3, 1.6, 32);
+  g += at(430, 1700, 1.05, pose('vera', { ...wv, mouth: 0.3 + 0.5 * Math.abs(Math.sin(t * 8)) })) + puffs(430 + 25, 1700 - 310, t * 1.5, 1.05);
+  g += at(680, 1710, 1.1, pose('misha', wm)) + puffs(680 + 32, 1710 - 360, t * 1.5, 1.1, 0.4);
+  // цифры счёта
+  const n0 = W(6, 'пересчит'); if (t > n0) { const n = Math.floor((t - n0) / 0.55); for (let j = Math.max(0, n - 2); j <= n; j++) { const c = (t - n0 - j * 0.55) / 1.6; if (c < 1) g += `<text x="${510 + j * 18 % 60}" y="${1450 - c * 160}" font-family="Inter" font-weight="900" font-size="64" fill="${P.frost}" opacity="${1 - c}">${7 + j}</text>`; } }
+  g += fall(t, 150, 44, { speed: 140, wind: -160, color: '#c9d4de' });
+  return cam(g, 1.15, 560, 1380) + timer(t, 1) + sirenGlow(t, 0.6);
+});
+// 8. Вера падает; крупно: «Не могу, Миша»
+scene(W(7, 'падает') - 0.05, L(8) - 0.3, t => {
+  const t0 = W(7, 'падает'), rot = -82 * k(t, t0, t0 + 0.45), close = k(t, W(7, 'не') - 0.35, W(7, 'не') + 0.1);
+  let g = STREET();
+  g += at(430 - 20 * k(t, t0, t0 + 0.45), 1700, 1.05, pose('vera', { mouth: talking(t, 7, 7) * (t > W(7, 'не') - 0.1 ? 1 : 0), armL: -30 * k(t, t0, t0 + .4) }), rot);
+  g += puffs(430 - 320 * 1.05 + (rot < -60 ? 0 : 400), 1700 - 70, t, 1.0);
+  g += at(700, 1710, 1.1, pose('misha', { head: 12, armR: -40 * k(t, t0 + 0.3, t0 + 0.9) })) + puffs(700 + 32, 1710 - 360, t, 1.1);
+  g += fall(t, 120, 55, { speed: 110, wind: -60 });
+  const s = lerp(1.15, 3.0, close), cx = lerp(560, 430 - 330, close), cy = lerp(1380, 1650, close);
+  return cam(g, s, cx, cy) + timer(t, 1) + sirenGlow(t, 0.5);
+});
+// 9а. Миша крупно: «Я тренер»; 9б. флешбэк: ринг, боксёр не встаёт
+scene(L(8) - 0.3, W(8, 'знаю') - 0.15, t => {
+  let g = STREET() + at(540, 2140, 3.2, pose('misha', { head: -3 })) + puffs(540 + 100, 2140 - 1040, t, 3.2);
+  g += fall(t, 100, 66, { speed: 130, wind: -60, size: 1.4 });
+  return cam(g, 1, 540, 960 - (t - L(8)) * 20) + timer(t, 1) + sirenGlow(t, 0.4);
+});
+scene(W(8, 'знаю') - 0.15, L(9) - 0.3, t => {
+  const lt = t - W(8, 'знаю');
+  let g = `<rect width="1080" height="1920" fill="#1a1212"/>
+   <rect x="0" y="1250" width="1080" height="670" fill="#2a2020"/>
+   <circle cx="540" cy="0" r="900" fill="#e8d8b0" opacity="0.08"/>`;
+  for (let i = 0; i < 3; i++) g += `<line x1="-20" y1="${980 + i * 90}" x2="1100" y2="${1000 + i * 90}" stroke="${i % 2 ? '#d8d0c0' : P.blood}" stroke-width="12"/>`;
+  g += `<rect x="60" y="900" width="30" height="400" fill="#555"/><rect x="990" y="900" width="30" height="400" fill="#555"/>`;
+  g += at(540, 1560, 1.4, pose('misha', { head: 10, armL: 70, armR: -60 }), -86);
+  g += `<g opacity="0.85">${at(830, 1620, 1.5, A.crowdPerson('#0d0a0a', 1, false))}</g>`;
+  const cnt = Math.min(10, 1 + Math.floor(lt / 0.35));
+  g += `<text x="830" y="980" font-family="Inter" font-weight="900" font-size="150" fill="#d8d0c0" text-anchor="middle" opacity="0.8">${cnt}</text>`;
+  const fl = 0.08 + 0.06 * Math.abs(Math.sin(t * 37));
+  return cam(g, 1.05 + lt * 0.03, 540, 1250) + shade(fl, '#fff') + shade(0.35, '#3a1a10') + `<rect width="1080" height="1920" fill="none" stroke="#000" stroke-width="120" opacity="0.7"/>`;
+});
+// 10. Шоколадка из кармана
+scene(L(9) - 0.3, L(10) - 0.25, t => {
+  const t0 = W(9, 'шоколадк') - 0.6, up = k(t, t0, t0 + 0.9);
+  let g = STREET() + shade(0.55);
+  g += fall(t, 120, 77, { speed: 100, wind: -50, size: 1.5 });
+  const y = lerp(1700, 1020, up);
+  g += `<g transform="translate(560,${y}) rotate(${-8 + Math.sin(t) * 2})">
+     <path d="M120,80 L520,520 L380,700 L-20,260 Z" fill="#3a4434"/>
+     <circle cx="40" cy="120" r="110" fill="${P.blood}"/><path d="M-60,90 L130,150 M-60,140 L120,200" stroke="#b05050" stroke-width="10"/>
+     ${at(-60, 10, 4.6, A.chocolate())}
+     <rect x="${-330 + ((t * 300) % 900)}" y="-120" width="40" height="260" fill="#fff" opacity="0.18" transform="skewX(-20)"/></g>`;
+  return cam(g, 1, 540, 960) + timer(t, 1) + sirenGlow(t, 0.4);
+});
+// 11. Вера ест и встаёт
+scene(L(10) - 0.25, L(11) - 0.3, t => {
+  const t1 = W(10, 'встаёт'), rot = lerp(-55, 0, k(t, t1 - 0.2, t1 + 0.6));
+  const eat = k(t, L(10), W(10, 'и') - 0.1);
+  let g = STREET();
+  const ch = `<g transform="translate(-63,-200) rotate(-20) scale(${0.5 * (1 - eat * 0.85)})">${A.chocolate()}</g>`;
+  let v = pose('vera', { armL: lerp(-130, 0, k(t, t1 - 0.4, t1)), mouth: eat < 1 ? Math.abs(Math.sin(t * 9)) * 0.7 : 0 });
+  if (eat < 1) v = v.replace('<g class="head"', ch + '<g class="head"');
+  g += at(440, 1700, 1.15, v, rot) + puffs(470, 1700 - 380 * Math.cos(rot * Math.PI / 180), t, 1.15);
+  g += at(720, 1710, 1.15, pose('misha', { armR: lerp(-60, -20, k(t, t1, t1 + 0.6)) })) + puffs(756, 1710 - 375, t, 1.15);
+  if (t > t1) g += `<circle cx="440" cy="1300" r="${200 + 40 * Math.sin(t * 4)}" fill="${P.lampSoft}" opacity="${0.12 * k(t, t1, t1 + 0.5)}"/>`;
+  g += fall(t, 130, 88, { speed: 110, wind: -60 });
+  return cam(g, 1.25 - (t - L(10)) * 0.02, 580, 1400) + timer(t, 1) + sirenGlow(t, 0.5);
+});
+// 12. Очередь у двери: Савельев проходит мимо всех, комендант не смотрит в список
+scene(L(11) - 0.3, L(12) - 0.25, t => {
+  const ts = W(11, 'проходит') - 0.6, zoom = k(t, W(11, 'комендант') - 0.2, W(11, 'комендант') + 0.7);
+  let g = DOOR();
+  const q = [[90, '#232a33'], [190, '#1c222a'], [290, '#262d37'], [390, '#20262e']];
+  q.forEach(([x, c], i) => { g += at(x, 1760, 0.78, A.crowdPerson(c, 1, i % 2)) + puffs(x + 20, 1760 - 240, t, 0.7, i * 0.5); });
+  g += at(-20, 1800, 0.85, pose('vera', {})) + at(60, 1810, 0.88, pose('misha', { head: 8 }));
+  const sx = lerp(-160, 600, k(t, ts, ts + 3.2)), w = walk(t, 1.0, 18);
+  g += at(sx, 1790, 0.9, pose('saveliev', t < ts + 3.2 ? w : {})) + puffs(sx + 20, 1790 - 330, t, 0.8, 1);
+  const nod = t > ts + 2.6 && t < ts + 3.4 ? 14 * Math.sin((t - ts - 2.6) / 0.8 * Math.PI) : 0;
+  g += at(880, 1790, 0.92, pose('commandant', { head: nod })) + puffs(905, 1790 - 300, t, 0.9);
+  if (zoom > 0) g += `<circle cx="${880 - 120 * 0.92}" cy="${1790 - 184 * 0.92}" r="${60 + 6 * Math.sin(t * 6)}" fill="none" stroke="${P.lamp}" stroke-width="4" opacity="${zoom * 0.8}"/>`;
+  g += fall(t, 90, 99, { speed: 110, wind: -40 });
+  return cam(g, lerp(1.2, 2.2, zoom), lerp(560, 800, zoom), lerp(1750, 1720, zoom)) + timer(t, 1) + sirenGlow(t, 0.8);
+});
+// 13. Дверь закрывается: Миша держит плечом, Вера проскальзывает
+scene(L(12) - 0.25, L(13) - 0.25, t => {
+  const t0 = L(12), slip = k(t, W(12, 'проскальз') - 0.2, W(12, 'проскальз') + 0.7), clang = Le(12) + 0.05;
+  const close = t < W(12, 'держу') ? k(t, t0, W(12, 'держу')) * 0.55 : t < clang - 0.25 ? 0.55 + Math.sin(t * 30) * 0.01 : lerp(0.55, 1, k(t, clang - 0.25, clang));
+  let g = DOOR();
+  g += `<rect x="210" y="650" width="660" height="820" rx="24" fill="#05070a"/>
+        <rect x="210" y="650" width="660" height="820" fill="${P.lamp}" opacity="0.08"/>`;
+  g += at(lerp(560, 760, slip), 1490, 0.95, pose('vera', walk(t, 1.4, 16)), 0).replace('<g transform', `<g opacity="${1 - k(t, W(12, 'проскальз') + 0.3, W(12, 'проскальз') + 0.7)}" ><g transform`) + '</g>';
+  const doorX = lerp(210, 870 - 660 * 1, 1);
+  g += `<g transform="translate(870,0) scale(${-close},1) translate(-870,0)"><rect x="210" y="650" width="660" height="820" rx="24" fill="#36444f"/>
+      <circle cx="540" cy="1060" r="110" fill="none" stroke="#5a6774" stroke-width="20"/></g>`;
+  const mx = 870 - 660 * close - 40;
+  g += at(Math.max(300, mx), 1760, 1.05, pose('misha', { armR: -95, armL: -20, head: 15, legL: -18, legR: 22 }), 12) + puffs(Math.max(300, mx) + 40, 1760 - 360, t, 1.05);
+  const s = t > clang && t < clang + 0.3 ? 8 : 0;
+  let o = `<g transform="${shake(t, s)}">${cam(g, 1.3, 600, 1520)}</g>`;
+  if (t < t0 + 0.6) o += timer(t, 1);
+  if (t > clang) o += shade(0.7 * (1 - k(t, clang, clang + 0.35)), '#fff');
+  return o + shade(0.15);
+});
+// 14. Внутри: запасов на месяц, людей вдвое больше
+scene(L(13) - 0.25, L(14) - 0.2, t => {
+  const lt = t - L(13), dbl = W(13, 'вдвое') - 0.2;
+  let g = HALL();
+  const r = A.rng(5);
+  for (let i = 0; i < 22; i++) {
+    const side = i % 2 ? 1 : -1, d = r(), x = 540 + side * (60 + d * 380), y = 1300 + (1 - d) * 520 + r() * 40, s = 0.25 + (1 - d) * 0.45;
+    const show = i < 9 ? 1 : k(t, dbl + (i - 9) * 0.08, dbl + (i - 9) * 0.08 + 0.25);
+    if (show > 0) g += `<g opacity="${show}">${at(x, y, s, A.crowdPerson(['#1e252e', '#252c36', '#1a2028'][i % 3], 1, i % 3 === 0))}${puffs(x + 10 * s, y - 280 * s, t, s * 1.4, i * 0.37)}</g>`;
+  }
+  const hi = k(t, W(13, 'запасов') - 0.1, W(13, 'запасов') + 0.4) * (1 - k(t, dbl - 0.5, dbl));
+  g += `<rect x="410" y="1360" width="265" height="200" fill="none" stroke="${P.lamp}" stroke-width="5" opacity="${hi}"/>`;
+  const fl = Math.sin(t * 13) > 0.92 ? 0.3 : 0;
+  return cam(g, 1.05 + lt * 0.035, 540, 1250) + shade(fl) + shade(0.15);
+});
+// 15. Ночь, пост коменданта: луч фонаря ищет список
+scene(L(14) - 0.2, L(15) - 0.3, t => {
+  const p = k(t, L(14), Le(14));
+  let g = POST() + at(310, 1150, 0.75, A.listSheet()) ;
+  g += at(900, 1640, 0.95, pose('commandant', { head: 25 }), 0) ;
+  g += puffs(930, 1640 - 290, t * 0.6, 0.9);
+  const sx = lerp(800, 330, p), sy = lerp(700, 1270, p);
+  return cam(g, 1.1, 560, 1200) + torch(540 + (sx - 560) * 1.1, 960 + (sy - 1200) * 1.1, 380, 0.82);
+});
+// 16–17. Список крупно: дата до удара, «оплачено», нас нет
+scene(L(15) - 0.3, L(17) - 0.25, t => {
+  const dt = k(t, W(15, 'неделю') - 0.1, W(15, 'неделю') + 0.4), pg = t > W(15, 'оплачено') ? 1 : 0;
+  let g = `<rect width="1080" height="1920" fill="#2b2219"/>` + at(540, 600, 4.4, A.listSheet({ paidGlow: pg }));
+  g += `<rect x="${540 - 430}" y="${600 + 15 * 4.4}" width="${860 * dt}" height="8" fill="${P.siren}"/>`;
+  if (pg) g += `<rect x="${540 + 30 * 4.4}" y="${600 + 22 * 4.4}" width="${70 * 4.4}" height="${230 * 4.4}" fill="${P.lamp}" opacity="${0.12 + 0.05 * Math.sin(t * 6)}"/>`;
+  // палец Миши ползёт вниз по списку
+  const fp = k(t, L(16) - 0.4, Le(16) + 0.2);
+  const fy = lerp(780, 1640, fp);
+  if (t > L(16) - 0.6) g += `<g transform="translate(330,${fy})"><path d="M-40,20 L-260,420 L-120,500 L40,60 Z" fill="#3a4434"/><circle cx="-10" cy="40" r="60" fill="${P.blood}"/><rect x="-14" y="-40" width="26" height="70" rx="12" fill="${P.skin}"/></g>`;
+  const tx = 540 + Math.sin(t * 0.9) * 120, ty = t < L(16) - 0.4 ? lerp(700, 1300, k(t, L(15), Le(15))) : fy - 20;
+  const cold = t > L(16) ? shade(0.25 * k(t, L(16), L(16) + 0.5), '#123') : '';
+  return cam(g, 1, 540, 960 + 0) + cold + torch(tx, ty, 380, 0.9);
+});
+// 18а. Фамилия исчезает
+scene(L(17) - 0.25, W(17, 'его') - 0.15, t => {
+  const er = k(t, W(17, 'исчезает'), W(17, 'исчезает') + 0.9);
+  let g = `<rect width="1080" height="1920" fill="#2b2219"/>` + at(540, 260, 4.4, A.listSheet({ erase: er }));
+  const ty = 260 + (40 + 7 * 22) * 4.4 - 20;
+  if (t > W(17, 'савельев')) g += `<text x="540" y="${ty + 20}" font-family="Inter" font-weight="900" font-size="120" fill="${P.siren}" text-anchor="middle" opacity="${0.85 * k(t, W(17, 'савельев'), W(17, 'савельев') + 0.3)}" letter-spacing="8">САВЕЛЬЕВ</text>`;
+  return cam(g, 1.2, 540, ty + 180) + shade(0.2, '#123') + torch(540 + Math.sin(t * 2) * 30, 760, 420, 0.88);
+});
+// 18б. Пустая койка, иней на подушке
+scene(W(17, 'его') - 0.15, L(18) - 0.25, t => {
+  const lt = t - W(17, 'его');
+  let g = `<rect width="1080" height="1920" fill="#0e1218"/>
+   <rect x="80" y="1050" width="920" height="40" fill="#3b4652"/><rect x="100" y="900" width="880" height="150" rx="20" fill="#28303a"/>
+   <ellipse cx="260" cy="900" rx="170" ry="60" fill="#3a4450"/>
+   <path d="M120,880 l40,-30 l30,20 l40,-36 l50,26 l40,-20 l60,30 l20,30 Z" fill="${P.frost}" opacity="0.7"/>
+   <path d="M200,1000 q300,-40 700,10" stroke="#1e252e" stroke-width="14" fill="none"/>
+   <rect x="80" y="1090" width="40" height="400" fill="#3b4652"/><rect x="960" y="1090" width="40" height="400" fill="#3b4652"/>`;
+  g += fall(t, 30, 5, { speed: 20, wind: 5, color: P.frost, size: 0.5 });
+  return cam(g, 1.3 + lt * 0.06, 400, 1080) + torch(420, 820, 520, 0.82);
+});
+// 19. Вера считает спящих
+scene(L(18) - 0.25, L(19) - 0.3, t => {
+  const lt = t - L(18);
+  let g = HALL() + shade(0.4);
+  const r = A.rng(12);
+  for (let i = 0; i < 12; i++) { const x = 160 + i * 70 + r() * 30, y = 1250 + r() * 120; g += at(x, y, 0.35, A.crowdPerson('#1a2028', 1, false));
+    const c = (t - L(18) - i * 0.22); if (c > 0 && c < 1.4) g += `<text x="${x}" y="${y - 140 - c * 40}" font-family="Inter" font-weight="800" font-size="40" fill="${P.frost}" text-anchor="middle" opacity="${1 - c / 1.4}">${51 + i}</text>`; }
+  g += at(380, 1900, 3.1, pose('vera', { mouth: 0.2 + 0.5 * Math.abs(Math.sin(t * 7)), head: -6 })) + puffs(380 + 90, 1900 - 920, t, 3);
+  return cam(g, 1, 540, 960 + lt * 10) + torch(380, 850 - lt * 10, 560, 0.86);
+});
+// 20. «Нас здесь на одного больше» — и за плечом Веры Лишний. Без пара.
+scene(L(19) - 0.3, 78.05, t => {
+  const te = W(19, 'одного') - 0.5, ex = k(t, te, te + 1.2);
+  let g = HALL() + shade(0.55);
+  g += `<g opacity="${ex}">${at(800, 1360, 0.9, pose('extra', { head: 6 * Math.sin(t * 0.7) }))}</g>`;
+  g += at(360, 2160, 3.5, pose('vera', { mouth: talking(t, 19, 19), head: -4 + 4 * k(t, te, te + 1) })) + puffs(360 + 100, 2160 - 1040, t * 0.8, 3.2);
+  const blink = Math.floor(t * 3) % 5 === 0 ? 0 : 1;
+  let o = cam(g, 1 + (t - L(19)) * 0.04, 540, 1060);
+  o += torch(360, 860, 560, 0.88);
+  // глаза Лишнего светятся сквозь тьму
+  if (ex > 0.3) { const z = 1 + (t - L(19)) * 0.04, X = (x) => 540 + (x - 540) * z, Y = (y) => 960 + (y - 1060) * z;
+    const ey = 1360 - 458 * 0.9; o += `<ellipse cx="${X(800 - 9 * 0.9)}" cy="${Y(ey)}" rx="4" ry="${2.5 * blink}" fill="#d8ecf7" opacity="${ex}"/><ellipse cx="${X(800 + 9 * 0.9)}" cy="${Y(ey)}" rx="4" ry="${2.5 * blink}" fill="#d8ecf7" opacity="${ex}"/>`; }
+  return o;
+});
+// финальная карточка
+scene(78.05, DUR + 1, t => {
+  const a = k(t, 78.4, 79.2);
+  return shade(1) + `<text x="540" y="900" font-family="Inter" font-weight="900" font-size="104" fill="${P.snow}" text-anchor="middle" letter-spacing="10" opacity="${a}">ЯДЕРНАЯ ЗИМА</text>
+   <text x="540" y="1000" font-family="Inter" font-weight="600" font-size="44" fill="${P.frost}" text-anchor="middle" opacity="${a * 0.8}">Серия 2 — кто он?</text>` + fall(t, 40, 1, { speed: 40, wind: 10, color: P.frost, size: 0.6 });
+});
+
+// ---------- субтитры ----------
+const KEY = [
+  [/^(сирена|три|минуты|закроют|сдался|исчезает|савельев|больше|нет|удара|никто)/, '#ff5a46'],
+  [/^(шоколадк|оплачено|список|коменданта|пальто|дорогом|очереди)/, '#ffc65c'],
+  [/^(мороз|минус|пятьдесят|солнца|недели|месяца|месяц|вдвое)/, '#8fd3ff'],
+];
+const norm = w => w.toLowerCase().replace(/[«»,.:!?…—"]/g, '');
+// чанки: по 1–4 слова, режем на знаках препинания
+const chunks = [];
+lines.forEach((ws, li) => {
+  let cur = [];
+  ws.forEach((w, i) => {
+    if (w.w === '—') return;
+    cur.push(w);
+    const end = /[.,:!?…»]$/.test(w.w) || cur.length >= 4 || i === ws.length - 1;
+    if (end) { chunks.push(cur); cur = []; }
+  });
+});
+let inQuote = false;
+chunks.forEach(c => c.forEach(w => { if (w.w.includes('«')) inQuote = true; w.q = inQuote; if (w.w.includes('»')) inQuote = false; }));
+function subs(t) {
+  if (t > 78.05) return '';
+  let idx = -1;
+  for (let i = 0; i < chunks.length; i++) { if (t >= chunks[i][0].s - 0.08) idx = i; }
+  if (idx < 0) return '';
+  const c = chunks[idx], next = chunks[idx + 1];
+  if (t > c[c.length - 1].e + 0.6 && (!next || t < next[0].s - 0.08)) return '';
+  const pop = k(t, c[0].s - 0.08, c[0].s + 0.08);
+  // разметка строк: максимум ~16 символов в строке
+  const rows = [[]]; let len = 0;
+  c.forEach(w => { const l = w.w.length; if (len + l > 13 && rows[rows.length - 1].length) { rows.push([]); len = 0; } rows[rows.length - 1].push(w); len += l + 1; });
+  let o = `<g transform="translate(540,${1400 - (rows.length - 1) * 50}) scale(${0.85 + 0.15 * pop}) translate(-540,0)" opacity="${pop}">`;
+  rows.forEach((r, ri) => {
+    o += `<text x="540" y="${ri * 96}" text-anchor="middle" font-family="Inter" font-weight="900" font-size="82" stroke="#000" stroke-width="15" stroke-linejoin="round" paint-order="stroke">`;
+    r.forEach((w, wi) => {
+      const n = norm(w.w); let col = w.q ? '#7fe6d2' : '#ffffff';
+      for (const [re, cc] of KEY) if (re.test(n)) col = cc;
+      const active = t >= w.s - 0.03, cur = t >= w.s - 0.03 && t <= w.e + 0.05;
+      o += `<tspan fill="${active ? col : '#7d8794'}" ${cur ? 'font-size="88"' : ''}>${(wi ? ' ' : '') + w.w.toUpperCase()}</tspan>`;
+    });
+    o += `</text>`;
+  });
+  return o + `</g>`;
+}
+
+// ---------- кадр ----------
+function vignette() {
+  return `<defs><radialGradient id="vg" cx="0.5" cy="0.45" r="0.75"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.75"/></radialGradient></defs><rect width="1080" height="1920" fill="url(#vg)"/>`;
+}
+function grain(t) {
+  const r = A.rng(Math.floor(t * 30) + 1); let o = '';
+  for (let i = 0; i < 260; i++) o += `<rect x="${(r() * 1080) | 0}" y="${(r() * 1920) | 0}" width="2" height="2" fill="${r() > 0.5 ? '#fff' : '#000'}" opacity="0.12"/>`;
+  return o;
+}
+function render(t) {
+  mid = 0;
+  const sc = S.find(s => t >= s.a && t < s.b) || S[S.length - 1];
+  let o = sc.f(t);
+  // короткая «шторка» в чёрное на стыке сцен
+  const edge = Math.min(t - sc.a, sc.b - t);
+  if (edge < 0.08 && sc !== S[0]) o += shade(0.6 * (1 - edge / 0.08));
+  o += vignette() + grain(t) + subs(t);
+  document.getElementById('v').innerHTML = o;
+}
+window.render = render; window.DUR = DUR;
+const q = new URLSearchParams(location.search); render(parseFloat(q.get('t') || '0.5'));
+</script></body></html>
