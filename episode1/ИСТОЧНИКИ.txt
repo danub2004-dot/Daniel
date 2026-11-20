@@ -1,0 +1,67 @@
+ИСТОЧНИКИ ЗВУКА И МУЗЫКИ — «Выживание в лесу», серия 1 «Люди на заимке»
+
+Все звуки взяты с Freesound.org и имеют лицензию Creative Commons 0 (CC0 1.0, общественное достояние):
+https://creativecommons.org/publicdomain/zero/1.0/
+Лицензия проверена на странице каждого звука 20.11.2026. Указание автора по CC0 не обязательно, но приводим его из уважения.
+Чужой музыки в ролике нет.
+
+1. «Glacial Pressure - Massive Ambient Drone by MANTICE» — автор bassimat
+   Страница: https://freesound.org/people/bassimat/sounds/876999/
+   Лицензия: CC0 1.0
+   Где в ролике: мрачный фон-дрон, весь ролик (приглушён, обрезаны верха)
+
+2. «amb_forest_night.wav» — автор Dokuta_Gerovv
+   Страница: https://freesound.org/people/Dokuta_Gerovv/sounds/662095/
+   Лицензия: CC0 1.0
+   Где в ролике: ночной лес, фон в сценах деревни
+
+3. «Wind in trees beside river.WAV» — автор nickydunne
+   Страница: https://freesound.org/people/nickydunne/sounds/463553/
+   Лицензия: CC0 1.0
+   Где в ролике: ветер в деревьях: туман, забор, финал
+
+4. «Hiking Boot Footsteps on Grass» — автор Fission9
+   Страница: https://freesound.org/people/Fission9/sounds/521587/
+   Лицензия: CC0 1.0
+   Где в ролике: шаги по дороге (сцена «дорога обрывается»)
+
+5. «Creaking Wood» — автор Breviceps
+   Страница: https://freesound.org/people/Breviceps/sounds/456814/
+   Лицензия: CC0 1.0
+   Где в ролике: скрип: забор, калитка, верёвки палатки
+
+6. «Match strike 03» — автор scalywhale
+   Страница: https://freesound.org/people/scalywhale/sounds/423811/
+   Лицензия: CC0 1.0
+   Где в ролике: чирк спички (2 раза)
+
+7. «fire small campfire crackling short +air tone.flac» — автор kyles
+   Страница: https://freesound.org/people/kyles/sounds/637523/
+   Лицензия: CC0 1.0
+   Где в ролике: треск костра: флешбэк и сигнальный костёр
+
+8. «Light rain.wav» — автор Ryding
+   Страница: https://freesound.org/people/Ryding/sounds/96729/
+   Лицензия: CC0 1.0
+   Где в ролике: лёгкий дождь, сцены 11–13
+
+9. «Low Movie Boom.mp3» — автор rickeyc
+   Страница: https://freesound.org/people/rickeyc/sounds/165109/
+   Лицензия: CC0 1.0
+   Где в ролике: низкий удар: «С братом» и уход в темноту
+
+10. «raven call.ogg» — автор adharca
+   Страница: https://freesound.org/people/adharca/sounds/275466/
+   Лицензия: CC0 1.0
+   Где в ролике: крик «незнакомой птицы» (понижен и с эхом)
+
+11. «Canvas Tent 4.wav» — автор kevinkace
+   Страница: https://freesound.org/people/kevinkace/sounds/66776/
+   Лицензия: CC0 1.0
+   Где в ролике: шорох ткани палатки
+
+ГОЛОС
+Озвучка рассказчика: ElevenLabs, голос «Stanislav», модель eleven_v3 (сгенерировано на аккаунте автора сериала, по условиям тарифа Creator).
+
+ГРАФИКА И АНИМАЦИЯ
+Весь видеоряд нарисован кодом (SVG) специально для сериала: episode1/art/.
