@@ -1,0 +1,42 @@
+ЯДЕРНАЯ ЗИМА — Серия 1 «Дверь убежища»
+ИСТОЧНИКИ ЗВУКА И МУЗЫКИ
+
+Все звуки и музыка — только CC0 1.0 (общественное достояние):
+https://creativecommons.org/publicdomain/zero/1.0/
+Лицензия проверена на странице каждого файла 20.11.2026. Чужой музыки нет.
+
+ФОН (мрачный эмбиент)
+  dark_ambient_drone_loop.flac — «Dark Ambient Drone», автор Tsorthan Grove
+  https://opengameart.org/content/dark-ambient-drone — CC0
+
+ВЕТЕР
+  windy_ambiance.ogg — «windy ambient noise», автор some-weirdo
+  https://opengameart.org/content/windy-ambient-noise — CC0
+
+СИРЕНА
+  siren_0.mp3 — «Sirens and Alarm Noise», автор aquinn
+  https://opengameart.org/content/sirens-and-alarm-noise — CC0
+
+ШАГИ ПО СНЕГУ, ПАДЕНИЕ В СНЕГ
+  SnowWalk.ogg, SnowWalk2.ogg — «Walking on snow sound», автор ignasd
+  https://opengameart.org/content/walking-on-snow-sound — CC0
+
+СКРИП ДВЕРИ И НОЧНОЙ СКРИП
+  tree_creak.ogg — «Tree Creaking», автор AntumDeluge
+  https://opengameart.org/content/tree-creaking — CC0
+
+ЛЯЗГ ГЕРМОДВЕРИ, ЩЕЛЧОК ФОНАРЯ, ГУЛ «ЛИШНЕГО»
+  metal_slam_01.ogg, lock_open_01.ogg, metal_sheet_03.ogg —
+  «100 CC0 metal and wood SFX», автор rubberduck
+  https://opengameart.org/content/100-cc0-metal-and-wood-sfx — CC0
+
+Обработка (замедление, эхо, громкость) — в файле mix.py.
+
+ГОЛОС
+  Озвучка: ElevenLabs, модель Eleven v3, голос «Nester Surovy» (библиотека голосов ElevenLabs).
+  Сгенерировано на платном тарифе Creator аккаунта автора —
+  коммерческое использование разрешено условиями ElevenLabs.
+
+ГРАФИКА И АНИМАЦИЯ
+  Нарисованы с нуля кодом (SVG) для этого проекта: zima_assets.js, anim.html.
+  Шрифты: Inter (SIL Open Font License), DejaVu Sans Mono (свободная лицензия).
