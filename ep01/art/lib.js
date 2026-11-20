@@ -74,7 +74,7 @@
       expr: { lid: 0.35, brow: -4, smirk: 0.7, mo: 0 }, prop: 'wrench'
     },
     marin: {
-      name: 'МАРИН', nick: 'местный алкаш', skin: '#d8967c', hair: '#8a8278', hairStyle: 'tufts',
+      name: 'МАРИН', nick: '«Местный алкаш»', skin: '#d8967c', hair: '#8a8278', hairStyle: 'tufts',
       w: 1.02, jaw: 1.0, L: 10, cloth: 'tank', clothC: '#e4e0d0', eyes: '#5a4a3a', stubble: 0.45, bags: 0.9, rednose: true, flush: 0.25,
       expr: { lid: 0.5, brow: 10, smirk: -0.4, mo: 0 }, prop: 'bottle'
     }
