@@ -57,6 +57,12 @@
       w: 0.92, jaw: 0.9, L: 10, cloth: 'leather', clothC: '#2d2421', eyes: '#3a2a20',
       stubble: 0.1, mustache: true, bags: 0.55, expr: { lid: 0.48, brow: 2, smirk: 0.45, mo: 0 }, prop: 'glass'
     }
+    ,
+    vlad: {
+      name: 'ВЛАД', nick: '«Стеклорез»', skin: '#d4a88c', hair: '#3a3026', hairStyle: 'long',
+      w: 0.9, jaw: 0.95, L: 12, cloth: 'hoodie', clothC: '#1d1e24', eyes: '#4a3a2a',
+      stubble: 0.3, shades: true, bandaid: true, expr: { lid: 0.3, brow: 4, smirk: 0.3, mo: 0 }, prop: 'none'
+    }
   };
 
   function headPath(w, j, L, t = 58) {
@@ -124,6 +130,12 @@
           <circle cx="200" cy="32" r="5" fill="#15181c"/>
           <path d="M${X(-96)},136 C${X(-60)},122 ${X(60)},122 ${X(96)},136 C${X(86)},158 ${X(-86)},158 ${X(-96)},136Z" fill="#15181c"/>
           <path d="M${X(-90)},140 C${X(-60)},130 ${X(60)},130 ${X(90)},140" stroke="#3a4048" stroke-width="2" fill="none"/>`;
+      }
+      case 'long': {
+        if (!front) return `<path d="M${X(-96)},330 C${X(-112)},200 ${X(-100)},50 200,40 C${X(100)},50 ${X(112)},200 ${X(96)},330 L${X(70)},330 L${X(70)},150 L${X(-70)},150 L${X(-70)},330Z" fill="${h}"/>`;
+        return `<path d="M${X(-92)},250 C${X(-98)},110 ${X(-66)},42 200,40 C${X(66)},42 ${X(98)},110 ${X(92)},250 C${X(84)},170 ${X(70)},120 ${X(40)},108 C${X(20)},104 ${X(8)},110 200,96 C${X(-8)},110 ${X(-20)},104 ${X(-40)},108 C${X(-70)},120 ${X(-84)},170 ${X(-92)},250Z" fill="${h}"/>
+          <g stroke="${hl}" stroke-width="2" fill="none" opacity="0.35"><path d="M${X(-60)},70 C${X(-80)},120 ${X(-86)},180 ${X(-84)},240"/><path d="M${X(60)},70 C${X(80)},120 ${X(86)},180 ${X(84)},240"/><path d="M200,44 L200,96"/></g>
+          <path d="M${X(-90)},128 C${X(-40)},112 ${X(40)},112 ${X(90)},128 L${X(90)},146 C${X(40)},130 ${X(-40)},130 ${X(-90)},146Z" fill="#a8282a"/>`;
       }
       case 'slick': {
         const g = mix(h, '#a9a39c', 0.55);
@@ -205,6 +217,7 @@
 
   function prop(c) {
     switch (c.prop) {
+      case 'none': return '';
       case 'ball': return `<g transform="translate(118,468)">
           <circle cx="0" cy="-48" r="26" fill="url(#ballG)"/>
           <ellipse cx="-9" cy="-58" rx="8" ry="5" fill="#fff" opacity="0.8"/></g>${hand(118, 470, c)}`;
@@ -274,6 +287,15 @@
     }
     // глаза
     body += eye(200 - ex, ey, -1, c, e) + eye(200 + ex, ey, 1, c, e.wink ? Object.assign({}, e, { lid: 0.97 }) : e);
+    if (c.shades) {
+      const sw = 30 * Math.sqrt(w);
+      body += `<g><path d="M${200 - ex - sw},${ey - 14} L${200 - ex + sw},${ey - 14} L${200 - ex + sw - 4},${ey + 10} C${200 - ex + 10},${ey + 20} ${200 - ex - 14},${ey + 20} ${200 - ex - sw + 2},${ey + 8}Z" fill="#0e1014" opacity="0.94"/>
+        <path d="M${200 + ex - sw},${ey - 14} L${200 + ex + sw},${ey - 14} L${200 + ex + sw - 2},${ey + 8} C${200 + ex + 14},${ey + 20} ${200 + ex - 10},${ey + 20} ${200 + ex - sw + 4},${ey + 10}Z" fill="#0e1014" opacity="0.94"/>
+        <path d="M${200 - ex + sw},${ey - 10} L${200 + ex - sw},${ey - 10}" stroke="#2a2a30" stroke-width="5"/>
+        <path d="M${200 - ex - sw + 6},${ey - 10} L${200 - ex - 6},${ey - 2}" stroke="#fff" stroke-width="3" opacity="0.35"/>
+        <path d="M${200 + ex - 6},${ey - 12} L${200 + ex + 4},${ey} L${200 + ex - 8},${ey + 6} M${200 + ex + 4},${ey} L${200 + ex + 18},${ey + 4}" stroke="#d8e0e8" stroke-width="2" fill="none" opacity="0.8"/></g>`;
+    }
+    if (c.bandaid) body += `<g transform="translate(${X(30)},116) rotate(-18)"><rect x="-30" y="-9" width="60" height="18" rx="7" fill="#e8c8a0"/><rect x="-9" y="-7" width="18" height="14" fill="#d0a878"/></g><g transform="translate(${X(-42)},132) rotate(24)"><rect x="-24" y="-8" width="48" height="16" rx="6" fill="#e8c8a0"/></g>`;
     if (c.scar) body += `<path d="M${200 - ex - 18},${ey - 36} L${200 - ex - 8},${ey - 16}" stroke="${mix(c.skin, '#fff', 0.3)}" stroke-width="3" opacity="0.7"/>`;
     // нос
     const nsW = 1 + (w - 1) * 0.8;
