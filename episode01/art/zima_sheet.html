@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Лист персонажей</title>
+<style>
+  body{margin:0;background:#0b0e13;font-family:Inter,sans-serif;color:#c9d4de}
+  #sheet{width:1800px;height:1900px;position:relative}
+</style></head><body>
+<div id="sheet"><svg id="svg" width="1800" height="1900" viewBox="0 0 1800 1900"></svg></div>
+<script src="zima_assets.js"></script>
+<script>
+const A = window.ART, P = A.PAL;
+let s = `<rect width="1800" height="1900" fill="${P.night}"/>
+<text x="60" y="80" font-size="52" font-weight="900" fill="${P.snow}" letter-spacing="4">ЯДЕРНАЯ ЗИМА</text>
+<text x="60" y="122" font-size="26" fill="${P.fog}">Серия 1 «Дверь убежища» · лист персонажей, реквизита и фонов</text>`;
+
+// палитра
+const sw = [['ночь',P.night],['стена',P.wall],['сталь',P.steel],['туман',P.fog],['иней',P.frost],['снег',P.snow],['пепел',P.ash],['лампа',P.lamp],['сирена',P.siren],['бинт/кровь',P.blood]];
+sw.forEach(([n,c],i)=>{ s+=`<rect x="${980+i*80}" y="48" width="64" height="44" rx="6" fill="${c}" stroke="#333"/><text x="${1012+i*80}" y="114" font-size="14" fill="${P.fog}" text-anchor="middle">${n}</text>`; });
+
+// персонажи
+const chars = [
+  ['МИША, 31', 'тренер по боксу · бинты на кулаках · шрам на брови', A.misha()],
+  ['ВЕРА', 'соседка-медсестра · сумка с крестом · всё пересчитывает', A.vera()],
+  ['КОМЕНДАНТ', 'ушанка · фонарь на груди · СПИСОК всегда в руке', A.commandant()],
+  ['САВЕЛЬЕВ', '«дорогое пальто» · проходит без очереди', A.saveliev()],
+  ['ЛИШНИЙ', 'слишком высокий · у него НЕТ пара изо рта', A.extra()],
+];
+chars.forEach(([name, note, g], i) => {
+  const x = 60 + i * 340, y = 160;
+  s += `<rect x="${x}" y="${y}" width="320" height="680" rx="18" fill="#121821" stroke="#1f2833" stroke-width="2"/>
+  <ellipse cx="${x+160}" cy="${y+560}" rx="110" ry="16" fill="#000" opacity="0.45"/>
+  <g transform="translate(${x+160},${y+560}) scale(${i===4?0.98:1.08})">${g}</g>
+  <text x="${x+160}" y="${y+602}" font-size="26" font-weight="800" fill="${i===4?P.frost:P.snow}" text-anchor="middle">${name}</text>
+  ${note.split(' · ').map((t,k)=>`<text x="${x+160}" y="${y+626+k*0}" dy="${k*17}" font-size="14" fill="${P.fog}" text-anchor="middle">${t}</text>`).join('')}`;
+});
+
+// реквизит
+const props = [
+  ['шоколадка', A.chocolate(), 1.3],
+  ['список: «оплачено»', A.listSheet(), 0.52],
+  ['радио', A.radio(), 1],
+  ['термометр', A.thermometer(0.08), 0.85],
+];
+s += `<text x="60" y="900" font-size="24" font-weight="800" fill="${P.snow}">РЕКВИЗИТ</text>`;
+props.forEach(([n,g,k],i)=>{
+  const x = 60 + i*230, y = 920;
+  s += `<rect x="${x}" y="${y}" width="210" height="230" rx="14" fill="#121821" stroke="#1f2833" stroke-width="2"/>
+  <g transform="translate(${x+105},${y+(i===1?36:105)}) scale(${k})">${g}</g>
+  <text x="${x+105}" y="${y+214}" font-size="16" fill="${P.fog}" text-anchor="middle">${n}</text>`;
+});
+// толпа
+s += `<rect x="1000" y="920" width="740" height="230" rx="14" fill="#121821" stroke="#1f2833" stroke-width="2"/>
+<text x="1370" y="1134" font-size="16" fill="${P.fog}" text-anchor="middle">толпа (силуэты) · пар изо рта у всех</text>`;
+['#262d37','#2d3540','#222830','#303844','#272e38','#2b323c'].forEach((c,i)=>{
+  s+=`<g transform="translate(${1070+i*115},${1112})">${A.crowdPerson(c,0.62,i%2===0)}${A.breath(18,-180,0.6)}</g>`;
+});
+
+// фоны
+s += `<text x="60" y="1210" font-size="24" font-weight="800" fill="${P.snow}">ЛОКАЦИИ (кадр 9:16)</text>`;
+const bgs = [['1 · подвал дома', A.bgBasement()],['2 · улица, завод', A.bgStreet()],['3 · дверь убежища', A.bgDoor()],['4 · внутри убежища', A.bgHall()],['5 · пост коменданта', A.bgPost()]];
+bgs.forEach(([n,g],i)=>{
+  const x = 60 + i*340, y = 1230, w = 320, h = 568;
+  s += `<svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 1080 1920"><defs><clipPath id="c${i}"><rect width="1080" height="1920" rx="40"/></clipPath></defs><g clip-path="url(#c${i})">${g}</g></svg>
+  <text x="${x+160}" y="${y+h+32}" font-size="18" fill="${P.fog}" text-anchor="middle">${n}</text>`;
+});
+s += `<text x="60" y="1866" font-size="16" fill="#3d4754">Стиль: плоский 2D, без обводки (кроме «Лишнего» — инеевый контур). Свет: только холодный туман и тёплые лампы/фонари. Красный — сирена, кровь, шоколадка.</text>`;
+document.getElementById('svg').innerHTML = s;
+</script></body></html>
