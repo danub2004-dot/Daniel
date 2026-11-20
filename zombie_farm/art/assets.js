@@ -22,6 +22,7 @@ const P = {
 // ---------- ФЕРМЕР (главный герой) ----------
 function farmer(o = {}) {
   const arm = o.arm || 0; // поворот правой руки, градусы
+  const J = o.jacket || P.jacket, JD = o.jacketDark || P.jacketDark, CAP = o.cap || P.cap, BEARD = o.beard || '#5a4030';
   return `<g class="farmer">
     <ellipse cx="0" cy="2" rx="46" ry="8" fill="#000" opacity=".35"/>
     <!-- ноги -->
@@ -30,28 +31,28 @@ function farmer(o = {}) {
     <rect x="-30" y="-14" width="30" height="16" rx="6" fill="${P.boot}"/>
     <rect x="2" y="-14" width="30" height="16" rx="6" fill="${P.boot}"/>
     <!-- левая рука -->
-    <rect x="-52" y="-222" width="20" height="98" rx="10" fill="${P.jacketDark}"/>
+    <rect x="-52" y="-222" width="20" height="98" rx="10" fill="${JD}"/>
     <circle cx="-42" cy="-122" r="11" fill="${P.skin}"/>
     <!-- куртка -->
-    <path d="M-40 -230 Q0 -246 40 -230 L44 -112 L-44 -112 Z" fill="${P.jacket}"/>
-    <rect x="-3" y="-232" width="6" height="120" fill="${P.jacketDark}"/>
-    <rect x="-34" y="-180" width="22" height="16" rx="3" fill="${P.jacketDark}"/>
-    <rect x="12" y="-180" width="22" height="16" rx="3" fill="${P.jacketDark}"/>
+    <path d="M-40 -230 Q0 -246 40 -230 L44 -112 L-44 -112 Z" fill="${J}"/>
+    <rect x="-3" y="-232" width="6" height="120" fill="${JD}"/>
+    <rect x="-34" y="-180" width="22" height="16" rx="3" fill="${JD}"/>
+    <rect x="12" y="-180" width="22" height="16" rx="3" fill="${JD}"/>
     <!-- правая рука -->
     <g transform="rotate(${arm} 42 -218)">
-      <rect x="32" y="-222" width="20" height="98" rx="10" fill="${P.jacketDark}"/>
+      <rect x="32" y="-222" width="20" height="98" rx="10" fill="${JD}"/>
       <circle cx="42" cy="-122" r="11" fill="${P.skin}"/>
     </g>
     <!-- шея и голова -->
     <rect x="-10" y="-252" width="20" height="18" fill="${P.skinShade}"/>
     <circle cx="0" cy="-282" r="36" fill="${P.skin}"/>
-    <path d="M-30 -270 Q-28 -238 0 -236 Q28 -238 30 -270 Q20 -256 0 -256 Q-20 -256 -30 -270Z" fill="#5a4030"/>
+    <path d="M-30 -270 Q-28 -238 0 -236 Q28 -238 30 -270 Q20 -256 0 -256 Q-20 -256 -30 -270Z" fill="${BEARD}"/>
     <circle cx="-12" cy="-286" r="4" fill="#1a1410"/>
     <circle cx="12" cy="-286" r="4" fill="#1a1410"/>
     <path d="M-20 -297 L-5 -294 M5 -294 L20 -297" stroke="#3a2a20" stroke-width="4" stroke-linecap="round"/>
     <!-- кепка -->
-    <path d="M-37 -292 Q-36 -326 0 -328 Q36 -326 37 -292 Z" fill="${P.cap}"/>
-    <path d="M-6 -296 L54 -294 Q50 -284 -6 -288 Z" fill="#6e2e21"/>
+    <path d="M-37 -292 Q-36 -326 0 -328 Q36 -326 37 -292 Z" fill="${CAP}"/>
+    <path d="M-6 -296 L54 -294 Q50 -284 -6 -288 Z" fill="${CAP}" opacity=".8"/>
   </g>`;
 }
 
@@ -187,7 +188,8 @@ function fence(len = 400) {
 }
 
 // ---------- КОЛОДЕЦ ----------
-function well() {
+function well(o = {}) {
+  const by = o.bucket || 0, full = o.full;
   return `<g class="well">
     <ellipse cx="0" cy="4" rx="110" ry="12" fill="#000" opacity=".35"/>
     <rect x="-96" y="-210" width="14" height="150" fill="${P.woodDark}"/>
@@ -195,8 +197,9 @@ function well() {
     <path d="M-120 -200 L0 -260 L120 -200 Z" fill="${P.roof}"/>
     <path d="M-120 -200 L0 -260 L120 -200" stroke="${P.woodDark}" stroke-width="8" fill="none"/>
     <rect x="-90" y="-170" width="180" height="10" fill="${P.wood}"/>
-    <line x1="0" y1="-160" x2="0" y2="-112" stroke="#9a9a90" stroke-width="3"/>
-    <path d="M-16 -112 L16 -112 L12 -84 L-12 -84 Z" fill="${P.woodLight}"/>
+    <line x1="0" y1="-160" x2="0" y2="${-112 + by}" stroke="#9a9a90" stroke-width="3"/>
+    <path d="M-16 ${-112 + by} L16 ${-112 + by} L12 ${-84 + by} L-12 ${-84 + by} Z" fill="${P.woodLight}"/>
+    ${full ? `<ellipse cx="0" cy="${-111 + by}" rx="15" ry="4" fill="#5aa9e6"/>` : ''}
     <path d="M-100 -70 Q0 -84 100 -70 L100 0 L-100 0 Z" fill="${P.stone}"/>
     <ellipse cx="0" cy="-70" rx="100" ry="14" fill="${P.stoneDark}"/>
     <ellipse cx="0" cy="-70" rx="84" ry="9" fill="#05070b"/>

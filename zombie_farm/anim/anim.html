@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Rubik';src:url('../fonts/Rubik.ttf');font-weight:300 900}
+@font-face{font-family:'Russo One';src:url('../fonts/RussoOne.ttf')}
+html,body{margin:0;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#070b16}
+#scene{position:absolute;inset:0}
+#badge .badge{position:absolute;left:50%;top:150px;transform-origin:50% 40%;text-align:center;width:600px}
+.badge .lbl{font:400 60px 'Russo One';letter-spacing:14px;color:#f2efe6;text-shadow:0 4px 0 #000,0 0 24px #000}
+.badge .num{font:400 330px/0.95 'Russo One';color:#ff7a2f;-webkit-text-stroke:10px #120804;paint-order:stroke fill;text-shadow:0 12px 0 #000,0 0 60px rgba(255,90,20,.55)}
+.badge .ring{position:absolute;left:50%;top:58%;width:380px;height:380px;border-radius:50%;border:14px solid #ff7a2f}
+#subs{position:absolute;left:50px;right:50px;top:1360px;text-align:center;font:800 98px/1.12 'Rubik';color:#fff;letter-spacing:-1px}
+#subs span{display:inline-block;-webkit-text-stroke:14px #000;paint-order:stroke fill;text-shadow:0 8px 0 #000,0 0 30px rgba(0,0,0,.8);transform-origin:50% 70%;margin:0 .13em}
+.card{position:absolute;inset:0;background:#07090f;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cglow{position:absolute;left:50%;top:58%;width:1300px;height:900px;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,122,47,.28),rgba(255,122,47,0))}
+.ctext{position:relative;font:800 82px/1.2 'Rubik';color:#fff;text-align:center;margin-bottom:60px}
+.chandle{position:relative;font-family:'Russo One';color:#ff7a2f;white-space:nowrap;text-shadow:0 0 50px rgba(255,122,47,.5)}
+</style></head><body>
+<div id="stage"><svg id="scene" width="1080" height="1920" viewBox="0 0 1080 1920"></svg><div id="badge"></div><div id="subs"></div><div id="card"></div></div>
+<script src="../art/assets.js"></script>
+<script src="timeline.js"></script>
+<script src="anim.js"></script>
+</body></html>
