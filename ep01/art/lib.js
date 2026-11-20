@@ -72,6 +72,11 @@
       name: 'ЛЫСЫЙ', nick: 'из Бразерс', skin: '#d8a080', hair: '#2a1e18', hairStyle: 'bald',
       w: 1.0, jaw: 1.1, L: 6, cloth: 'overalls', clothC: '#2a5a9a', eyes: '#3a2a20', stubble: 0.15, beard: true, broad: 1.15,
       expr: { lid: 0.35, brow: -4, smirk: 0.7, mo: 0 }, prop: 'wrench'
+    },
+    marin: {
+      name: 'МАРИН', nick: 'местный алкаш', skin: '#d8967c', hair: '#8a8278', hairStyle: 'tufts',
+      w: 1.02, jaw: 1.0, L: 10, cloth: 'tank', clothC: '#e4e0d0', eyes: '#5a4a3a', stubble: 0.45, bags: 0.9, rednose: true, flush: 0.25,
+      expr: { lid: 0.5, brow: 10, smirk: -0.4, mo: 0 }, prop: 'bottle'
     }
   };
 
@@ -141,6 +146,13 @@
           <path d="M${X(-96)},136 C${X(-60)},122 ${X(60)},122 ${X(96)},136 C${X(86)},158 ${X(-86)},158 ${X(-96)},136Z" fill="#15181c"/>
           <path d="M${X(-90)},140 C${X(-60)},130 ${X(60)},130 ${X(90)},140" stroke="#3a4048" stroke-width="2" fill="none"/>`;
       }
+      case 'tufts': {
+        if (!front) return '';
+        const tuft = (x, y, r) => `<path d="M${x},${y} l${-18 * r},-26 l${10 * r},8 l${-4 * r},-28 l${14 * r},20 l${6 * r},-24 l${6 * r},30 Z" fill="${c.hair}"/>`;
+        return `<ellipse cx="${X(-24)}" cy="78" rx="34" ry="14" fill="#fff" opacity="0.22" filter="url(#blur4)"/>
+          <path d="M${X(-88)},190 C${X(-92)},140 ${X(-86)},116 ${X(-74)},106 L${X(-64)},140 L${X(-70)},200Z M${X(88)},190 C${X(92)},140 ${X(86)},116 ${X(74)},106 L${X(64)},140 L${X(70)},200Z" fill="${c.hair}"/>
+          ${tuft(X(-80), 110, 1)}${tuft(X(84), 108, -1)}${tuft(X(10), 56, 0.7)}`;
+      }
       case 'bald': {
         if (!front) return '';
         return `<ellipse cx="${X(-30)}" cy="80" rx="40" ry="18" fill="#fff" opacity="0.28" filter="url(#blur4)"/><path d="M${X(-86)},175 C${X(-88)},150 ${X(-84)},140 ${X(-80)},136 L${X(-78)},200Z M${X(86)},175 C${X(88)},150 ${X(84)},140 ${X(80)},136 L${X(78)},200Z" fill="${c.hair}" opacity="0.7"/>`;
@@ -198,6 +210,11 @@
         <path d="M134,342 C86,356 46,392 36,452 L28,600" stroke="${st}" stroke-width="9" fill="none"/>
         <path d="M280,340 C330,352 370,385 382,450 L392,600" stroke="${st}" stroke-width="9" fill="none"/>
         <path d="M266,342 C314,356 354,392 364,452 L372,600" stroke="${st}" stroke-width="9" fill="none"/>`;
+    } else if (c.cloth === 'tank') {
+      s += `<path d="M-10,600 L2,450 C14,390 58,352 120,338 L150,330 L150,600Z M410,600 L398,450 C386,390 342,352 280,338 L250,330 L250,600Z" fill="${c.skin}"/>
+        <path d="M140,334 C150,420 120,480 110,600 L290,600 C280,480 250,420 260,334 C240,380 160,380 140,334Z" fill="${cc}"/>
+        <ellipse cx="170" cy="480" rx="26" ry="18" fill="#b09060" opacity="0.5"/><ellipse cx="236" cy="540" rx="18" ry="12" fill="#a08050" opacity="0.45"/><circle cx="214" cy="430" r="9" fill="#b09060" opacity="0.5"/>
+        ${Array.from({ length: 18 }, (_, i) => `<path d="M${168 + (i * 23) % 64},${352 + (i * 17) % 30} l3,-7" stroke="#6a6058" stroke-width="2"/>`).join('')}`;
     } else if (c.cloth === 'telnyashka') {
       s += `<clipPath id="tln${UID}"><path d="${torso}"/></clipPath><g clip-path="url(#tln${UID})">${Array.from({ length: 20 }, (_, i) => `<rect x="-20" y="${320 + i * 16}" width="440" height="8" fill="#1e3a8a"/>`).join('')}</g>
         <path d="M150,330 C175,352 225,352 250,330" stroke="#1e3a8a" stroke-width="8" fill="none"/>`;
@@ -245,6 +262,8 @@
   function prop(c) {
     switch (c.prop) {
       case 'none': return '';
+      case 'bottle': return `<g transform="translate(116,470) rotate(-10)"><path d="M-22,-40 L-22,-150 C-22,-170 -10,-176 -8,-196 L-8,-240 L8,-240 L8,-196 C10,-176 22,-170 22,-150 L22,-40Z" fill="#2a6a3a" opacity="0.92"/>
+          <rect x="-16" y="-140" width="6" height="90" fill="#cfe8c0" opacity="0.35"/><rect x="-20" y="-120" width="40" height="40" fill="#e8dcc0" opacity="0.8"/><rect x="-9" y="-252" width="18" height="14" fill="#c8a040"/></g>${hand(116, 470, c, -10)}`;
       case 'wrench': return `<g transform="translate(116,470) rotate(-20)"><rect x="-9" y="-190" width="18" height="170" rx="5" fill="#a8b0b8"/><rect x="-9" y="-190" width="6" height="170" fill="#fff" opacity="0.35"/>
           <path d="M-30,-190 L-30,-240 L-12,-240 L-12,-210 L12,-210 L12,-240 L30,-240 L30,-190Z" fill="#a8b0b8"/></g>${hand(116, 470, c, -20)}`;
       case 'ball': return `<g transform="translate(118,468)">
@@ -312,6 +331,7 @@
       <circle cx="${X(-56)}" cy="96" r="12" fill="#d8b040"/><path d="M${X(-56)},88 L${X(-50)},100 L${X(-62)},100Z" fill="#a03020"/>`;
     if (c.beard) body += `<path d="M${X(-62)},250 C${X(-50)},${312 + L} ${X(50)},${312 + L} ${X(62)},250 C${X(46)},${280 + L} ${X(26)},${290 + L} ${X(18)},${my + 6} C${X(8)},${my + 2} ${X(-8)},${my + 2} ${X(-18)},${my + 6} C${X(-26)},${290 + L} ${X(-46)},${280 + L} ${X(-62)},250Z" fill="${c.hair}" opacity="0.92"/>
       <path d="M${X(-24)},${my - 6} C${X(-10)},${my - 12} ${X(10)},${my - 12} ${X(24)},${my - 6}" stroke="${c.hair}" stroke-width="7" fill="none"/>`;
+    if (c.rednose) body += `<ellipse cx="201" cy="234" rx="18" ry="14" fill="#d04848" opacity="0.6" filter="url(#blur4)"/>`;
     if (c.flush) body += `<ellipse cx="${X(-52)}" cy="232" rx="30" ry="18" fill="#e04040" opacity="${c.flush}" filter="url(#blur8)"/><ellipse cx="${X(52)}" cy="232" rx="30" ry="18" fill="#e04040" opacity="${c.flush}" filter="url(#blur8)"/>`;
     if (c.curlers) {
       [[-62, 92, -30], [-30, 66, -12], [4, 58, 0], [38, 66, 12], [68, 92, 30], [-80, 128, -55], [84, 128, 55]].forEach((q, i) => {
