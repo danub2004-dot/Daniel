@@ -172,6 +172,12 @@
         <path d="M134,342 C86,356 46,392 36,452 L28,600" stroke="${st}" stroke-width="9" fill="none"/>
         <path d="M280,340 C330,352 370,385 382,450 L392,600" stroke="${st}" stroke-width="9" fill="none"/>
         <path d="M266,342 C314,356 354,392 364,452 L372,600" stroke="${st}" stroke-width="9" fill="none"/>`;
+    } else if (c.cloth === 'robe') {
+      s += `<path d="M150,326 C170,360 190,420 200,470 C210,420 230,360 250,326 L262,334 C236,380 214,440 204,520 L196,520 C186,440 164,380 138,334Z" fill="${mix(cc, '#fff', 0.15)}"/>
+        <path d="M120,340 C150,380 180,440 196,520 L178,600 L110,600 C100,500 96,420 120,340Z" fill="${mix(cc, '#fff', 0.22)}" opacity="0.6"/>
+        <path d="M280,340 C250,380 220,440 204,520 L222,600 L290,600 C300,500 304,420 280,340Z" fill="${mix(cc, '#000', 0.12)}" opacity="0.6"/>
+        ${Array.from({ length: 40 }, (_, i) => `<circle cx="${20 + (i * 97) % 360}" cy="${380 + (i * 53) % 210}" r="3" fill="#fff" opacity="0.12"/>`).join('')}
+        <path d="M60,560 C140,540 260,540 340,560" stroke="${mix(cc, '#fff', 0.3)}" stroke-width="16" fill="none"/>`;
     } else if (c.cloth === 'leather') {
       s += `<path d="M168,330 C180,352 220,352 232,330 L236,600 L164,600Z" fill="#1a1a1e"/>
         <path d="M160,326 L120,352 L158,410 L136,428 L186,520 L176,600 L150,600 L120,440 Z" fill="${mix(cc, '#000', 0.25)}"/>
@@ -224,7 +230,7 @@
   // Главная функция персонажа. Локальная система: 400×600, по пояс.
   // o: {expr:{...}, prop:bool, light: 0..1 (сила света), split: 0..1 (сила тени)}
   function character(key, o = {}) {
-    const c = Object.assign({}, CH[key]);
+    const c = Object.assign({}, CH[key], o.over || {});
     const e = Object.assign({}, c.expr, o.expr || {});
     const w = c.w, j = c.jaw, L = c.L;
     const X = (d) => 200 + d * w;
@@ -258,6 +264,13 @@
       ${c.chubby ? `<path d="M${X(-50)},${296 + L} C${X(-20)},${316 + L} ${X(20)},${316 + L} ${X(50)},${296 + L}" stroke="${mix(c.skin, '#4a3040', 0.4)}" stroke-width="4" fill="none" opacity="0.5" filter="url(#blur2)"/>` : ''}
     </g>`;
     body += hair(c, X, true);
+    if (c.curlers) {
+      [[-62, 92, -30], [-30, 66, -12], [4, 58, 0], [38, 66, 12], [68, 92, 30], [-80, 128, -55], [84, 128, 55]].forEach((q, i) => {
+        const col = ['#e07aa0', '#7ac0e0', '#e0c060'][i % 3];
+        body += `<g transform="translate(${X(q[0])},${q[1]}) rotate(${q[2]})"><rect x="-26" y="-17" width="52" height="34" rx="12" fill="${col}"/>
+          <rect x="-26" y="-17" width="52" height="10" rx="5" fill="#fff" opacity="0.35"/>${[-14, -2, 10].map(z => `<line x1="${z}" y1="-17" x2="${z}" y2="17" stroke="#000" stroke-opacity="0.2" stroke-width="2"/>`).join('')}</g>`;
+      });
+    }
     // глаза
     body += eye(200 - ex, ey, -1, c, e) + eye(200 + ex, ey, 1, c, e);
     if (c.scar) body += `<path d="M${200 - ex - 18},${ey - 36} L${200 - ex - 8},${ey - 16}" stroke="${mix(c.skin, '#fff', 0.3)}" stroke-width="3" opacity="0.7"/>`;
