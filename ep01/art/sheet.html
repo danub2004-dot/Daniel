@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Лист персонажей</title>
+<style>html,body{margin:0;background:#0b0e14}svg{display:block}</style></head><body>
+<script src="art.js"></script>
+<script>
+const W = 2400, H = 2860, A = ART;
+let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${A.DEFS}`;
+s += `<rect width="${W}" height="${H}" fill="#10141c"/>`;
+s += `<text x="60" y="110" font-family="Inter" font-weight="800" font-size="72" fill="#e8e6df" letter-spacing="6">ЭПИДЕМИЯ</text>`;
+s += `<text x="60" y="165" font-family="JetBrains Mono" font-size="30" fill="#8a94a6">серия 1 «За кордоном» · лист персонажей и фонов · стиль «Кино-2D»</text>`;
+const cast = [
+  ['fedya', 'ФЕДЯ, 55', 'водитель 40-го маршрута', {}],
+  ['timur', 'ТИМУР, 19', 'курьер', { look: [-2, 1] }],
+  ['doctor', 'ВРАЧ', 'Нина Сергеевна', { look: [4, 0], frown: 0.6 }],
+  ['stranger', 'НЕЗНАКОМЕЦ', 'с красным чемоданом', { look: [-1, 0] }],
+];
+cast.forEach(([k, name, role, extra], i) => {
+  const x = 60 + i * 580, y = 220;
+  s += `<g transform="translate(${x},${y})"><clipPath id="pc${i}"><rect width="540" height="760" rx="8"/></clipPath>
+    <g clip-path="url(#pc${i})"><rect width="540" height="760" fill="#1f2633"/>${A.lampGlow(40, 160, 240, 0.35)}
+    <g transform="translate(-90,-150) scale(1.2)">${A.character({ ...A.CAST[k], ...extra })}</g>
+    ${A.screenFX(540, 760)}</g>
+    <rect width="540" height="760" rx="8" fill="none" stroke="#2c3444" stroke-width="2"/>
+    <text x="0" y="812" font-family="Inter" font-weight="800" font-size="40" fill="#e8e6df">${name}</text>
+    <text x="0" y="856" font-family="JetBrains Mono" font-size="26" fill="#8a94a6">${role}</text></g>`;
+});
+// реквизит
+const py = 1200;
+s += `<text x="60" y="${py - 20}" font-family="Inter" font-weight="800" font-size="40" fill="#e8e6df">РЕКВИЗИТ</text>`;
+const props = [
+  ['ампула · этикетка', A.propAmpoule(), 1.6, 0, 40],
+  ['ключ бабы Шуры', A.propKey(), 1.2, 40, -10],
+  ['телефон', A.propPhone(), 0.75, 0, 0],
+  ['запястье Тимура', A.propWrist(1), 0.75, 0, -10],
+  ['сумка курьера', A.propBag(), 0.75, 0, 10],
+  ['красный чемодан', A.propSuitcase(true), 0.6, 0, 40],
+];
+props.forEach(([n, g, sc, ox, oy], i) => {
+  const x = 60 + i * 385, y = py;
+  s += `<g transform="translate(${x},${y})"><clipPath id="prc${i}"><rect width="360" height="380" rx="8"/></clipPath><rect width="360" height="380" rx="8" fill="#1a202b"/>
+    <g clip-path="url(#prc${i})"><g transform="translate(${180 + ox},${190 + oy}) scale(${sc})">${g}</g></g>
+    <text x="0" y="420" font-family="JetBrains Mono" font-size="24" fill="#8a94a6">${n}</text></g>`;
+});
+// фоны
+const by = 1760;
+s += `<text x="60" y="${by - 20}" font-family="Inter" font-weight="800" font-size="40" fill="#e8e6df">ФОНЫ 9:16</text>`;
+const bgs = [
+  ['прихожая: дверь, домофон', A.bgHallway(), ['ПРИХОЖАЯ, КВ. 12', 'ДЕНЬ 40 · 21:15']],
+  ['квартира бабы Шуры: штора', A.bgApartment(), ['ПОДЪЕЗД 2, КВ. 57', 'ДЕНЬ 40 · 00:07']],
+  ['подъезд: хлорка', A.bgStairwell(), ['ПОДЪЕЗД 2', 'ДЕНЬ 40 · 23:58']],
+  ['задний двор больницы', A.bgFence(), ['ЗАДНИЙ ДВОР БОЛЬНИЦЫ', 'ДЕНЬ 40 · 19:40']],
+];
+bgs.forEach(([n, g, [wh, wn]], i) => {
+  const x = 60 + i * 580, y = by, sc = 540 / 1080;
+  s += `<g transform="translate(${x},${y})"><clipPath id="bc${i}"><rect width="540" height="960"/></clipPath><g clip-path="url(#bc${i})"><g transform="scale(${sc})">${g}
+    ${A.plaqueWhere(50, 90, wh, 34)}${A.plaqueWhen(50, 180, wn, 34)}${A.timer(50, 270, '00:00:' + String(12 + i * 9).padStart(2, '0'), 36)}
+    ${A.screenFX()}</g></g>
+    <text x="0" y="1006" font-family="JetBrains Mono" font-size="26" fill="#8a94a6">${n}</text></g>`;
+});
+s += `<rect width="${W}" height="${H}" fill="url(#scan)" opacity=".35"/></svg>`;
+document.body.innerHTML = s;
+</script></body></html>
