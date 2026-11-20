@@ -333,7 +333,7 @@
       <line x1="190" y1="380" x2="190" y2="1060" stroke="#3b3430" stroke-width="10"/>
       <line x1="40" y1="700" x2="340" y2="700" stroke="#3b3430" stroke-width="10"/>
       <rect x="0" y="330" width="420" height="16" rx="6" fill="#5a4a3c"/>`;
-    const sway = Math.sin(t * 1.3) * 6;
+    const sway = Math.sin(t * 1.3) * 6 * (o.sway || 1);
     let folds = '';
     for (let i = 0; i < 9; i++) {
       const x = -10 + i * 30 + (i > 4 ? 0 : 0);
