@@ -62,6 +62,16 @@
       name: 'ВЛАД', nick: '«Стеклорез»', skin: '#d4a88c', hair: '#3a3026', hairStyle: 'long',
       w: 0.9, jaw: 0.95, L: 12, cloth: 'hoodie', clothC: '#1d1e24', eyes: '#4a3a2a',
       stubble: 0.3, shades: true, bandaid: true, expr: { lid: 0.3, brow: 4, smirk: 0.3, mo: 0 }, prop: 'none'
+    },
+    vasya: {
+      name: 'ВАСИЛИЙ', nick: '«Анальный десантник»', skin: '#e0a080', hair: '#5a4030', hairStyle: 'buzz',
+      w: 1.1, jaw: 1.25, L: 6, cloth: 'telnyashka', clothC: '#e8ecf2', eyes: '#3a5a7a', stubble: 0.35, beret: true, broad: 1.12, flush: 0.35,
+      expr: { lid: 0.2, brow: 10, smirk: 0.3, mo: 0 }, prop: 'none'
+    },
+    lysy: {
+      name: 'ЛЫСЫЙ', nick: 'из Бразерс', skin: '#d8a080', hair: '#2a1e18', hairStyle: 'bald',
+      w: 1.0, jaw: 1.1, L: 6, cloth: 'overalls', clothC: '#2a5a9a', eyes: '#3a2a20', stubble: 0.15, beard: true, broad: 1.15,
+      expr: { lid: 0.35, brow: -4, smirk: 0.7, mo: 0 }, prop: 'wrench'
     }
   };
 
@@ -131,6 +141,10 @@
           <path d="M${X(-96)},136 C${X(-60)},122 ${X(60)},122 ${X(96)},136 C${X(86)},158 ${X(-86)},158 ${X(-96)},136Z" fill="#15181c"/>
           <path d="M${X(-90)},140 C${X(-60)},130 ${X(60)},130 ${X(90)},140" stroke="#3a4048" stroke-width="2" fill="none"/>`;
       }
+      case 'bald': {
+        if (!front) return '';
+        return `<ellipse cx="${X(-30)}" cy="80" rx="40" ry="18" fill="#fff" opacity="0.28" filter="url(#blur4)"/><path d="M${X(-86)},175 C${X(-88)},150 ${X(-84)},140 ${X(-80)},136 L${X(-78)},200Z M${X(86)},175 C${X(88)},150 ${X(84)},140 ${X(80)},136 L${X(78)},200Z" fill="${c.hair}" opacity="0.7"/>`;
+      }
       case 'long': {
         if (!front) return `<path d="M${X(-96)},330 C${X(-112)},200 ${X(-100)},50 200,40 C${X(100)},50 ${X(112)},200 ${X(96)},330 L${X(70)},330 L${X(70)},150 L${X(-70)},150 L${X(-70)},330Z" fill="${h}"/>`;
         return `<path d="M${X(-92)},250 C${X(-98)},110 ${X(-66)},42 200,40 C${X(66)},42 ${X(98)},110 ${X(92)},250 C${X(84)},170 ${X(70)},120 ${X(40)},108 C${X(20)},104 ${X(8)},110 200,96 C${X(-8)},110 ${X(-20)},104 ${X(-40)},108 C${X(-70)},120 ${X(-84)},170 ${X(-92)},250Z" fill="${h}"/>
@@ -184,6 +198,19 @@
         <path d="M134,342 C86,356 46,392 36,452 L28,600" stroke="${st}" stroke-width="9" fill="none"/>
         <path d="M280,340 C330,352 370,385 382,450 L392,600" stroke="${st}" stroke-width="9" fill="none"/>
         <path d="M266,342 C314,356 354,392 364,452 L372,600" stroke="${st}" stroke-width="9" fill="none"/>`;
+    } else if (c.cloth === 'telnyashka') {
+      s += `<clipPath id="tln${UID}"><path d="${torso}"/></clipPath><g clip-path="url(#tln${UID})">${Array.from({ length: 20 }, (_, i) => `<rect x="-20" y="${320 + i * 16}" width="440" height="8" fill="#1e3a8a"/>`).join('')}</g>
+        <path d="M150,330 C175,352 225,352 250,330" stroke="#1e3a8a" stroke-width="8" fill="none"/>`;
+    } else if (c.cloth === 'bare') {
+      s += `<path d="${torso}" fill="${c.skin}"/><path d="M90,430 C140,470 180,470 196,440 M304,430 C260,470 220,470 204,440" stroke="${mix(c.skin, '#4a3040', 0.4)}" stroke-width="5" fill="none" opacity="0.5"/>
+        <path d="M200,380 L200,600" stroke="${mix(c.skin, '#4a3040', 0.3)}" stroke-width="3" opacity="0.4"/>
+        ${Array.from({ length: 30 }, (_, i) => `<path d="M${170 + (i * 37) % 60},${400 + (i * 23) % 90} l4,-8" stroke="#3a2a20" stroke-width="2"/>`).join('')}
+        <ellipse cx="140" cy="440" rx="6" ry="5" fill="${mix(c.skin, '#8a4040', 0.4)}"/><ellipse cx="260" cy="440" rx="6" ry="5" fill="${mix(c.skin, '#8a4040', 0.4)}"/>
+        <text x="110" y="540" font-family="Inter" font-weight="900" font-size="40" fill="#2a4a8a" opacity="0.75" transform="rotate(-6,110,540)">ВДВ</text>`;
+    } else if (c.cloth === 'overalls') {
+      s += `<path d="M150,328 C175,350 225,350 250,328 L250,420 L150,420Z" fill="#e8e4dc"/>
+        <path d="M120,440 L280,440 L300,600 L100,600Z" fill="${mix(cc, '#000', 0.1)}"/><rect x="160" y="450" width="80" height="60" fill="none" stroke="#e8c060" stroke-width="4"/>
+        <path d="M140,340 L150,450 M260,340 L250,450" stroke="${mix(cc, '#000', 0.2)}" stroke-width="26"/><circle cx="150" cy="446" r="9" fill="#e8c060"/><circle cx="250" cy="446" r="9" fill="#e8c060"/>`;
     } else if (c.cloth === 'robe') {
       s += `<path d="M150,326 C170,360 190,420 200,470 C210,420 230,360 250,326 L262,334 C236,380 214,440 204,520 L196,520 C186,440 164,380 138,334Z" fill="${mix(cc, '#fff', 0.15)}"/>
         <path d="M120,340 C150,380 180,440 196,520 L178,600 L110,600 C100,500 96,420 120,340Z" fill="${mix(cc, '#fff', 0.22)}" opacity="0.6"/>
@@ -218,6 +245,8 @@
   function prop(c) {
     switch (c.prop) {
       case 'none': return '';
+      case 'wrench': return `<g transform="translate(116,470) rotate(-20)"><rect x="-9" y="-190" width="18" height="170" rx="5" fill="#a8b0b8"/><rect x="-9" y="-190" width="6" height="170" fill="#fff" opacity="0.35"/>
+          <path d="M-30,-190 L-30,-240 L-12,-240 L-12,-210 L12,-210 L12,-240 L30,-240 L30,-190Z" fill="#a8b0b8"/></g>${hand(116, 470, c, -20)}`;
       case 'ball': return `<g transform="translate(118,468)">
           <circle cx="0" cy="-48" r="26" fill="url(#ballG)"/>
           <ellipse cx="-9" cy="-58" rx="8" ry="5" fill="#fff" opacity="0.8"/></g>${hand(118, 470, c)}`;
@@ -278,6 +307,12 @@
       ${c.chubby ? `<path d="M${X(-50)},${296 + L} C${X(-20)},${316 + L} ${X(20)},${316 + L} ${X(50)},${296 + L}" stroke="${mix(c.skin, '#4a3040', 0.4)}" stroke-width="4" fill="none" opacity="0.5" filter="url(#blur2)"/>` : ''}
     </g>`;
     body += hair(c, X, true);
+    if (c.beret) body += `<path d="M${X(-92)},120 C${X(-110)},40 ${X(60)},20 ${X(98)},80 C${X(104)},100 ${X(90)},118 ${X(70)},122 C${X(20)},104 ${X(-50)},104 ${X(-92)},120Z" fill="#3a78c8"/>
+      <path d="M${X(-92)},120 C${X(-50)},104 ${X(20)},104 ${X(70)},122" stroke="#1e3a6a" stroke-width="10" fill="none"/><path d="M${X(-60)},70 C${X(-20)},50 ${X(30)},46 ${X(60)},58" stroke="#8ab8f0" stroke-width="6" fill="none" opacity="0.5"/>
+      <circle cx="${X(-56)}" cy="96" r="12" fill="#d8b040"/><path d="M${X(-56)},88 L${X(-50)},100 L${X(-62)},100Z" fill="#a03020"/>`;
+    if (c.beard) body += `<path d="M${X(-62)},250 C${X(-50)},${312 + L} ${X(50)},${312 + L} ${X(62)},250 C${X(46)},${280 + L} ${X(26)},${290 + L} ${X(18)},${my + 6} C${X(8)},${my + 2} ${X(-8)},${my + 2} ${X(-18)},${my + 6} C${X(-26)},${290 + L} ${X(-46)},${280 + L} ${X(-62)},250Z" fill="${c.hair}" opacity="0.92"/>
+      <path d="M${X(-24)},${my - 6} C${X(-10)},${my - 12} ${X(10)},${my - 12} ${X(24)},${my - 6}" stroke="${c.hair}" stroke-width="7" fill="none"/>`;
+    if (c.flush) body += `<ellipse cx="${X(-52)}" cy="232" rx="30" ry="18" fill="#e04040" opacity="${c.flush}" filter="url(#blur8)"/><ellipse cx="${X(52)}" cy="232" rx="30" ry="18" fill="#e04040" opacity="${c.flush}" filter="url(#blur8)"/>`;
     if (c.curlers) {
       [[-62, 92, -30], [-30, 66, -12], [4, 58, 0], [38, 66, 12], [68, 92, 30], [-80, 128, -55], [84, 128, 55]].forEach((q, i) => {
         const col = ['#e07aa0', '#7ac0e0', '#e0c060'][i % 3];
