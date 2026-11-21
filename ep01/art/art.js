@@ -130,7 +130,6 @@
     s += `<path d="M-90 ${hy - 40} Q-92 ${hy - 104} 0 ${hy - 108} Q92 ${hy - 104} 90 ${hy - 40} L88 ${hy + 50} Q80 ${hy + 104} 0 ${hy + 110} Q-80 ${hy + 104} -88 ${hy + 50}Z" fill="${P.skin}"/>`;
     s += `<path d="M-86 ${hy + 30} Q-82 ${hy + 102} 0 ${hy + 110} Q82 ${hy + 102} 86 ${hy + 30} Q60 ${hy + 60} 0 ${hy + 62} Q-60 ${hy + 60} -86 ${hy + 30}Z" fill="#6f7284" opacity="0.38"/>`; // щетина
     s += `<ellipse cx="-90" cy="${hy + 6}" rx="16" ry="24" fill="${P.skinShade}"/><ellipse cx="90" cy="${hy + 6}" rx="16" ry="24" fill="${P.skinShade}"/>`;
-    s += `<circle cx="-94" cy="${hy + 50}" r="22" fill="none" stroke="${P.gold}" stroke-width="7"/><circle cx="94" cy="${hy + 50}" r="22" fill="none" stroke="${P.gold}" stroke-width="7"/>`; // крупные серьги-кольца
     s += `<path d="M-94 ${hy - 20} Q-100 ${hy - 118} 0 ${hy - 122} Q100 ${hy - 118} 94 ${hy - 20} L84 ${hy - 46} Q70 ${hy - 80} 40 ${hy - 84} Q0 ${hy - 70} -40 ${hy - 84} Q-70 ${hy - 80} -84 ${hy - 46}Z" fill="${P.hairM}"/>`; // седой ёжик с залысинами
     s += `<path d="M-50 ${hy - 106} l10 -6 M-20 ${hy - 112} l10 -6 M14 ${hy - 112} l10 -6 M46 ${hy - 104} l10 -6" stroke="${P.hairMDark}" stroke-width="4"/>`;
     s += face(o, 0, hy, 'M');
