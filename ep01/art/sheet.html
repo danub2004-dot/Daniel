@@ -1,0 +1,41 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#070a1c;font-family:Inter;color:#e8e9f5}
+#w{width:2400px;padding:50px 60px;box-sizing:border-box}
+h1{font-size:64px;margin:0 0 6px;font-weight:900;letter-spacing:2px} h1 span{color:#ff3ca6}
+.sub{color:#8f97c8;font-size:28px;margin-bottom:30px}
+h2{font-size:34px;margin:34px 0 14px;color:#ffcf5a;font-weight:800;letter-spacing:1px}
+.row{display:flex;gap:20px;flex-wrap:wrap}
+.card{background:#0e1333;border-radius:20px;padding:12px;text-align:center}
+.card b{display:block;font-size:24px;margin-top:6px} .card i{display:block;font-size:19px;color:#8f97c8;font-style:normal;max-width:330px;margin:4px auto 0}
+.pal{display:flex;gap:10px;margin-top:10px}.pal div{width:110px;height:70px;border-radius:12px;font-size:16px;display:flex;align-items:flex-end;padding:6px;box-sizing:border-box;color:#000;font-weight:700}
+</style></head><body><div id="w"></div>
+<script src="art.js"></script><script>
+const A=ART, D=A.defs();
+const fig=(svg,label,note,bg='#141a3e')=>`<div class="card"><svg width="330" height="540" viewBox="-300 -1020 600 1080"><rect x="-300" y="-1020" width="600" height="1080" fill="${bg}"/><ellipse cx="0" cy="10" rx="200" ry="26" fill="#000" opacity="0.4"/>${D}${svg}</svg><b>${label}</b><i>${note}</i></div>`;
+const bg=(svg,label,note)=>`<div class="card"><svg width="300" height="533" viewBox="0 0 1080 1920">${D}${svg}</svg><b>${label}</b><i>${note}</i></div>`;
+let h=`<h1>НОЧЬ БЕЗ <span>ЗАКОНА</span> · серия 1 «Одно окно»</h1><div class="sub">Лист персонажей и фонов · плоский 2D · кадр 1080×1920</div>`;
+h+=`<h2>МАША, 55 — таксистка, не умеет врать</h2><div class="row">`;
+h+=fig(A.masha({keySpin:20}),'Обычная','кожанка, серьги-кольца, ключи на пальце');
+h+=fig(A.masha({handL:[-190,-610],flash:'on',eyes:'narrow',brow:'angry',mouth:'tight',look:-14,beamLen:140,beamW:60}),'Красный фонарик','с улицы не виден, батареек на час');
+h+=fig(A.masha({handOnMouth:true,eyes:'wide',brow:'worried',look:-12}),'Молчит','«Врать я не умею»');
+h+=fig(A.masha({handR:[250,-560],fobPress:true,eyes:'narrow',brow:'angry',mouth:'tight',look:14,keySpin:0}),'Брелок','жмёт сигнализацию такси');
+h+=`</div><h2>СЕСТРА (ЛИЗА), 17 — младшая сестра</h2><div class="row">`;
+h+=fig(A.sister({look:10}),'Обычная','рюкзак, наушники на шее, порванный синий рукав');
+h+=fig(A.sister({handR:[262,-600],point:true,eyes:'wide',brow:'worried',mouth:'open'}),'«Метка!»','первой замечает краску на двери');
+h+=fig(A.sister({hideSleeve:true,hpGlow:1,eyes:'narrow',brow:'sad',look:-14,mouth:'flat'}),'Прячет рукав','из наушников — шёпот');
+h+=`</div><h2>ЛЮДИ В СВЕТЯЩИХСЯ МАСКАХ</h2><div class="row">`;
+h+=fig(A.masked({color:A.P.neonC}),'Голубая маска','зовёт «Маша!»','#0a0d22');
+h+=fig(A.masked({color:A.P.neonM,talk:0.6}),'Розовая маска','шепчет в наушники','#0a0d22');
+h+=fig(A.masked({color:A.P.neonG,grin:false,arms:true}),'Зелёная маска','лезет в окно','#0a0d22');
+h+=`</div><h2>ЛОКАЦИИ</h2><div class="row">`;
+h+=bg(A.bgExterior({shut:0.6,lit:[1,1,0,1,1,0,1,1,1,0,1,1]}),'Дом, 18:55','ставни опускаются, одно окно — нет');
+h+=bg(A.bgExterior({lit:[0,1,0,0,0,0,1,0,0,0,0,0],siren:1,phase:0.1,masks:[{x:240,y:1640,c:A.P.neonC},{x:860,y:1660,c:A.P.neonM}]})+A.hud({time:'19:04:12',left:'11:55:48'})+A.subtitle([{text:'Они'},{text:'знают'},{text:'моё'},{text:'имя.',hl:'#ff3ca6'}],3),'Ночь + интерфейс','таймер, «СЛУЖБЫ НЕ РАБОТАЮТ», субтитры');
+h+=bg(A.bgDoor(),'Метка на двери','свежая неоновая краска');
+h+=bg(A.bgHall({siren:1}),'Прихожая','героини прижимаются к стене');
+h+=bg(A.bgRoom({masks:[{x:400,y:1100,c:A.P.neonG,s:0.35}]}),'Комната наверху','ставня застряла на середине');
+h+=bg(A.bgGears({rot:0.1}),'Механизм ставни','красный луч, клок синей ткани');
+h+=bg(A.bgYard({alarm:1,phase:0.01}),'Двор, такси','сигнализация воет');
+h+=bg(A.bgRoom({day:true,fabric:true}),'Флешбэк: днём','тёплые тона — сестра одна дома');
+h+=`</div><h2>ПАЛИТРА</h2><div class="pal">`+[['#04071a','небо','#fff'],['#1f2650','стены','#fff'],['#ffcf5a','окна'],['#ff2a3c','сирена'],['#2f6bff','сирена'],['#3cf2ff','маска'],['#ff3ca6','маска/метка'],['#8dff4a','маска'],['#3b2a22','кожанка','#fff'],['#2f5fd0','худи сестры','#fff']].map(([c,n,t])=>`<div style="background:${c};color:${t||'#000'}">${n}</div>`).join('')+`</div>`;
+document.getElementById('w').innerHTML=h;
+</script></body></html>
