@@ -1,0 +1,122 @@
+{
+ "music_drone": {
+  "id": "864695",
+  "title": "Subharmonic Obsidian Wavetable Drone by MANTICE by bassimat",
+  "dur": 300.0,
+  "page": "https://freesound.org/s/864695/",
+  "hq": "https://cdn.freesound.org/previews/864/864695_15636277-hq.mp3",
+  "file": "sound/src/music_drone_864695.mp3"
+ },
+ "music_drone_alt": {
+  "id": "799355",
+  "title": "Ambient Drone - x-c--b-,-we-rh by CVLTIV8R.wav by CVLTIV8R",
+  "dur": 204.855,
+  "page": "https://freesound.org/s/799355/",
+  "hq": "https://cdn.freesound.org/previews/799/799355_2520418-hq.mp3",
+  "file": "sound/src/music_drone_alt_799355.mp3"
+ },
+ "rain": {
+  "id": "580542",
+  "title": "Rain_Interior ambience by exuberate",
+  "dur": 108.214,
+  "page": "https://freesound.org/s/580542/",
+  "hq": "https://cdn.freesound.org/previews/580/580542_1810340-hq.mp3",
+  "file": "sound/src/rain_580542.mp3"
+ },
+ "wind": {
+  "id": "620539",
+  "title": "Howling Wind.aif by AbolGuga",
+  "dur": 66.938,
+  "page": "https://freesound.org/s/620539/",
+  "hq": "https://cdn.freesound.org/previews/620/620539_13128969-hq.mp3",
+  "file": "sound/src/wind_620539.mp3"
+ },
+ "siren": {
+  "id": "382611",
+  "title": "Air raid siren (Prague) by nooly",
+  "dur": 80.4769,
+  "page": "https://freesound.org/s/382611/",
+  "hq": "https://cdn.freesound.org/previews/382/382611_1999691-hq.mp3",
+  "file": "sound/src/siren_382611.mp3"
+ },
+ "creak": {
+  "id": "646696",
+  "title": "Creaking Wooden Floor [8] by SoundDesignForYou",
+  "dur": 0.994966,
+  "page": "https://freesound.org/s/646696/",
+  "hq": "https://cdn.freesound.org/previews/646/646696_13085623-hq.mp3",
+  "file": "sound/src/creak_646696.mp3"
+ },
+ "steps_creak": {
+  "id": "367050",
+  "title": "Footsteps with floor creak by TheBuilder15",
+  "dur": 3.0259,
+  "page": "https://freesound.org/s/367050/",
+  "hq": "https://cdn.freesound.org/previews/367/367050_6090639-hq.mp3",
+  "file": "sound/src/steps_creak_367050.mp3"
+ },
+ "shutter": {
+  "id": "617980",
+  "title": "RollerShutter_IT.wav by uniuniversal",
+  "dur": 20.6,
+  "page": "https://freesound.org/s/617980/",
+  "hq": "https://cdn.freesound.org/previews/617/617980_13601611-hq.mp3",
+  "file": "sound/src/shutter_617980.mp3"
+ },
+ "car_alarm": {
+  "id": "548470",
+  "title": "car alarm.wav by Dienamyte",
+  "dur": 8.50002,
+  "page": "https://freesound.org/s/548470/",
+  "hq": "https://cdn.freesound.org/previews/548/548470_12285214-hq.mp3",
+  "file": "sound/src/car_alarm_548470.mp3"
+ },
+ "knock": {
+  "id": "629987",
+  "title": "Knocking on Wood Door (1) by Flem0527",
+  "dur": 0.704422,
+  "page": "https://freesound.org/s/629987/",
+  "hq": "https://cdn.freesound.org/previews/629/629987_12715066-hq.mp3",
+  "file": "sound/src/knock_629987.mp3"
+ },
+ "flash_click": {
+  "id": "690300",
+  "title": "Flashlight Switch Click by Ralph0o7",
+  "dur": 0.187506,
+  "page": "https://freesound.org/s/690300/",
+  "hq": "https://cdn.freesound.org/previews/690/690300_13580458-hq.mp3",
+  "file": "sound/src/flash_click_690300.mp3"
+ },
+ "spray": {
+  "id": "707374",
+  "title": "paint_shake_and_spray.wav by Mohagged",
+  "dur": 1.9417,
+  "page": "https://freesound.org/s/707374/",
+  "hq": "https://cdn.freesound.org/previews/707/707374_5152099-hq.mp3",
+  "file": "sound/src/spray_707374.mp3"
+ },
+ "fob": {
+  "id": "396137",
+  "title": "Miscjdr_ Car Alarm remote clicks locks and beep medium distance.wav by jdr3productions",
+  "dur": 9.172,
+  "page": "https://freesound.org/s/396137/",
+  "hq": "https://cdn.freesound.org/previews/396/396137_6361379-hq.mp3",
+  "file": "sound/src/fob_396137.mp3"
+ },
+ "slam": {
+  "id": "591380",
+  "title": "Metal slam by lind_elvis",
+  "dur": 2.99683,
+  "page": "https://freesound.org/s/591380/",
+  "hq": "https://cdn.freesound.org/previews/591/591380_13278370-hq.mp3",
+  "file": "sound/src/slam_591380.mp3"
+ },
+ "heartbeat": {
+  "id": "877805",
+  "title": "Slow Heartbeat - Deep Steady Pulse by gionui",
+  "dur": 1.8,
+  "page": "https://freesound.org/s/877805/",
+  "hq": "https://cdn.freesound.org/previews/877/877805_19511840-hq.mp3",
+  "file": "sound/src/heartbeat_877805.mp3"
+ }
+}

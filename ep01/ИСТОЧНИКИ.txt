@@ -1,0 +1,93 @@
+ИСТОЧНИКИ — «Ночь без закона», серия 1 «Одно окно»
+
+ЛИЦЕНЗИЯ ВСЕХ ЗВУКОВ И МУЗЫКИ: CC0 1.0 (общественное достояние)
+https://creativecommons.org/publicdomain/zero/1.0/
+Лицензия каждого звука проверена на его странице Freesound (единственная лицензия на странице — CC0). Указание авторов по CC0 не обязательно, но мы его приводим.
+
+Использованы MP3-превью высокого качества (cdn.freesound.org, -hq.mp3), обрезаны и сведены.
+
+• Фоновая музыка (основной мрачный дрон)
+  «Ambient Drone - x-c--b-,-we-rh by CVLTIV8R.wav» — автор: CVLTIV8R
+  Freesound ID 799355: https://freesound.org/s/799355/
+  Лицензия: CC0 1.0
+
+• Фоновая музыка (низкий слой дрона, тихо)
+  «Subharmonic Obsidian Wavetable Drone by MANTICE» — автор: bassimat
+  Freesound ID 864695: https://freesound.org/s/864695/
+  Лицензия: CC0 1.0
+
+• Фон: дождь
+  «Rain_Interior ambience» — автор: exuberate
+  Freesound ID 580542: https://freesound.org/s/580542/
+  Лицензия: CC0 1.0
+
+• Фон: ветер
+  «Howling Wind.aif» — автор: AbolGuga
+  Freesound ID 620539: https://freesound.org/s/620539/
+  Лицензия: CC0 1.0
+
+• Эффект: ставни опускаются (0:00)
+  «RollerShutter_IT.wav» — автор: uniuniversal
+  Freesound ID 617980: https://freesound.org/s/617980/
+  Лицензия: CC0 1.0
+
+• Эффект: баллончик с краской (метка)
+  «paint_shake_and_spray.wav» — автор: Mohagged
+  Freesound ID 707374: https://freesound.org/s/707374/
+  Лицензия: CC0 1.0
+
+• Эффект: сирена начала Ночи
+  «Air raid siren (Prague)» — автор: nooly
+  Freesound ID 382611: https://freesound.org/s/382611/
+  Лицензия: CC0 1.0
+
+• Эффект: скрип половицы
+  «Creaking Wooden Floor [8]» — автор: SoundDesignForYou
+  Freesound ID 646696: https://freesound.org/s/646696/
+  Лицензия: CC0 1.0
+
+• Эффект: шаги наверху
+  «Footsteps with floor creak» — автор: TheBuilder15
+  Freesound ID 367050: https://freesound.org/s/367050/
+  Лицензия: CC0 1.0
+
+• Эффект: щелчок фонарика
+  «Flashlight Switch Click» — автор: Ralph0o7
+  Freesound ID 690300: https://freesound.org/s/690300/
+  Лицензия: CC0 1.0
+
+• Эффект: брелок такси
+  «Miscjdr_ Car Alarm remote clicks locks and beep medium distance.wav» — автор: jdr3productions
+  Freesound ID 396137: https://freesound.org/s/396137/
+  Лицензия: CC0 1.0
+
+• Эффект: сигнализация такси
+  «car alarm.wav» — автор: Dienamyte
+  Freesound ID 548470: https://freesound.org/s/548470/
+  Лицензия: CC0 1.0
+
+• Эффект: ставня захлопнулась
+  «Metal slam» — автор: lind_elvis
+  Freesound ID 591380: https://freesound.org/s/591380/
+  Лицензия: CC0 1.0
+
+• Эффект: три удара в дверь
+  «Knocking on Wood Door (1)» — автор: Flem0527
+  Freesound ID 629987: https://freesound.org/s/629987/
+  Лицензия: CC0 1.0
+
+• Эффект: сердцебиение в финале
+  «Slow Heartbeat - Deep Steady Pulse» — автор: gionui
+  Freesound ID 877805: https://freesound.org/s/877805/
+  Лицензия: CC0 1.0
+
+ГОЛОС
+• Рассказчик (Миша): ElevenLabs, голос «Stanislav», модель eleven_v3.
+• Голос с улицы: ElevenLabs, голос «Nester Surovy», модель eleven_v3.
+  Сгенерировано на платном тарифе пользователя (Creator) — коммерческое использование разрешено условиями ElevenLabs. Это не CC0, но и не чужая музыка.
+
+ГРАФИКА И АНИМАЦИЯ
+• Всё нарисовано кодом (SVG) специально для сериала, сторонние изображения не использовались.
+
+ШРИФТЫ
+• Inter и JetBrains Mono — лицензия SIL Open Font License 1.1.
