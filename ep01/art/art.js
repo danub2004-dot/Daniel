@@ -83,9 +83,9 @@
     return { path: `<path d="M${f(x)} ${f(y)} L${f(ex)} ${f(ey)} L${f(hx)} ${f(hy)}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`, ex, ey, hx, hy };
   }
 
-  // ---------- Маша ----------
+  // ---------- Миша (главный герой) ----------
   // o: {armL:[a1,a2], armR:[a1,a2], legL, legR, eyes, mouth, brow, look, flash:'off'|'on', keys:true, handOnMouth, lit(0..1 красный отсвет)}
-  function masha(o = {}) {
+  function hero(o = {}) {
     let armL = o.armL || [-14, -4], armR = o.armR || [14, 8];
     if (o.handOnMouth) armR = ik(104, -670, 10 + (o.look || 0) * 0.6, -772, 170, 160, 1);
     if (o.handL) armL = ik(-104, -670, o.handL[0], o.handL[1], 170, 160, 1);
@@ -96,7 +96,7 @@
     const lL = limb(-38, -390, legL[0], legL[1], 200, 190, 58, P.jeans), lR = limb(38, -390, legR[0], legR[1], 200, 190, 58, P.jeans);
     [lL, lR].forEach((l) => (s += l.path + `<ellipse cx="${f(l.hx + 10)}" cy="${f(l.hy + 8)}" rx="44" ry="20" fill="${P.boots}"/>`));
     // куртка (корпус)
-    s += `<path d="M-108 -690 Q-120 -520 -112 -370 L112 -370 Q120 -520 108 -690 Q0 -720 -108 -690Z" fill="${P.jacket}"/>`;
+    s += `<path d="M-124 -690 Q-130 -520 -116 -370 L116 -370 Q130 -520 124 -690 Q0 -724 -124 -690Z" fill="${P.jacket}"/>`;
     s += `<path d="M-112 -370 L112 -370 L112 -340 L-112 -340Z" fill="#2a1e18"/>`; // пояс куртки
     s += `<path d="M-30 -700 L0 -600 L30 -700" fill="${P.white}" opacity="0.85"/>`; // футболка
     s += `<path d="M-30 -702 L-70 -640 L-40 -560 L-6 -600Z M30 -702 L70 -640 L40 -560 L6 -600Z" fill="${P.jacketHi}"/>`; // лацканы
@@ -126,14 +126,15 @@
     // шея и голова
     s += `<rect x="-24" y="-740" width="48" height="50" fill="${P.skinShade}"/>`;
     const hy = -835;
-    s += `<path d="M-112 ${hy - 10} Q-118 ${hy - 120} 0 ${hy - 128} Q118 ${hy - 120} 112 ${hy - 10} L110 ${hy + 50} L80 ${hy + 50} L80 ${hy - 10} L-80 ${hy - 10} L-80 ${hy + 50} L-110 ${hy + 50}Z" fill="${P.hairMDark}"/>`; // задние волосы (каре)
-    s += `<ellipse cx="0" cy="${hy}" rx="92" ry="104" fill="${P.skin}"/>`;
+    // голова мужчины: квадратная челюсть, короткая седая стрижка, щетина
+    s += `<path d="M-90 ${hy - 40} Q-92 ${hy - 104} 0 ${hy - 108} Q92 ${hy - 104} 90 ${hy - 40} L88 ${hy + 50} Q80 ${hy + 104} 0 ${hy + 110} Q-80 ${hy + 104} -88 ${hy + 50}Z" fill="${P.skin}"/>`;
+    s += `<path d="M-86 ${hy + 30} Q-82 ${hy + 102} 0 ${hy + 110} Q82 ${hy + 102} 86 ${hy + 30} Q60 ${hy + 60} 0 ${hy + 62} Q-60 ${hy + 60} -86 ${hy + 30}Z" fill="#6f7284" opacity="0.38"/>`; // щетина
     s += `<ellipse cx="-90" cy="${hy + 6}" rx="16" ry="24" fill="${P.skinShade}"/><ellipse cx="90" cy="${hy + 6}" rx="16" ry="24" fill="${P.skinShade}"/>`;
-    // крупные серьги-кольца
-    s += `<circle cx="-94" cy="${hy + 54}" r="24" fill="none" stroke="${P.gold}" stroke-width="7"/><circle cx="94" cy="${hy + 54}" r="24" fill="none" stroke="${P.gold}" stroke-width="7"/>`;
-    s += `<path d="M-100 ${hy - 20} Q-96 ${hy - 112} 0 ${hy - 114} Q96 ${hy - 112} 100 ${hy - 20} Q60 ${hy - 70} 10 ${hy - 62} Q-40 ${hy - 82} -100 ${hy - 20}Z" fill="${P.hairM}"/>`; // чёлка с проседью
-    s += `<path d="M-60 ${hy - 96} Q-20 ${hy - 70} 30 ${hy - 104}" stroke="${P.white}" stroke-width="5" fill="none" opacity="0.5"/>`;
+    s += `<circle cx="-94" cy="${hy + 50}" r="22" fill="none" stroke="${P.gold}" stroke-width="7"/><circle cx="94" cy="${hy + 50}" r="22" fill="none" stroke="${P.gold}" stroke-width="7"/>`; // крупные серьги-кольца
+    s += `<path d="M-94 ${hy - 20} Q-100 ${hy - 118} 0 ${hy - 122} Q100 ${hy - 118} 94 ${hy - 20} L84 ${hy - 46} Q70 ${hy - 80} 40 ${hy - 84} Q0 ${hy - 70} -40 ${hy - 84} Q-70 ${hy - 80} -84 ${hy - 46}Z" fill="${P.hairM}"/>`; // седой ёжик с залысинами
+    s += `<path d="M-50 ${hy - 106} l10 -6 M-20 ${hy - 112} l10 -6 M14 ${hy - 112} l10 -6 M46 ${hy - 104} l10 -6" stroke="${P.hairMDark}" stroke-width="4"/>`;
     s += face(o, 0, hy, 'M');
+    s += `<path d="M${-40 + (o.look || 0) * 0.6} ${hy + 44} Q${(o.look || 0) * 0.6} ${hy + 30} ${40 + (o.look || 0) * 0.6} ${hy + 44} Q${(o.look || 0) * 0.6} ${hy + 38} ${-40 + (o.look || 0) * 0.6} ${hy + 44}Z" fill="${P.hairMDark}" stroke="${P.hairMDark}" stroke-width="8" stroke-linejoin="round"/>`; // усы
     if (o.handOnMouth) { const a = limb(104, -670, armR[0], armR[1], 170, 160, 50, P.jacket); s += a.path + `<circle cx="${f(a.hx)}" cy="${f(a.hy)}" r="28" fill="${P.skin}" stroke="${P.skinShade}" stroke-width="3"/>`; }
     return `<g>${s}</g>`;
   }
@@ -441,5 +442,5 @@
 
   function vignetteDef() { return `<defs><radialGradient id="vignette" cx="0.5" cy="0.5" r="0.75"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.85"/></radialGradient></defs>`; }
 
-  root.ART = { P, ik, defs: () => defs() + vignetteDef(), masha, sister, masked, bgExterior, bgDoor, bgHall, bgRoom, bgGears, bgYard, hud, subtitle, rain };
+  root.ART = { P, ik, defs: () => defs() + vignetteDef(), hero, masha: hero, sister, masked, bgExterior, bgDoor, bgHall, bgRoom, bgGears, bgYard, hud, subtitle, rain };
 })(typeof window !== 'undefined' ? window : globalThis);

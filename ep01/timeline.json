@@ -1,1323 +1,1323 @@
 {
- "duration": 86.593,
+ "duration": 87.12,
  "segments": [
   {
    "id": "01",
-   "voice": "A",
+   "voice": "H",
    "start": 0.278,
-   "end": 4.046,
+   "end": 3.398,
    "text": "Ставни опустились на всех окнах. Кроме одного."
   },
   {
    "id": "02",
-   "voice": "A",
-   "start": 4.25,
-   "end": 7.509,
-   "text": "Я Маша. Таксистка. Врать не умею."
+   "voice": "H",
+   "start": 3.602,
+   "end": 6.843,
+   "text": "Я Миша. Таксист. Врать не умею."
   },
   {
    "id": "03",
-   "voice": "A",
-   "start": 7.713,
-   "end": 12.398,
+   "voice": "H",
+   "start": 7.046,
+   "end": 11.852,
    "text": "Сестра влетела в дом последней. Рукав порван. «Калитка», — говорит она."
   },
   {
    "id": "04",
-   "voice": "A",
-   "start": 12.602,
-   "end": 17.139,
+   "voice": "H",
+   "start": 12.056,
+   "end": 17.417,
    "text": "На двери свежая краска. Метка. Её заметила сестра. Не я."
   },
   {
    "id": "05",
-   "voice": "A",
-   "start": 17.602,
-   "end": 19.028,
+   "voice": "H",
+   "start": 17.88,
+   "end": 19.398,
    "text": "Сирена. Ночь."
   },
   {
    "id": "06",
-   "voice": "A",
-   "start": 19.231,
-   "end": 21.815,
+   "voice": "H",
+   "start": 19.602,
+   "end": 22.185,
    "text": "Окна посёлка гаснут. Одно за другим."
   },
   {
    "id": "07",
-   "voice": "A",
-   "start": 22.019,
-   "end": 25.491,
+   "voice": "H",
+   "start": 22.389,
+   "end": 25.722,
    "text": "А ставня наверху застряла. Окно смотрит в ночь."
   },
   {
    "id": "08a",
-   "voice": "A",
-   "start": 25.694,
-   "end": 26.787,
+   "voice": "H",
+   "start": 25.926,
+   "end": 27.204,
    "text": "С улицы зовут:"
   },
   {
    "id": "08b",
    "voice": "N",
-   "start": 26.926,
-   "end": 28.463,
-   "text": "Ма-а-ша!"
+   "start": 27.343,
+   "end": 29.667,
+   "text": "Ми-и-ша!"
   },
   {
    "id": "08c",
-   "voice": "A",
-   "start": 28.602,
-   "end": 30.139,
+   "voice": "H",
+   "start": 29.806,
+   "end": 31.352,
    "text": "Они знают моё имя."
   },
   {
    "id": "09a",
    "voice": "N",
-   "start": 30.463,
-   "end": 33.065,
-   "text": "Маша... ты одна?"
+   "start": 31.676,
+   "end": 34.37,
+   "text": "Миша... ты один?"
   },
   {
    "id": "09b",
-   "voice": "A",
-   "start": 33.269,
-   "end": 35.843,
+   "voice": "H",
+   "start": 34.574,
+   "end": 37.213,
    "text": "Сестра шепчет: «Скажи — да»."
   },
   {
    "id": "10",
-   "voice": "A",
-   "start": 36.046,
-   "end": 38.231,
+   "voice": "H",
+   "start": 37.417,
+   "end": 39.815,
    "text": "Я молчу. Врать я не умею."
   },
   {
    "id": "11",
-   "voice": "A",
-   "start": 38.435,
-   "end": 42.546,
+   "voice": "H",
+   "start": 40.019,
+   "end": 42.88,
    "text": "Наверху скрипнула половица. Кто-то уже в доме."
   },
   {
    "id": "12",
-   "voice": "A",
-   "start": 42.75,
-   "end": 47.157,
+   "voice": "H",
+   "start": 43.083,
+   "end": 47.769,
    "text": "Красный фонарик. С улицы его не видно. Батареек — на час."
   },
   {
    "id": "13",
-   "voice": "A",
-   "start": 47.361,
-   "end": 51.991,
+   "voice": "H",
+   "start": 47.972,
+   "end": 53.037,
    "text": "Свечу в механизм ставни. В шестерёнках — клок синей ткани."
   },
   {
    "id": "14",
-   "voice": "A",
-   "start": 52.13,
-   "end": 54.454,
+   "voice": "H",
+   "start": 53.176,
+   "end": 55.167,
    "text": "Синей, как рваный рукав сестры."
   },
   {
    "id": "15",
-   "voice": "A",
-   "start": 54.657,
-   "end": 58.824,
+   "voice": "H",
+   "start": 55.37,
+   "end": 60.231,
    "text": "А из её наушников — шёпот. Тот же голос, что на улице."
   },
   {
    "id": "16",
-   "voice": "A",
-   "start": 59.194,
-   "end": 62.778,
+   "voice": "H",
+   "start": 60.602,
+   "end": 64.38,
    "text": "Днём она была дома одна. Ставню заклинила она."
   },
   {
    "id": "17",
-   "voice": "A",
-   "start": 62.981,
-   "end": 68.056,
+   "voice": "H",
+   "start": 64.583,
+   "end": 69.426,
    "text": "Жму на брелок — во дворе воет моё такси. Тень прыгает из окна к машине."
   },
   {
    "id": "18",
-   "voice": "A",
-   "start": 68.259,
-   "end": 72.167,
+   "voice": "H",
+   "start": 69.63,
+   "end": 73.546,
    "text": "Я захлопываю ставню руками. Сестра не говорит ни слова."
   },
   {
    "id": "19a",
-   "voice": "A",
-   "start": 72.722,
-   "end": 75.88,
+   "voice": "H",
+   "start": 74.102,
+   "end": 77.102,
    "text": "Фонарик погас. Дальше — только темнота."
   },
   {
    "id": "19b",
-   "voice": "A",
-   "start": 76.713,
-   "end": 79.981,
+   "voice": "H",
+   "start": 77.935,
+   "end": 80.509,
    "text": "Шесть пятьдесят девять. Три удара в дверь."
   },
   {
    "id": "20",
    "voice": "N",
-   "start": 80.537,
-   "end": 84.741,
-   "text": "Маша. Ты же не умеешь врать. Кто заклинил окно?"
+   "start": 81.065,
+   "end": 85.269,
+   "text": "Миша. Ты же не умеешь врать. Кто заклинил окно?"
   }
  ],
  "words": [
   {
    "seg": "01",
-   "voice": "A",
+   "voice": "H",
    "text": "Ставни",
-   "start": 0.437,
-   "end": 0.676
+   "start": 0.484,
+   "end": 0.731
   },
   {
    "seg": "01",
-   "voice": "A",
+   "voice": "H",
    "text": "опустились",
-   "start": 0.75,
-   "end": 1.269
+   "start": 0.781,
+   "end": 1.324
   },
   {
    "seg": "01",
-   "voice": "A",
+   "voice": "H",
    "text": "на",
-   "start": 1.318,
-   "end": 1.417
+   "start": 1.349,
+   "end": 1.398
   },
   {
    "seg": "01",
-   "voice": "A",
+   "voice": "H",
    "text": "всех",
-   "start": 1.476,
-   "end": 1.713
+   "start": 1.457,
+   "end": 1.694
   },
   {
    "seg": "01",
-   "voice": "A",
+   "voice": "H",
    "text": "окнах",
-   "start": 1.787,
-   "end": 2.231
+   "start": 1.794,
+   "end": 2.213
   },
   {
    "seg": "01",
-   "voice": "A",
+   "voice": "H",
    "text": "Кроме",
-   "start": 2.858,
-   "end": 2.981
+   "start": 2.818,
+   "end": 2.88
   },
   {
    "seg": "01",
-   "voice": "A",
+   "voice": "H",
    "text": "одного",
-   "start": 3.172,
-   "end": 3.972
+   "start": 2.944,
+   "end": 3.324
   },
   {
    "seg": "02",
-   "voice": "A",
+   "voice": "H",
    "text": "Я",
-   "start": 4.491,
-   "end": 4.546
+   "start": 3.783,
+   "end": 3.806
   },
   {
    "seg": "02",
-   "voice": "A",
-   "text": "Маша",
-   "start": 4.62,
-   "end": 5.065
+   "voice": "H",
+   "text": "Миша",
+   "start": 3.905,
+   "end": 4.324
   },
   {
    "seg": "02",
-   "voice": "A",
-   "text": "Таксистка",
-   "start": 5.343,
-   "end": 6.028
+   "voice": "H",
+   "text": "Таксист",
+   "start": 4.546,
+   "end": 5.213
   },
   {
    "seg": "02",
-   "voice": "A",
+   "voice": "H",
    "text": "Врать",
-   "start": 6.361,
-   "end": 6.917
+   "start": 5.657,
+   "end": 6.102
   },
   {
    "seg": "02",
-   "voice": "A",
+   "voice": "H",
    "text": "не",
-   "start": 6.966,
-   "end": 7.065
+   "start": 6.201,
+   "end": 6.398
   },
   {
    "seg": "02",
-   "voice": "A",
+   "voice": "H",
    "text": "умею",
-   "start": 7.102,
-   "end": 7.435
+   "start": 6.472,
+   "end": 6.843
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "Сестра",
-   "start": 7.75,
-   "end": 8.065
+   "start": 7.108,
+   "end": 7.417
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "влетела",
-   "start": 8.102,
-   "end": 8.509
+   "start": 7.454,
+   "end": 7.787
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "в",
-   "start": 8.546,
-   "end": 8.583
+   "start": 7.824,
+   "end": 7.861
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "дом",
-   "start": 8.62,
-   "end": 8.731
+   "start": 7.917,
+   "end": 8.083
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "последней",
-   "start": 8.806,
-   "end": 9.398
+   "start": 8.136,
+   "end": 8.602
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "Рукав",
-   "start": 9.731,
-   "end": 10.139
+   "start": 8.824,
+   "end": 9.194
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "порван",
-   "start": 10.194,
-   "end": 10.583
+   "start": 9.25,
+   "end": 9.639
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "Калитка",
-   "start": 10.991,
-   "end": 11.435
+   "start": 10.064,
+   "end": 10.444
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "говорит",
-   "start": 11.778,
-   "end": 12.102
+   "start": 10.935,
+   "end": 11.259
   },
   {
    "seg": "03",
-   "voice": "A",
+   "voice": "H",
    "text": "она",
-   "start": 12.157,
-   "end": 12.324
+   "start": 11.315,
+   "end": 11.481
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "На",
-   "start": 12.731,
-   "end": 12.75
+   "start": 12.155,
+   "end": 12.167
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "двери",
-   "start": 12.794,
-   "end": 13.046
+   "start": 12.226,
+   "end": 12.537
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "свежая",
-   "start": 13.106,
-   "end": 13.417
+   "start": 12.611,
+   "end": 12.981
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "краска",
-   "start": 13.491,
-   "end": 13.935
+   "start": 13.07,
+   "end": 13.574
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "Метка",
-   "start": 14.287,
-   "end": 14.685
+   "start": 14.009,
+   "end": 14.462
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "Её",
-   "start": 15.188,
-   "end": 15.287
+   "start": 15.021,
+   "end": 15.12
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "заметила",
-   "start": 15.336,
-   "end": 15.806
+   "start": 15.169,
+   "end": 15.565
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "сестра",
-   "start": 15.865,
-   "end": 16.25
+   "start": 15.639,
+   "end": 16.157
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "Не",
-   "start": 16.497,
-   "end": 16.843
+   "start": 16.503,
+   "end": 16.676
   },
   {
    "seg": "04",
-   "voice": "A",
+   "voice": "H",
    "text": "я",
-   "start": 16.954,
-   "end": 17.065
+   "start": 16.787,
+   "end": 16.898
   },
   {
    "seg": "05",
-   "voice": "A",
+   "voice": "H",
    "text": "Сирена",
-   "start": 17.696,
-   "end": 18.222
+   "start": 18.094,
+   "end": 18.435
   },
   {
    "seg": "05",
-   "voice": "A",
+   "voice": "H",
    "text": "Ночь",
-   "start": 18.593,
-   "end": 19.028
+   "start": 18.88,
+   "end": 19.324
   },
   {
    "seg": "06",
-   "voice": "A",
+   "voice": "H",
    "text": "Окна",
-   "start": 19.396,
-   "end": 19.5
+   "start": 19.707,
+   "end": 19.889
   },
   {
    "seg": "06",
-   "voice": "A",
+   "voice": "H",
    "text": "посёлка",
-   "start": 19.556,
-   "end": 20.019
+   "start": 19.926,
+   "end": 20.407
   },
   {
    "seg": "06",
-   "voice": "A",
+   "voice": "H",
    "text": "гаснут",
-   "start": 20.056,
-   "end": 20.611
+   "start": 20.444,
+   "end": 20.926
   },
   {
    "seg": "06",
-   "voice": "A",
+   "voice": "H",
    "text": "Одно",
-   "start": 20.944,
-   "end": 21.148
-  },
-  {
-   "seg": "06",
-   "voice": "A",
-   "text": "за",
    "start": 21.222,
-   "end": 21.37
+   "end": 21.519
   },
   {
    "seg": "06",
-   "voice": "A",
+   "voice": "H",
+   "text": "за",
+   "start": 21.568,
+   "end": 21.667
+  },
+  {
+   "seg": "06",
+   "voice": "H",
    "text": "другим",
-   "start": 21.434,
-   "end": 21.815
+   "start": 21.731,
+   "end": 22.111
   },
   {
    "seg": "07",
-   "voice": "A",
+   "voice": "H",
    "text": "А",
-   "start": 22.085,
-   "end": 22.093
+   "start": 22.398,
+   "end": 22.417
   },
   {
    "seg": "07",
-   "voice": "A",
+   "voice": "H",
    "text": "ставня",
-   "start": 22.152,
-   "end": 22.463
+   "start": 22.476,
+   "end": 22.787
   },
   {
    "seg": "07",
-   "voice": "A",
+   "voice": "H",
    "text": "наверху",
-   "start": 22.5,
-   "end": 22.907
+   "start": 22.836,
+   "end": 23.231
   },
   {
    "seg": "07",
-   "voice": "A",
+   "voice": "H",
    "text": "застряла",
-   "start": 22.956,
-   "end": 23.5
+   "start": 23.281,
+   "end": 23.824
   },
   {
    "seg": "07",
-   "voice": "A",
+   "voice": "H",
    "text": "Окно",
-   "start": 23.821,
-   "end": 24.306
+   "start": 24.269,
+   "end": 24.639
   },
   {
    "seg": "07",
-   "voice": "A",
+   "voice": "H",
    "text": "смотрит",
-   "start": 24.38,
-   "end": 24.898
+   "start": 24.713,
+   "end": 25.157
   },
   {
    "seg": "07",
-   "voice": "A",
+   "voice": "H",
    "text": "в",
-   "start": 24.935,
-   "end": 24.972
+   "start": 25.194,
+   "end": 25.231
   },
   {
    "seg": "07",
-   "voice": "A",
+   "voice": "H",
    "text": "ночь",
-   "start": 25.046,
-   "end": 25.343
+   "start": 25.306,
+   "end": 25.602
   },
   {
    "seg": "08a",
-   "voice": "A",
+   "voice": "H",
    "text": "С",
-   "start": 25.713,
-   "end": 25.75
+   "start": 26.0,
+   "end": 26.019
   },
   {
    "seg": "08a",
-   "voice": "A",
+   "voice": "H",
    "text": "улицы",
-   "start": 25.824,
-   "end": 26.194
+   "start": 26.056,
+   "end": 26.389
   },
   {
    "seg": "08a",
-   "voice": "A",
+   "voice": "H",
    "text": "зовут",
-   "start": 26.25,
-   "end": 26.565
+   "start": 26.444,
+   "end": 26.759
   },
   {
    "seg": "08b",
    "voice": "N",
-   "text": "Ма-а-ша",
-   "start": 27.213,
-   "end": 28.194
-  },
-  {
-   "seg": "08c",
-   "voice": "A",
-   "text": "Они",
-   "start": 28.75,
-   "end": 28.778
-  },
-  {
-   "seg": "08c",
-   "voice": "A",
-   "text": "знают",
-   "start": 28.852,
+   "text": "Ми-и-ша",
+   "start": 27.78,
    "end": 29.222
   },
   {
    "seg": "08c",
-   "voice": "A",
-   "text": "моё",
-   "start": 29.296,
-   "end": 29.593
+   "voice": "H",
+   "text": "Они",
+   "start": 29.977,
+   "end": 30.019
   },
   {
    "seg": "08c",
-   "voice": "A",
+   "voice": "H",
+   "text": "знают",
+   "start": 30.111,
+   "end": 30.537
+  },
+  {
+   "seg": "08c",
+   "voice": "H",
+   "text": "моё",
+   "start": 30.611,
+   "end": 30.833
+  },
+  {
+   "seg": "08c",
+   "voice": "H",
    "text": "имя",
-   "start": 29.685,
-   "end": 29.963
+   "start": 30.926,
+   "end": 31.204
   },
   {
    "seg": "09a",
    "voice": "N",
-   "text": "Маша",
-   "start": 30.69,
-   "end": 31.508
+   "text": "Миша",
+   "start": 32.107,
+   "end": 32.592
   },
   {
    "seg": "09a",
    "voice": "N",
    "text": "ты",
-   "start": 31.733,
-   "end": 32.178
+   "start": 32.842,
+   "end": 33.335
   },
   {
    "seg": "09a",
    "voice": "N",
-   "text": "одна",
-   "start": 32.326,
-   "end": 32.919
+   "text": "один",
+   "start": 33.528,
+   "end": 34.298
   },
   {
    "seg": "09b",
-   "voice": "A",
+   "voice": "H",
    "text": "Сестра",
-   "start": 33.269,
-   "end": 33.667
+   "start": 34.618,
+   "end": 35.0
   },
   {
    "seg": "09b",
-   "voice": "A",
+   "voice": "H",
    "text": "шепчет",
-   "start": 33.741,
-   "end": 34.185
+   "start": 35.074,
+   "end": 35.519
   },
   {
    "seg": "09b",
-   "voice": "A",
+   "voice": "H",
    "text": "Скажи",
-   "start": 34.593,
-   "end": 35.028
+   "start": 35.926,
+   "end": 36.37
   },
   {
    "seg": "09b",
-   "voice": "A",
+   "voice": "H",
    "text": "да",
-   "start": 35.546,
-   "end": 35.694
+   "start": 36.84,
+   "end": 37.037
   },
   {
    "seg": "10",
-   "voice": "A",
+   "voice": "H",
    "text": "Я",
-   "start": 36.194,
-   "end": 36.213
+   "start": 37.481,
+   "end": 37.519
   },
   {
    "seg": "10",
-   "voice": "A",
+   "voice": "H",
    "text": "молчу",
-   "start": 36.287,
-   "end": 36.731
+   "start": 37.611,
+   "end": 38.037
   },
   {
    "seg": "10",
-   "voice": "A",
+   "voice": "H",
    "text": "Врать",
-   "start": 37.12,
-   "end": 37.417
+   "start": 38.333,
+   "end": 38.778
   },
   {
    "seg": "10",
-   "voice": "A",
+   "voice": "H",
    "text": "я",
-   "start": 37.491,
-   "end": 37.565
+   "start": 38.889,
+   "end": 39.0
   },
   {
    "seg": "10",
-   "voice": "A",
+   "voice": "H",
    "text": "не",
-   "start": 37.614,
-   "end": 37.713
+   "start": 39.123,
+   "end": 39.37
   },
   {
    "seg": "10",
-   "voice": "A",
+   "voice": "H",
    "text": "умею",
-   "start": 37.787,
-   "end": 38.157
+   "start": 39.407,
+   "end": 39.741
   },
   {
    "seg": "11",
-   "voice": "A",
+   "voice": "H",
    "text": "Наверху",
-   "start": 38.587,
-   "end": 38.991
+   "start": 40.144,
+   "end": 40.389
   },
   {
    "seg": "11",
-   "voice": "A",
+   "voice": "H",
    "text": "скрипнула",
-   "start": 39.09,
-   "end": 39.731
+   "start": 40.438,
+   "end": 40.907
   },
   {
    "seg": "11",
-   "voice": "A",
+   "voice": "H",
    "text": "половица",
-   "start": 39.787,
-   "end": 40.472
+   "start": 40.963,
+   "end": 41.574
   },
   {
    "seg": "11",
-   "voice": "A",
+   "voice": "H",
    "text": "Кто-то",
-   "start": 40.864,
-   "end": 41.259
+   "start": 41.979,
+   "end": 42.213
   },
   {
    "seg": "11",
-   "voice": "A",
+   "voice": "H",
    "text": "уже",
-   "start": 41.333,
-   "end": 41.556
+   "start": 42.269,
+   "end": 42.435
   },
   {
    "seg": "11",
-   "voice": "A",
+   "voice": "H",
    "text": "в",
-   "start": 41.63,
-   "end": 41.704
+   "start": 42.472,
+   "end": 42.509
   },
   {
    "seg": "11",
-   "voice": "A",
+   "voice": "H",
    "text": "доме",
-   "start": 41.793,
-   "end": 42.148
+   "start": 42.583,
+   "end": 42.88
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "Красный",
-   "start": 42.966,
-   "end": 43.148
+   "start": 43.328,
+   "end": 43.593
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "фонарик",
-   "start": 43.185,
-   "end": 43.815
+   "start": 43.63,
+   "end": 44.185
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "С",
-   "start": 44.176,
-   "end": 44.194
+   "start": 44.583,
+   "end": 44.639
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "улицы",
-   "start": 44.231,
-   "end": 44.565
+   "start": 44.676,
+   "end": 45.009
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "его",
-   "start": 44.602,
-   "end": 44.713
+   "start": 45.046,
+   "end": 45.157
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "не",
-   "start": 44.762,
-   "end": 44.861
+   "start": 45.231,
+   "end": 45.38
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "видно",
-   "start": 44.923,
-   "end": 45.231
+   "start": 45.429,
+   "end": 45.676
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "Батареек",
-   "start": 45.62,
-   "end": 46.194
+   "start": 46.009,
+   "end": 46.787
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "на",
-   "start": 46.614,
-   "end": 46.713
+   "start": 47.157,
+   "end": 47.306
   },
   {
    "seg": "12",
-   "voice": "A",
+   "voice": "H",
    "text": "час",
-   "start": 46.824,
-   "end": 47.157
+   "start": 47.38,
+   "end": 47.602
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "Свечу",
-   "start": 47.465,
-   "end": 47.778
+   "start": 48.155,
+   "end": 48.5
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "в",
-   "start": 47.815,
-   "end": 47.852
+   "start": 48.537,
+   "end": 48.574
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "механизм",
-   "start": 47.916,
-   "end": 48.444
+   "start": 48.648,
+   "end": 49.241
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "ставни",
-   "start": 48.519,
-   "end": 49.037
+   "start": 49.33,
+   "end": 49.833
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "В",
-   "start": 49.426,
-   "end": 49.546
+   "start": 50.241,
+   "end": 50.241
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "шестерёнках",
-   "start": 49.583,
-   "end": 50.287
+   "start": 50.259,
+   "end": 51.037
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "клок",
-   "start": 50.632,
-   "end": 50.954
+   "start": 51.333,
+   "end": 51.63
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "синей",
-   "start": 51.028,
-   "end": 51.324
+   "start": 51.704,
+   "end": 52.0
   },
   {
    "seg": "13",
-   "voice": "A",
+   "voice": "H",
    "text": "ткани",
-   "start": 51.41,
-   "end": 51.843
+   "start": 52.086,
+   "end": 52.519
   },
   {
    "seg": "14",
-   "voice": "A",
+   "voice": "H",
    "text": "Синей",
-   "start": 52.252,
-   "end": 52.556
+   "start": 53.241,
+   "end": 53.611
   },
   {
    "seg": "14",
-   "voice": "A",
+   "voice": "H",
    "text": "как",
-   "start": 52.741,
-   "end": 53.074
+   "start": 53.889,
+   "end": 54.056
   },
   {
    "seg": "14",
-   "voice": "A",
+   "voice": "H",
    "text": "рваный",
-   "start": 53.111,
-   "end": 53.444
+   "start": 54.093,
+   "end": 54.426
   },
   {
    "seg": "14",
-   "voice": "A",
+   "voice": "H",
    "text": "рукав",
-   "start": 53.5,
-   "end": 53.815
+   "start": 54.463,
+   "end": 54.722
   },
   {
    "seg": "14",
-   "voice": "A",
+   "voice": "H",
    "text": "сестры",
-   "start": 53.874,
-   "end": 54.333
+   "start": 54.767,
+   "end": 55.167
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "А",
-   "start": 54.813,
-   "end": 54.835
+   "start": 55.554,
+   "end": 55.576
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "из",
-   "start": 54.85,
-   "end": 54.88
+   "start": 55.591,
+   "end": 55.62
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "её",
-   "start": 54.929,
-   "end": 55.028
+   "start": 55.719,
+   "end": 55.917
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "наушников",
-   "start": 55.102,
-   "end": 55.769
-  },
-  {
-   "seg": "15",
-   "voice": "A",
-   "text": "шёпот",
-   "start": 56.213,
+   "start": 55.991,
    "end": 56.657
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
+   "text": "шёпот",
+   "start": 57.102,
+   "end": 57.546
+  },
+  {
+   "seg": "15",
+   "voice": "H",
    "text": "Тот",
-   "start": 56.991,
-   "end": 57.046
+   "start": 58.294,
+   "end": 58.455
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "же",
-   "start": 57.095,
-   "end": 57.194
+   "start": 58.504,
+   "end": 58.603
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "голос",
-   "start": 57.281,
-   "end": 57.713
+   "start": 58.677,
+   "end": 59.047
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "что",
-   "start": 57.917,
-   "end": 58.083
+   "start": 59.251,
+   "end": 59.418
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "на",
-   "start": 58.108,
-   "end": 58.157
+   "start": 59.467,
+   "end": 59.566
   },
   {
    "seg": "15",
-   "voice": "A",
+   "voice": "H",
    "text": "улице",
-   "start": 58.269,
-   "end": 58.676
+   "start": 59.64,
+   "end": 60.084
   },
   {
    "seg": "16",
-   "voice": "A",
+   "voice": "H",
    "text": "Днём",
-   "start": 59.331,
-   "end": 59.565
+   "start": 60.694,
+   "end": 60.954
   },
   {
    "seg": "16",
-   "voice": "A",
+   "voice": "H",
    "text": "она",
-   "start": 59.62,
-   "end": 59.787
+   "start": 61.009,
+   "end": 61.176
   },
   {
    "seg": "16",
-   "voice": "A",
+   "voice": "H",
    "text": "была",
-   "start": 59.831,
-   "end": 60.009
+   "start": 61.22,
+   "end": 61.398
   },
   {
    "seg": "16",
-   "voice": "A",
+   "voice": "H",
    "text": "дома",
-   "start": 60.083,
-   "end": 60.38
+   "start": 61.472,
+   "end": 61.769
   },
   {
    "seg": "16",
-   "voice": "A",
+   "voice": "H",
    "text": "одна",
-   "start": 60.498,
-   "end": 60.972
+   "start": 61.843,
+   "end": 62.138
   },
   {
    "seg": "16",
-   "voice": "A",
+   "voice": "H",
    "text": "Ставню",
-   "start": 61.469,
-   "end": 61.741
+   "start": 62.643,
+   "end": 62.898
   },
   {
    "seg": "16",
-   "voice": "A",
+   "voice": "H",
    "text": "заклинила",
-   "start": 61.815,
-   "end": 62.333
+   "start": 62.972,
+   "end": 63.491
   },
   {
    "seg": "16",
-   "voice": "A",
+   "voice": "H",
    "text": "она",
-   "start": 62.426,
-   "end": 62.704
+   "start": 63.583,
+   "end": 63.861
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "Жму",
-   "start": 63.0,
-   "end": 63.185
+   "start": 64.667,
+   "end": 64.833
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "на",
-   "start": 63.234,
-   "end": 63.333
+   "start": 64.858,
+   "end": 64.907
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "брелок",
-   "start": 63.37,
-   "end": 64.0
+   "start": 64.944,
+   "end": 65.352
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "во",
-   "start": 64.099,
-   "end": 64.148
+   "start": 65.599,
+   "end": 65.648
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "дворе",
-   "start": 64.207,
-   "end": 64.519
+   "start": 65.707,
+   "end": 66.019
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "воет",
-   "start": 64.618,
-   "end": 64.963
+   "start": 66.068,
+   "end": 66.389
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "моё",
-   "start": 65.012,
-   "end": 65.185
+   "start": 66.438,
+   "end": 66.611
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "такси",
-   "start": 65.259,
-   "end": 65.704
+   "start": 66.648,
+   "end": 67.056
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "Тень",
-   "start": 66.074,
-   "end": 66.204
+   "start": 67.333,
+   "end": 67.574
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "прыгает",
-   "start": 66.278,
-   "end": 66.722
+   "start": 67.623,
+   "end": 68.019
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "из",
-   "start": 66.771,
-   "end": 66.87
+   "start": 68.068,
+   "end": 68.167
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "окна",
-   "start": 66.919,
-   "end": 67.167
+   "start": 68.241,
+   "end": 68.463
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "к",
-   "start": 67.204,
-   "end": 67.241
+   "start": 68.5,
+   "end": 68.537
   },
   {
    "seg": "17",
-   "voice": "A",
+   "voice": "H",
    "text": "машине",
-   "start": 67.296,
-   "end": 67.759
+   "start": 68.593,
+   "end": 69.056
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "Я",
-   "start": 68.38,
-   "end": 68.417
+   "start": 69.722,
+   "end": 69.759
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "захлопываю",
-   "start": 68.472,
-   "end": 69.083
+   "start": 69.833,
+   "end": 70.426
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "ставню",
-   "start": 69.157,
-   "end": 69.528
+   "start": 70.485,
+   "end": 70.796
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "руками",
-   "start": 69.612,
-   "end": 70.119
+   "start": 70.87,
+   "end": 71.314
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "Сестра",
-   "start": 70.528,
-   "end": 70.833
+   "start": 71.75,
+   "end": 72.065
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "не",
-   "start": 70.882,
-   "end": 70.981
+   "start": 72.114,
+   "end": 72.213
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "говорит",
-   "start": 71.037,
-   "end": 71.426
+   "start": 72.259,
+   "end": 72.583
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "ни",
-   "start": 71.451,
-   "end": 71.5
+   "start": 72.632,
+   "end": 72.731
   },
   {
    "seg": "18",
-   "voice": "A",
+   "voice": "H",
    "text": "слова",
-   "start": 71.586,
-   "end": 72.019
+   "start": 72.806,
+   "end": 73.176
   },
   {
    "seg": "19a",
-   "voice": "A",
+   "voice": "H",
    "text": "Фонарик",
-   "start": 72.787,
-   "end": 73.241
+   "start": 74.167,
+   "end": 74.546
   },
   {
    "seg": "19a",
-   "voice": "A",
+   "voice": "H",
    "text": "погас",
-   "start": 73.296,
-   "end": 73.759
+   "start": 74.583,
+   "end": 74.917
   },
   {
    "seg": "19a",
-   "voice": "A",
+   "voice": "H",
    "text": "Дальше",
-   "start": 74.157,
-   "end": 74.62
+   "start": 75.361,
+   "end": 75.769
   },
   {
    "seg": "19a",
-   "voice": "A",
+   "voice": "H",
    "text": "только",
-   "start": 74.811,
-   "end": 75.065
+   "start": 75.938,
+   "end": 76.065
   },
   {
    "seg": "19a",
-   "voice": "A",
+   "voice": "H",
    "text": "темнота",
-   "start": 75.139,
-   "end": 75.731
+   "start": 76.102,
+   "end": 76.583
   },
   {
    "seg": "19b",
-   "voice": "A",
+   "voice": "H",
    "text": "Шесть",
-   "start": 76.855,
-   "end": 77.009
+   "start": 78.09,
+   "end": 78.176
   },
   {
    "seg": "19b",
-   "voice": "A",
+   "voice": "H",
    "text": "пятьдесят",
-   "start": 77.054,
-   "end": 77.528
+   "start": 78.235,
+   "end": 78.694
   },
   {
    "seg": "19b",
-   "voice": "A",
+   "voice": "H",
    "text": "девять",
-   "start": 77.602,
-   "end": 77.972
+   "start": 78.75,
+   "end": 79.065
   },
   {
    "seg": "19b",
-   "voice": "A",
+   "voice": "H",
    "text": "Три",
-   "start": 78.463,
-   "end": 78.574
+   "start": 79.639,
+   "end": 79.694
   },
   {
    "seg": "19b",
-   "voice": "A",
+   "voice": "H",
    "text": "удара",
-   "start": 78.673,
-   "end": 79.019
+   "start": 79.769,
+   "end": 80.065
   },
   {
    "seg": "19b",
-   "voice": "A",
+   "voice": "H",
    "text": "в",
-   "start": 79.056,
-   "end": 79.093
+   "start": 80.139,
+   "end": 80.213
   },
   {
    "seg": "19b",
-   "voice": "A",
+   "voice": "H",
    "text": "дверь",
-   "start": 79.137,
-   "end": 79.389
+   "start": 80.243,
+   "end": 80.435
   },
   {
    "seg": "20",
    "voice": "N",
-   "text": "Маша",
-   "start": 80.75,
-   "end": 81.204
+   "text": "Миша",
+   "start": 81.34,
+   "end": 81.731
   },
   {
    "seg": "20",
    "voice": "N",
    "text": "Ты",
-   "start": 81.451,
-   "end": 81.796
+   "start": 82.077,
+   "end": 82.25
   },
   {
    "seg": "20",
    "voice": "N",
    "text": "же",
-   "start": 81.87,
-   "end": 82.019
+   "start": 82.299,
+   "end": 82.398
   },
   {
    "seg": "20",
    "voice": "N",
    "text": "не",
-   "start": 82.068,
-   "end": 82.167
+   "start": 82.447,
+   "end": 82.546
   },
   {
    "seg": "20",
    "voice": "N",
    "text": "умеешь",
-   "start": 82.278,
-   "end": 82.759
+   "start": 82.62,
+   "end": 83.065
   },
   {
    "seg": "20",
    "voice": "N",
    "text": "врать",
-   "start": 82.833,
-   "end": 83.204
+   "start": 83.102,
+   "end": 83.509
   },
   {
    "seg": "20",
    "voice": "N",
    "text": "Кто",
-   "start": 83.62,
-   "end": 83.778
+   "start": 83.984,
+   "end": 84.083
   },
   {
    "seg": "20",
    "voice": "N",
    "text": "заклинил",
-   "start": 83.833,
-   "end": 84.296
+   "start": 84.176,
+   "end": 84.75
   },
   {
    "seg": "20",
    "voice": "N",
    "text": "окно",
-   "start": 84.345,
-   "end": 84.667
+   "start": 84.824,
+   "end": 85.194
   }
  ]
 }

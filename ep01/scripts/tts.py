@@ -1,5 +1,5 @@
 import json,sys,base64,urllib.request,os
-V={"A":"ELWVgJ5Mo9lF5Tha9ahW","N":"pM78bgjPVk0JXtaEnFoj"}
+V={"H":"ogi2DyUAKJb7CEdqqvlU","A":"ELWVgJ5Mo9lF5Tha9ahW","N":"pM78bgjPVk0JXtaEnFoj"}
 seg=json.load(open('segments.json')); only=sys.argv[1:]
 os.makedirs('voice',exist_ok=True); total=0
 for s in seg:
