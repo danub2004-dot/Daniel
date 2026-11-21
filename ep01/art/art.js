@@ -252,10 +252,11 @@
       return r;
     };
     const stuck = o.stuck ?? 0.18; // застрявшая ставня наверху
-    s += win(270, 840, 200, 210, shut, false);
-    s += win(610, 840, 200, 210, Math.min(shut, stuck), true);
-    s += win(250, 1200, 170, 200, shut, false);
-    s += win(660, 1200, 170, 200, shut, false);
+    const se = o.shutEach || [shut, Math.min(shut, stuck), shut, shut];
+    s += win(270, 840, 200, 210, se[0], false);
+    s += win(610, 840, 200, 210, se[1], true);
+    s += win(250, 1200, 170, 200, se[2], false);
+    s += win(660, 1200, 170, 200, se[3], false);
     s += `<rect x="470" y="1210" width="140" height="310" fill="#141936"/><circle cx="590" cy="1370" r="8" fill="${P.gold}"/>`;
     if (o.markOnDoor) s += `<g filter="url(#glow)"><circle cx="540" cy="1300" r="34" fill="none" stroke="${P.neonM}" stroke-width="9"/><line x1="515" y1="1275" x2="565" y2="1325" stroke="${P.neonM}" stroke-width="9"/></g>`;
     s += `<rect x="440" y="1520" width="200" height="20" fill="#1a1f40"/>`;
@@ -270,7 +271,7 @@
     s += `<rect x="0" y="1660" width="1080" height="260" fill="${P.win}" opacity="0.04"/>`;
     // отражения в лужах
     s += `<ellipse cx="300" cy="1760" rx="160" ry="16" fill="#3a4690" opacity="0.4"/><ellipse cx="780" cy="1820" rx="220" ry="18" fill="#3a4690" opacity="0.35"/>`;
-    if (o.masks) o.masks.forEach((m) => (s += `<g transform="translate(${m.x} ${m.y}) scale(${m.s || 0.45})">${masked({ color: m.c, talk: m.talk })}</g>`));
+    if (o.masks) o.masks.forEach((m) => (s += `<g transform="translate(${m.x} ${m.y}) scale(${m.s || 0.45}) rotate(${m.r || 0})">${masked({ color: m.c, talk: m.talk, arms: m.arms })}</g>`));
     if (o.siren) {
       const k = o.siren;
       s += `<rect width="1080" height="1920" fill="${P.red}" opacity="${0.22 * k * (0.5 + 0.5 * Math.sin(ph * 12))}" style="mix-blend-mode:screen"/>`;
@@ -308,6 +309,7 @@
     s += `<rect x="40" y="760" width="160" height="12" fill="#0f1330"/><path d="M60 772 v120 M180 772 v120" stroke="#0f1330" stroke-width="10"/>`; // вешалка/полка
     s += `<path d="M380 0 L380 260 L330 300 L430 300 L380 260" stroke="#0f1330" stroke-width="4" fill="#ffcf5a" opacity="${o.lampOn === false ? 0.15 : 0.9}"/>`;
     if (o.lampOn !== false) s += `<path d="M380 290 L80 1460 L700 1460Z" fill="url(#lamp)" opacity="0.6"/>`;
+    if (o.dark) s += `<rect width="1080" height="1920" fill="#000" opacity="${o.dark}"/>`;
     // полоса света под дверью
     s += `<rect x="650" y="1460" width="300" height="10" fill="${o.underDoor || P.neonC}" opacity="${o.underDoorOp ?? 0}" filter="url(#glow)"/>`;
     return s;
@@ -425,7 +427,7 @@
     const y = o.y || 1600, size = o.size || 72;
     // перенос строк по ширине (~900px), примерная ширина символа 0.6*size
     const lines = [[]]; let w = 0;
-    words.forEach((wd, i) => { const ww = (wd.text.length + 1) * size * 0.58; if (w + ww > 960 && lines[lines.length - 1].length) { lines.push([]); w = 0; } lines[lines.length - 1].push({ ...wd, i }); w += ww; });
+    words.forEach((wd, i) => { const ww = (wd.text.length + 1) * size * 0.72; if (w + ww > 920 && lines[lines.length - 1].length) { lines.push([]); w = 0; } lines[lines.length - 1].push({ ...wd, i }); w += ww; });
     let s = `<g font-family="Inter" font-weight="900" font-size="${size}" text-anchor="middle" paint-order="stroke" stroke="#000" stroke-width="14" stroke-linejoin="round">`;
     lines.forEach((ln, li) => {
       s += `<text x="540" y="${y + li * size * 1.18}">`;

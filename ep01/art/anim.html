@@ -1,0 +1,300 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000;overflow:hidden}svg{display:block}</style></head>
+<body><div id="stage"></div>
+<script src="art.js"></script>
+<script src="timeline.js"></script>
+<script>
+// «Ночь без закона», серия 1 — анимация. render(t) рисует кадр на секунде t.
+const A = ART, P = A.P, TL = window.TIMELINE, DEFS = A.defs();
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = (k) => (k = clamp(k), k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
+const pr = (t, a, b) => clamp((t - a) / (b - a));
+const segW = {}; TL.words.forEach((w) => (segW[w.seg] = segW[w.seg] || []).push(w));
+const W = (seg, i = 0) => segW[seg][i].start;           // время начала i-го слова фразы
+const WE = (seg, i) => segW[seg][i].end;
+const S = (seg) => TL.segments.find((s) => s.id === seg).start;
+const noise = (t, f = 1, s = 0) => Math.sin(t * f * 6.1 + s) * 0.5 + Math.sin(t * f * 2.3 + s * 3.1) * 0.5;
+const shake = (t, t0, dur = 0.35, amp = 18) => { const k = pr(t, t0, t0 + dur); return k <= 0 || k >= 1 ? [0, 0] : [Math.sin(t * 90) * amp * (1 - k), Math.cos(t * 77) * amp * (1 - k)]; };
+const blink = (t, seed) => ((t + seed) % 3.7) < 0.12 ? 'closed' : null;
+const cam = (z, cx, cy, dx = 0, dy = 0) => `translate(${540 + dx} ${960 + dy}) scale(${z}) translate(${-cx} ${-cy})`;
+const at = (x, y, s, inner, flip) => `<g transform="translate(${x} ${y}) scale(${flip ? -s : s} ${s})">${inner}</g>`;
+// дрейф камеры — в кадре всегда есть движение
+const drift = (t) => [noise(t, 0.08, 1) * 10, noise(t, 0.07, 2) * 8];
+
+// ---------- часы Ночи ----------
+function storyClock(t) {
+  const sir = W('05', 0);
+  let m; // минуты от 18:55
+  if (t < sir) m = lerp(0, 5, t / sir);
+  else if (t < W('19a', 1)) m = 5 + lerp(0, 67, pr(t, sir, W('19a', 1)));     // 19:00 → 20:07
+  else if (t < W('19b', 0)) m = 72 + lerp(0, 652, ease(pr(t, W('19a', 1) + 0.6, W('19b', 0))));  // перемотка до 06:59
+  else m = 724 + Math.min(0.99, (t - W('19b', 0)) / 60);
+  const tot = 18 * 3600 + 55 * 60 + m * 60;
+  const fmt = (x) => { x = ((Math.floor(x) % 86400) + 86400) % 86400; return [x / 3600, (x % 3600) / 60, x % 60].map((v) => String(Math.floor(v)).padStart(2, '0')).join(':'); };
+  const end = 7 * 3600 + 86400; const left = Math.max(0, end - tot);
+  return { time: fmt(tot), left: t < sir ? '--:--:--' : fmt(left) };
+}
+
+// ---------- ключевые слова для субтитров ----------
+const HL = { 'одного': P.neonY, 'Миша': P.neonC, 'Врать': P.red, 'врать': P.red, 'Рукав': '#7fb0ff', 'порван': '#7fb0ff', 'Метка': P.neonM, 'сестра': P.neonM, 'Сирена': P.red, 'Ночь': P.red, 'гаснут': P.win, 'застряла': P.neonY,
+  'Ми-и-ша': P.neonC, 'имя': P.neonC, 'один': P.neonC, 'да': P.neonM, 'молчу': P.neonY, 'Кто-то': P.red, 'доме': P.red, 'Красный': P.red, 'фонарик': P.red, 'час': P.red, 'синей': '#7fb0ff', 'Синей': '#7fb0ff', 'ткани': '#7fb0ff', 'рукав': '#7fb0ff',
+  'шёпот': P.neonM, 'голос': P.neonM, 'заклинила': P.red, 'брелок': P.neonY, 'такси': P.neonY, 'Тень': P.neonG, 'ни': P.neonM, 'слова': P.neonM, 'погас': P.red, 'темнота': P.red, 'Шесть': P.neonY, 'пятьдесят': P.neonY, 'девять': P.neonY, 'Три': P.red, 'удара': P.red, 'заклинил': P.red, 'окно': P.red };
+// фразы субтитров: делим по знакам препинания, не больше ~5 слов
+const chunks = [];
+TL.segments.forEach((sg) => {
+  const ws = segW[sg.id]; const raw = sg.text.split(/\s+/).filter((x) => /[\wёЁА-я]/.test(x));
+  let cur = [];
+  ws.forEach((w, i) => { cur.push(w); const r = raw[i] || ''; if (/[.!?…»]$/.test(r) || /[,:—]$/.test(r) && cur.length >= 2 || cur.length >= 4 || i === ws.length - 1) { chunks.push(cur); cur = []; } });
+});
+function subs(t) {
+  let c = null;
+  for (let i = 0; i < chunks.length; i++) { const st = chunks[i][0].start - 0.08, en = (chunks[i + 1] ? Math.min(chunks[i + 1][0].start - 0.08, chunks[i][chunks[i].length - 1].end + 0.9) : chunks[i][chunks[i].length - 1].end + 0.9); if (t >= st && t < en) { c = chunks[i]; break; } }
+  if (!c) return '';
+  let act = -1; c.forEach((w, i) => { if (t >= w.start - 0.05) act = i; });
+  const pop = 1 + 0.06 * Math.max(0, 1 - (t - c[0].start) / 0.15);
+  return `<g transform="translate(540 1390) scale(${pop}) translate(-540 -1390)">` + A.subtitle(c.map((w) => ({ text: w.text.toUpperCase(), hl: HL[w.text] })), act, { y: 1390, size: 76 }) + '</g>';
+}
+
+// ---------- сцены ----------
+const LIT_ALL = Array(12).fill(1);
+const shots = [
+  // 1. 18:55 — ставни опускаются на всех окнах, кроме одного
+  { s: 0, e: W('02', 0) - 0.15, f(t) {
+    const fall = (k0) => ease(pr(t, W('01', 0) + k0, W('01', 0) + k0 + 0.55));
+    const stuck = 0.18 * fall(0.35) + (t > W('01', 5) ? 0.02 * Math.sin(t * 40) * (1 - pr(t, W('01', 5), W('01', 5) + 0.4)) : 0);
+    const z = lerp(1.0, 1.55, ease(pr(t, W('01', 5) - 0.2, W('01', 6) + 0.8)));
+    const [dx, dy] = drift(t);
+    return `<g transform="${cam(z, lerp(540, 710, ease(pr(t, W('01', 5), W('01', 6) + 0.6))), lerp(1000, 950, ease(pr(t, W('01', 5), W('01', 6)))), dx, dy)}">${A.bgExterior({ shutEach: [fall(0), stuck, fall(0.2), fall(0.45)], lit: LIT_ALL, phase: t / 2 })}</g>`;
+  } },
+  // 2. «Я Миша. Таксист. Врать не умею.»
+  { s: W('02', 0) - 0.15, e: W('03', 0) - 0.1, f(t) {
+    const [dx, dy] = drift(t); const z = lerp(1.05, 1.2, pr(t, W('02', 0), W('03', 0)));
+    const m = A.hero({ keySpin: Math.sin(t * 7) * 30 + t * 200 % 360, eyes: blink(t, 0) || 'normal', mouth: t > W('02', 3) ? 'tight' : 'flat', brow: t > W('02', 3) ? 'worried' : 'normal', look: Math.sin(t) * 6 });
+    return `<g transform="${cam(z, 540, 1050, dx, dy)}">${A.bgHall({})}${at(500, 1760, 1.15, m)}</g>`;
+  } },
+  // 3. Сестра влетает, рваный рукав, «Калитка»
+  { s: W('03', 0) - 0.1, e: W('04', 0) - 0.1, f(t) {
+    const [dx, dy] = drift(t);
+    const sx = lerp(1200, 760, ease(pr(t, W('03', 0), W('03', 4)))); const run = 1 - pr(t, W('03', 3), W('03', 4) + 0.2);
+    const swing = Math.sin(t * 16) * 22 * run;
+    const zoomSleeve = ease(pr(t, W('03', 5) - 0.1, W('03', 5) + 0.4)) * (1 - ease(pr(t, W('03', 7) - 0.2, W('03', 7) + 0.2)));
+    const z = lerp(1.0, 2.6, zoomSleeve);
+    const talking = t > W('03', 7) && t < WE('03', 7);
+    const sis = A.sister({ legL: [-swing, -swing * 0.3], legR: [swing, swing * 0.3], armR: [10 - swing, 4], eyes: blink(t, 1.3) || (t > W('03', 7) ? 'narrow' : 'normal'), look: t > W('03', 7) ? -16 : -8, mouth: talking ? (Math.sin(t * 30) > 0 ? 'talk' : 'flat') : 'flat', brow: t > W('03', 7) ? 'sad' : 'worried' });
+    const m = A.hero({ look: 14, eyes: blink(t, 0.7) || 'normal', brow: t > W('03', 5) ? 'worried' : 'normal' });
+    const cx = lerp(560, sx - 125, zoomSleeve), cy = lerp(1050, 1380, zoomSleeve);
+    const door = ease(pr(t, W('03', 0) - 0.1, W('03', 1))) * (1 - ease(pr(t, W('03', 4), W('03', 5))));
+    return `<g transform="${cam(z, cx, cy, dx, dy)}">${A.bgHall({})}<rect x="640" y="500" width="${320 * door}" height="970" fill="#03040d"/>${at(330, 1760, 1.1, m)}${at(sx, 1770, 1.0, sis)}</g>`;
+  } },
+  // 4. Метка на двери
+  { s: W('04', 0) - 0.1, e: W('04', 5) - 0.1, f(t) {
+    const [dx, dy] = drift(t); const [sx, sy] = shake(t, W('04', 4), 0.4, 22);
+    const drip = ease(pr(t, W('04', 0), W('04', 4) + 0.5)); const z = lerp(1.0, 1.25, pr(t, W('04', 0), W('04', 5)));
+    const pulse = t > W('04', 4) ? 0.25 * Math.max(0, 1 - (t - W('04', 4)) / 0.6) : 0;
+    return `<g transform="${cam(z, 540, 700, dx + sx, dy + sy)}">${A.bgDoor({ drip })}<rect width="1080" height="1920" fill="${P.neonM}" opacity="${pulse}"/></g>`;
+  } },
+  // 4б. «Её заметила сестра. Не я.»
+  { s: W('04', 5) - 0.1, e: S('05') - 0.05, f(t) {
+    const [dx, dy] = drift(t);
+    const toFace = ease(pr(t, W('04', 8) - 0.2, W('04', 8) + 0.3));
+    const z = lerp(1.0, 2.3, toFace);
+    const sis = A.sister({ handR: [262, -600], point: true, eyes: 'wide', brow: 'worried', mouth: 'open', look: 14 });
+    const m = A.hero({ look: -16, eyes: t > W('04', 8) ? 'narrow' : (blink(t, 0.4) || 'normal'), brow: t > W('04', 8) ? 'angry' : 'worried', mouth: 'tight' });
+    return `<g transform="${cam(z, lerp(540, 330 - 10, toFace), lerp(1050, 760, toFace), dx, dy)}">${A.bgHall({})}${at(330, 1760, 1.1, m)}${at(680, 1770, 1.0, sis)}</g>`;
+  } },
+  // 5. Сирена. Ночь.
+  { s: S('05') - 0.05, e: S('06') - 0.1, f(t) {
+    const k = pr(t, W('05', 0) - 0.1, W('05', 0) + 0.2); const [sx, sy] = shake(t, W('05', 0), 0.6, 28);
+    const z = lerp(1.0, 1.08, pr(t, S('05'), S('06')));
+    const flash = t > W('05', 1) ? 0.6 * Math.max(0, 1 - (t - W('05', 1)) / 0.35) : 0;
+    return `<g transform="${cam(z, 540, 1000, sx, sy)}">${A.bgExterior({ lit: LIT_ALL, siren: k, phase: t / 2 })}</g><rect width="1080" height="1920" fill="#fff" opacity="${flash}"/>`;
+  } },
+  // 6. Окна посёлка гаснут одно за другим
+  { s: S('06') - 0.1, e: S('07') - 0.1, f(t) {
+    const order = [3, 9, 0, 6, 11, 1, 4, 8, 2, 10, 7, 5];
+    const t0 = W('06', 2), t1 = WE('06', 5);
+    const lit = LIT_ALL.slice(); order.forEach((w, i) => { if (t > t0 + (i / order.length) * (t1 - t0)) lit[w] = 0; });
+    const [dx, dy] = drift(t); const z = lerp(1.12, 0.98, pr(t, S('06'), S('07')));
+    return `<g transform="${cam(z, 540, 1000, dx, dy)}">${A.bgExterior({ lit, siren: 0.6, phase: t / 2, cityOff: t > t1 })}</g>`;
+  } },
+  // 7. Ставня наверху застряла. Окно смотрит в ночь.
+  { s: S('07') - 0.1, e: S('08a') - 0.1, f(t) {
+    const [dx, dy] = drift(t);
+    const tug = t > W('07', 3) && t < W('07', 4) + 0.3 ? Math.abs(Math.sin(t * 14)) : 0;
+    const push = ease(pr(t, W('07', 4), S('08a')));
+    const z = lerp(1.0, 1.7, push);
+    const maskOp = pr(t, W('07', 7) - 0.3, W('07', 7) + 0.3);
+    const m = A.hero({ handR: [180, -930 + tug * 40], handL: [80, -950 + tug * 40], eyes: 'narrow', brow: 'angry', mouth: 'tight', look: 10 });
+    return `<g transform="${cam(z, 540, lerp(1050, 820, push), dx, dy)}">${A.bgRoom({ stuck: 0.42 + tug * 0.02, phase: t / 2, masks: maskOp ? [{ x: 420, y: 1120, c: P.neonC, s: 0.3 }, { x: 700, y: 1130, c: P.neonM, s: 0.26 }] : null })}<rect x="230" y="370" width="620" height="760" fill="#050716" opacity="${1 - maskOp}" style="display:${maskOp ? 'inline' : 'none'}"/>${at(380, 1830, 1.15 * (1 - push * 0.0), m)}</g>`;
+  } },
+  // 8. «С улицы зовут: Ми-и-ша!»
+  { s: S('08a') - 0.1, e: S('08c') - 0.05, f(t) {
+    const [dx, dy] = drift(t);
+    const talk = t > W('08b', 0) && t < WE('08b', 0) ? 0.5 + 0.5 * Math.abs(Math.sin(t * 9)) : 0;
+    const z = lerp(1.0, 1.9, ease(pr(t, W('08b', 0) - 0.4, WE('08b', 0))));
+    return `<g transform="${cam(z, lerp(540, 280, ease(pr(t, W('08b', 0) - 0.4, WE('08b', 0)))), lerp(1000, 1400, ease(pr(t, W('08b', 0) - 0.4, WE('08b', 0)))), dx, dy)}">${A.bgExterior({ lit: Array(12).fill(0), siren: 0.5, phase: t / 2, masks: [{ x: 280, y: 1660, c: P.neonC, s: 0.5, talk }, { x: 880, y: 1700, c: P.neonM, s: 0.4 }], markOnDoor: true, cityOff: true })}</g>`;
+  } },
+  // 8в. «Они знают моё имя.»
+  { s: S('08c') - 0.05, e: S('09a') - 0.1, f(t) {
+    const [dx, dy] = drift(t); const z = lerp(2.2, 2.5, pr(t, S('08c'), S('09a')));
+    const m = A.hero({ eyes: 'wide', brow: 'worried', mouth: 'open', look: -6 });
+    return `<g transform="${cam(z, 500, 830, dx, dy)}">${A.bgHall({ siren: 1, lampOn: false, dark: 0.3 })}${at(500, 1760, 1.15, m)}<rect width="1080" height="1920" fill="${Math.sin(t * 12) > 0 ? P.red : P.blue}" opacity="0.12"/></g>`;
+  } },
+  // 9. «Миша… ты один?»
+  { s: S('09a') - 0.1, e: S('09b') - 0.1, f(t) {
+    const [dx, dy] = drift(t); const talk = t > W('09a', 0) && t < WE('09a', 2) ? 0.4 + 0.6 * Math.abs(Math.sin(t * 8)) : 0;
+    const z = lerp(1.0, 1.25, pr(t, S('09a'), S('09b')));
+    return `<g transform="${cam(z, 540, 900, dx, dy)}"><rect width="1080" height="1920" fill="#04050d"/>${A.rain(5, 90, t / 2)}${at(540, 1700, 1.5, A.masked({ color: P.neonC, talk }))}</g>`;
+  } },
+  // 9б. «Сестра шепчет: Скажи — да.»
+  { s: S('09b') - 0.1, e: S('10') - 0.1, f(t) {
+    const [dx, dy] = drift(t); const z = lerp(1.5, 1.7, pr(t, S('09b'), S('10')));
+    const talking = t > W('09b', 2) && t < WE('09b', 3);
+    const sis = A.sister({ handR: [-120, -600], eyes: 'wide', brow: 'worried', mouth: talking ? (Math.sin(t * 28) > 0 ? 'talk' : 'flat') : 'flat', look: -18 });
+    const m = A.hero({ eyes: blink(t, 2) || 'normal', brow: 'worried', mouth: 'tight', look: 12 });
+    return `<g transform="${cam(z, 520, 900, dx, dy)}">${A.bgHall({ siren: 1, lampOn: false, dark: 0.35 })}${at(400, 1760, 1.1, m)}${at(640, 1770, 1.0, sis)}<rect width="1080" height="1920" fill="${Math.sin(t * 12) > 0 ? P.red : P.blue}" opacity="0.1"/></g>`;
+  } },
+  // 10. «Я молчу. Врать я не умею.»
+  { s: S('10') - 0.1, e: S('11') - 0.1, f(t) {
+    const [dx, dy] = drift(t); const z = lerp(2.3, 2.7, pr(t, S('10'), S('11')));
+    const m = A.hero({ handOnMouth: true, eyes: t > W('10', 2) ? 'closed' : 'wide', brow: 'worried', look: -4 });
+    return `<g transform="${cam(z, 500, 820, dx, dy)}">${A.bgHall({ siren: 1, lampOn: false, dark: 0.4 })}${at(500, 1760, 1.15, m)}<rect width="1080" height="1920" fill="${Math.sin(t * 12) > 0 ? P.red : P.blue}" opacity="0.12"/></g>`;
+  } },
+  // 11. «Наверху скрипнула половица. Кто-то уже в доме.»
+  { s: S('11') - 0.1, e: S('12') - 0.1, f(t) {
+    const [dx, dy] = drift(t);
+    const step = pr(t, W('11', 3) - 0.3, S('12'));
+    const fx = lerp(330, 760, step), bob = Math.abs(Math.sin(step * 12)) * 14;
+    const z = lerp(1.0, 1.3, pr(t, S('11'), S('12')));
+    const [sx, sy] = shake(t, W('11', 1), 0.3, 8);
+    return `<g transform="${cam(z, 540, 1000, dx + sx, dy + sy)}">${A.bgRoom({ stuck: 0.42, phase: t / 2, dark: 0.45 })}${t > W('11', 3) - 0.3 ? at(fx, 1440 - bob, 0.95, A.masked({ color: P.neonG, arms: true, grin: false })) : ''}</g>`;
+  } },
+  // 12. Красный фонарик. С улицы не видно. Батареек — на час.
+  { s: S('12') - 0.1, e: S('13') - 0.1, f(t) {
+    const [dx, dy] = drift(t); const on = t > W('12', 1);
+    const fl = on ? (t < W('12', 1) + 0.25 ? (Math.sin(t * 80) > 0 ? 'on' : 'off') : 'on') : 'off';
+    const outside = t > W('12', 2) - 0.1 && t < W('12', 7) - 0.1;
+    if (outside) return `<g transform="${cam(1.25, 700, 950, dx, dy)}">${A.bgExterior({ lit: Array(12).fill(0), siren: 0.5, phase: t / 2, redWin: 0, cityOff: true, lampOff: true })}</g>`;
+    const m = A.hero({ handL: [-180, -720], flash: fl, beamLen: 900, beamW: 260, eyes: 'narrow', brow: 'angry', mouth: 'tight', look: -14 });
+    const z = lerp(1.2, 1.35, pr(t, S('12'), S('13')));
+    return `<g transform="${cam(z, 520, 1000, dx, dy)}"><rect width="1080" height="1920" fill="#030308"/>${on ? `<g opacity="0.55">${A.bgHall({ lampOn: false })}</g><rect width="1080" height="1920" fill="#ff1010" opacity="0.28" style="mix-blend-mode:multiply"/>` : ''}${at(620, 1760, 1.15, m)}</g>`;
+  } },
+  // 13. Свечу в механизм ставни. Клок синей ткани.
+  { s: S('13') - 0.1, e: S('14') - 0.05, f(t) {
+    const [dx, dy] = drift(t);
+    if (t < W('13', 4) - 0.1) {
+      const m = A.hero({ handR: [230, -820], flash: 'on', flashR: true, beamLen: 500, beamW: 120, eyes: 'narrow', brow: 'angry', look: 18 });
+      return `<g transform="${cam(lerp(1.0, 1.2, pr(t, S('13'), W('13', 4))), 700, 1000, dx, dy)}">${A.bgRoom({ stuck: 0.42, phase: t / 2, dark: 0.5 })}<rect width="1080" height="1920" fill="#ff1010" opacity="0.25" style="mix-blend-mode:multiply"/>${at(560, 1830, 1.1, m)}</g>`;
+    }
+    const z = lerp(1.0, 2.0, ease(pr(t, W('13', 6) - 0.2, S('14'))));
+    return `<g transform="${cam(z, lerp(540, 680, pr(t, W('13', 6), S('14'))), lerp(960, 1130, pr(t, W('13', 6), S('14'))), dx, dy)}">${A.bgGears({ rot: t * 0.05 + Math.sin(t * 30) * 0.003, red: 0.85 + 0.15 * Math.sin(t * 13) })}</g>`;
+  } },
+  // 14. Синей, как рваный рукав сестры.
+  { s: S('14') - 0.05, e: S('15') - 0.1, f(t) {
+    const [dx, dy] = drift(t);
+    const mix = ease(pr(t, S('14'), W('14', 2)));
+    const hide = t > W('14', 4);
+    const sis = A.sister({ hideSleeve: hide, eyes: hide ? 'narrow' : 'normal', brow: 'sad', look: hide ? -16 : 0, mouth: 'flat' });
+    const z = lerp(2.6, hide ? 1.6 : 2.4, ease(pr(t, W('14', 4), W('14', 4) + 0.4)));
+    return `<g transform="${cam(2.0, 680, 1130, dx, dy)}" opacity="${1 - mix}">${A.bgGears({ rot: t * 0.05, red: 1 })}</g>
+      <g transform="${cam(z, hide ? 540 : 410, hide ? 1000 : 1370, dx, dy)}" opacity="${mix}">${A.bgHall({ lampOn: false, dark: 0.3 })}<rect width="1080" height="1920" fill="#ff1010" opacity="0.22" style="mix-blend-mode:multiply"/>${at(540, 1770, 1.0, sis)}</g>`;
+  } },
+  // 15. Шёпот из наушников — тот же голос, что на улице
+  { s: S('15') - 0.1, e: S('16') - 0.1, f(t) {
+    const [dx, dy] = drift(t); const hp = t > W('15', 4) - 0.2 ? 0.6 + 0.4 * Math.abs(Math.sin(t * 9)) : 0.2;
+    const split = ease(pr(t, W('15', 5) - 0.2, W('15', 5) + 0.3));
+    const sis = A.sister({ hideSleeve: true, hpGlow: hp, eyes: blink(t, 0.5) || 'narrow', brow: 'sad', look: -16, mouth: 'flat' });
+    const talk = split > 0 ? 0.3 + 0.7 * Math.abs(Math.sin(t * 9)) : 0;
+    return `<g transform="${cam(lerp(2.2, 2.0, pr(t, S('15'), S('16'))), 540, 1080 + split * 140, dx, dy)}">${A.bgHall({ lampOn: false, dark: 0.35 })}<rect width="1080" height="1920" fill="#ff1010" opacity="0.2" style="mix-blend-mode:multiply"/>${at(540, 1770, 1.0, sis)}</g>
+      <g opacity="${split}"><clipPath id="top"><rect width="1080" height="${880 * split}"/></clipPath><g clip-path="url(#top)"><rect width="1080" height="1920" fill="#04050d"/>${A.rain(8, 50, t / 2)}${at(540, 1280, 1.2, A.masked({ color: P.neonM, talk }))}</g><rect y="${880 * split - 4}" width="1080" height="8" fill="${P.neonM}" filter="url(#glow)"/></g>`;
+  } },
+  // 16. Флешбэк: днём она была дома одна. Ставню заклинила она.
+  { s: S('16') - 0.1, e: W('16', 7) - 0.05, f(t) {
+    const [dx, dy] = drift(t); const jam = t > W('16', 5) - 0.2;
+    const wig = jam ? Math.sin(t * 22) * 12 : 0;
+    const sis = A.sister({ handR: [400 + wig, -930], handL: [300, -1000 + wig], eyes: 'narrow', brow: 'angry', mouth: 'tight', look: 16, pack: false });
+    const z = lerp(1.0, 1.45, ease(pr(t, W('16', 5) - 0.3, W('16', 7))));
+    const tool = `<g transform="translate(${930 + wig} ${400}) rotate(${-30 + wig})"><rect x="-6" y="-80" width="12" height="90" fill="#c0c4d0"/><rect x="-14" y="10" width="28" height="70" rx="8" fill="#e04a2a"/></g>`;
+    return `<g transform="${cam(z, lerp(540, 820, ease(pr(t, W('16', 5) - 0.3, W('16', 7)))), lerp(1000, 720, ease(pr(t, W('16', 5) - 0.3, W('16', 7)))), dx, dy)}" style="filter:sepia(0.35) contrast(1.05)">${A.bgRoom({ day: true, stuck: 0.42, fabric: jam })}${at(560, 1800, 1.05, sis)}${tool}</g>
+      <rect width="1080" height="1920" fill="url(#vignette)"/><g font-family="JetBrains Mono" font-weight="800"><rect x="60" y="360" width="330" height="70" rx="12" fill="#000" opacity="0.5"/><text x="80" y="410" font-size="40" fill="#ffe7b0">ДНЁМ · 13:20</text></g>`;
+  } },
+  // 16б. «…она.» — обратно в настоящее, лицо сестры в красном
+  { s: W('16', 7) - 0.05, e: S('17') - 0.1, f(t) {
+    const [sx, sy] = shake(t, W('16', 7), 0.3, 16);
+    const sis = A.sister({ hideSleeve: true, eyes: 'narrow', brow: 'sad', look: 10, mouth: 'flat' });
+    return `<g transform="${cam(2.6, 540, 830, sx, sy)}">${A.bgHall({ lampOn: false, dark: 0.4 })}<rect width="1080" height="1920" fill="#ff1010" opacity="0.3" style="mix-blend-mode:multiply"/>${at(540, 1770, 1.0, sis)}</g>`;
+  } },
+  // 17. Жму на брелок — воет такси. Тень прыгает из окна к машине.
+  { s: S('17') - 0.1, e: S('18') - 0.1, f(t) {
+    const [dx, dy] = drift(t);
+    if (t < W('17', 3) - 0.1) {
+      const press = t > W('17', 2);
+      const m = A.hero({ handR: [230, -860], fobPress: press, eyes: 'narrow', brow: 'angry', mouth: 'tight', look: 16, keySpin: 0 });
+      return `<g transform="${cam(lerp(1.6, 2.0, pr(t, S('17'), W('17', 3))), 640, 900, dx, dy)}">${A.bgHall({ lampOn: false, dark: 0.4 })}<rect width="1080" height="1920" fill="#ff1010" opacity="0.25" style="mix-blend-mode:multiply"/>${at(500, 1760, 1.15, m)}${press ? `<circle cx="${740}" cy="${880}" r="${30 + (t - W('17', 2)) * 300}" fill="none" stroke="${P.red}" stroke-width="6" opacity="${Math.max(0, 1 - (t - W('17', 2)) * 2)}"/>` : ''}</g>`;
+    }
+    if (t < W('17', 8) - 0.1) return `<g transform="${cam(lerp(1.0, 1.12, pr(t, W('17', 3), W('17', 8))), 540, 1300, dx, dy)}">${A.bgYard({ alarm: 1, phase: t })}</g>`;
+    const k = ease(pr(t, W('17', 9) - 0.1, WE('17', 13) + 0.3));
+    const jx = lerp(710, 1050, k), jy = lerp(1050, 1640, k) - Math.sin(k * Math.PI) * 220;
+    const blink2 = Math.sin(t * 40) > 0;
+    return `<g transform="${cam(1.0, 540, 1000, dx, dy)}">${A.bgExterior({ lit: Array(12).fill(0), siren: 0.4, phase: t / 2, stuck: 0.18, cityOff: true, masks: [{ x: jx, y: jy, c: P.neonG, s: 0.42, r: lerp(-20, 25, k), arms: true }] })}<rect x="980" y="1500" width="100" height="160" fill="${blink2 ? P.neonY : 'none'}" opacity="0.35" filter="url(#glowBig)"/></g>`;
+  } },
+  // 18. Захлопываю ставню. Сестра молчит.
+  { s: S('18') - 0.1, e: S('19a') - 0.1, f(t) {
+    const [dx, dy] = drift(t);
+    if (t < W('18', 4) - 0.1) {
+      const slam = ease(pr(t, W('18', 1), W('18', 2) + 0.1));
+      const [sx, sy] = shake(t, W('18', 2) + 0.1, 0.5, 30);
+      const m = A.hero({ handR: [160, lerp(-1000, -760, slam)], handL: [40, lerp(-1000, -760, slam)], eyes: 'narrow', brow: 'angry', mouth: 'open', look: 6 });
+      return `<g transform="${cam(1.15, 540, 1000, dx + sx, dy + sy)}">${A.bgRoom({ stuck: lerp(0.42, 1, slam), tilt: lerp(22, 0, slam), dark: 0.5, phase: t / 2 })}<rect width="1080" height="1920" fill="#ff1010" opacity="0.25" style="mix-blend-mode:multiply"/>${at(400, 1830, 1.15, m)}</g>`;
+    }
+    const m = A.hero({ eyes: blink(t, 0.2) || 'narrow', brow: 'sad', mouth: 'flat', look: 16 });
+    const sis = A.sister({ hideSleeve: true, eyes: 'narrow', brow: 'sad', look: 18, mouth: 'flat' });
+    return `<g transform="${cam(lerp(1.0, 0.92, pr(t, W('18', 4), S('19a'))), 540, 1050, dx, dy)}">${A.bgHall({ lampOn: false, dark: 0.45 })}<rect width="1080" height="1920" fill="#ff1010" opacity="0.3" style="mix-blend-mode:multiply"/>${at(200, 1760, 1.0, m)}${at(900, 1770, 0.95, sis, true)}</g>`;
+  } },
+  // 19. Фонарик погас. Темнота. 06:59. Три удара в дверь.
+  { s: S('19a') - 0.1, e: S('20') - 0.15, f(t) {
+    const [dx, dy] = drift(t);
+    const dead = t > W('19a', 1) + 0.2; const flick = !dead && t > W('19a', 0) && Math.sin(t * 60) > 0.2;
+    if (t < W('19b', 0) - 0.1) {
+      const vis = dead ? Math.max(0, 0.25 - (t - W('19a', 1) - 0.2)) : (flick ? 0.4 : 1);
+      const m = A.hero({ handL: [-180, -720], flash: dead ? 'off' : 'on', beamLen: 900, beamW: 260, eyes: 'narrow', brow: 'sad', look: -14 });
+      return `<rect width="1080" height="1920" fill="#000"/><g transform="${cam(1.3, 540, 1000, dx, dy)}" opacity="${vis}">${A.bgHall({ lampOn: false, dark: 0.5 })}<rect width="1080" height="1920" fill="#ff1010" opacity="0.3" style="mix-blend-mode:multiply"/>${at(620, 1760, 1.15, m)}</g>`;
+    }
+    // утро: дверь изнутри, три удара
+    const knocks = [0, 1, 2].map((i) => WE('19b', 6) + 0.35 + i * 0.45);
+    let sh = [0, 0]; knocks.forEach((k) => { const s = shake(t, k, 0.25, 22); sh = [sh[0] + s[0], sh[1] + s[1]]; });
+    const nk = knocks.filter((k) => t > k).length;
+    const dawn = pr(t, W('19b', 0), S('20') + 2);
+    return `<g transform="${cam(lerp(1.1, 1.35, pr(t, W('19b', 0), S('20'))), 800, 980, dx + sh[0], dy + sh[1])}">${A.bgHall({ lampOn: false, dark: 0.55 - dawn * 0.15, underDoor: '#9ab4ff', underDoorOp: 0.3 + dawn * 0.5 + (nk ? 0.2 : 0) })}</g>
+      ${knocks.map((k) => t > k ? `<g opacity="${Math.max(0, 1 - (t - k) * 1.5)}"><text x="800" y="${980 - (t - k) * 120}" font-family="Inter" font-weight="900" font-size="120" text-anchor="middle" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke">ТУК</text></g>` : '').join('')}`;
+  } },
+  // 20. «Миша. Ты же не умеешь врать. Кто заклинил окно?»
+  { s: S('20') - 0.15, e: 999, f(t) {
+    const [dx, dy] = drift(t); const toSis = t > W('20', 6) - 0.1; const end = WE('20', 8) + 0.3;
+    if (t > end) {
+      const k = pr(t, end, end + 0.6);
+      return `<rect width="1080" height="1920" fill="#000"/><g opacity="${k}" font-family="Inter" font-weight="900" text-anchor="middle"><text x="540" y="900" font-size="96" fill="#fff" letter-spacing="4">НОЧЬ БЕЗ</text><text x="540" y="1010" font-size="120" fill="${P.neonM}" filter="url(#glow)" letter-spacing="6">ЗАКОНА</text><text x="540" y="1110" font-size="44" fill="#9aa3d4" font-weight="700">серия 2 — скоро</text></g>`;
+    }
+    const z = lerp(2.4, 2.9, pr(t, S('20'), end));
+    if (!toSis) { const m = A.hero({ eyes: 'wide', brow: 'worried', mouth: 'tight', look: 0 });
+      return `<g transform="${cam(z, 500, 830, dx, dy)}">${A.bgHall({ lampOn: false, dark: 0.35 })}<rect width="1080" height="1920" fill="#7d96ff" opacity="0.08"/>${at(500, 1760, 1.15, m)}</g>`; }
+    const sis = A.sister({ hideSleeve: true, eyes: 'wide', brow: 'worried', mouth: 'open', look: 0 });
+    return `<g transform="${cam(z + 0.2, 540, 800, dx, dy)}">${A.bgHall({ lampOn: false, dark: 0.35 })}<rect width="1080" height="1920" fill="#7d96ff" opacity="0.08"/>${at(540, 1770, 1.0, sis)}</g>`;
+  } },
+];
+
+function render(t) {
+  const sh = shots.find((s) => t >= s.s && t < s.e) || shots[shots.length - 1];
+  let body = sh.f(t);
+  const sir = W('05', 0);
+  const showHud = t >= sir - 0.05 && t < WE('20', 8) + 0.3;
+  const clk = storyClock(t);
+  const bat = t >= W('12', 6) - 0.2 && t < W('19b', 0) ? clamp(1 - (t - W('12', 1)) / (W('19a', 1) - W('12', 1))) : null;
+  let hud = '';
+  if (t < sir - 0.05) hud = `<g font-family="JetBrains Mono" font-weight="800"><rect x="40" y="70" width="400" height="110" rx="22" fill="#05060f" opacity="0.6"/><text x="70" y="148" font-size="60" fill="${P.win}">${clk.time.slice(0, 5)}</text><text x="270" y="146" font-size="30" fill="#9aa3d4" font-family="Inter">до Ночи</text></g>`;
+  if (showHud) { const drop = ease(pr(t, sir - 0.05, sir + 0.35)); hud = `<g transform="translate(0 ${lerp(-300, 0, drop)})">` + A.hud({ time: clk.time, left: clk.left, rec: Math.sin(t * 6) > 0 ? 1 : 0.3, battery: bat, servOp: 0.75 + 0.2 * Math.sin(t * 5) }) + '</g>'; }
+  document.getElementById('stage').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">${DEFS}<rect width="1080" height="1920" fill="#000"/>${body}<rect width="1080" height="1920" fill="url(#vignette)" opacity="0.6"/>${hud}${subs(t)}</svg>`;
+}
+window.render = render; window.DURATION = TL.duration;
+</script></body></html>

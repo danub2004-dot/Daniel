@@ -2,7 +2,7 @@
 # ускоряет темп и пересчитывает тайминги каждого слова (из alignment ElevenLabs).
 import json, subprocess, re, numpy as np
 SR=48000; TEMPO=1.08; THR=10**(-42/20)
-GAP_DEFAULT=0.22; GAP={'05':0.5,'08b':0.15,'08c':0.15,'09a':0.35,'14':0.15,'16':0.4,'19a':0.6,'19b':0.9,'20':0.6}
+GAP_DEFAULT=0.22; GAP={'05':0.5,'08b':0.15,'08c':0.15,'09a':0.35,'14':0.15,'16':0.4,'19a':0.6,'19b':0.9,'20':1.7}
 LEAD=0.3; TAIL=2.0
 def load(p):
     raw=subprocess.run(['ffmpeg','-v','error','-i',p,'-ac','1','-ar',str(SR),'-f','f32le','-'],capture_output=True).stdout
