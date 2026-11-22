@@ -8,5 +8,7 @@
 - `art/art2.js` — новая графика (салон, кабина, двери, правила); базовая графика берётся из `../episode01/art/art.js`
 - `anim/` — `prep_voice.py` (укорачивает паузы, строит words.json), `anim.js` (сцены), `render.js`
 
+Звук: `python3 sfx/make_sfx.py` → `sfx/mix.wav` (эффекты синтезируются, библиотека в `../common/sfxlib.py`).
+
 Рендер: `cd anim && node render.js out.mp4`, затем звук:
-`ffmpeg -i out.mp4 -i voice_edit.wav -c:v copy -c:a aac -b:a 192k -af apad -shortest preview.mp4`
+`ffmpeg -i out.mp4 -i ../sfx/mix.wav -c:v copy -af loudnorm=I=-14:TP=-1.5 -c:a aac -b:a 192k -shortest preview.mp4`
