@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Собирает вертикальный ролик (1080x1920) «Как прогреть аккаунт» с озвучкой ElevenLabs."""
-import json, os, subprocess, urllib.request
+import hashlib, json, os, subprocess, urllib.request
 from PIL import Image, ImageDraw, ImageFont
 
 OUT = os.path.dirname(os.path.abspath(__file__))
@@ -14,22 +14,20 @@ REG = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 ACCENT = (37, 244, 238)   # бирюзовый
 ACCENT2 = (254, 44, 85)   # розовый
 
-# (метка, крупный текст, мелкий текст, озвучка)
+# (метка, крупный текст, мелкий текст, озвучка) — короткая версия
 SCENES = [
     ("", "200 просмотров?", "ТикТок думает,\nчто ты бот",
-     "Стабильно двести просмотров? Возможно, ТикТок думает, что ты бот."),
-    ("", "Почему так", "Нет живой активности —\nалгоритм не даёт охваты",
-     "У нового аккаунта нет живой активности, поэтому алгоритм пока не доверяет ему охваты."),
-    ("ШАГ 1", "Листай ленту", "3–5 дней по 20–30 минут\nв своей нише",
-     "Вот как прогреть аккаунт по-настоящему. Первое: три-пять дней по двадцать-тридцать минут листай рекомендации в своей нише."),
-    ("ШАГ 2", "Будь живым", "Досматривай до конца,\nлайкай и комментируй\nто, что интересно",
-     "Второе: досматривай видео до конца, лайкай и комментируй то, что тебе правда интересно."),
+     "Двести просмотров? ТикТок думает, что ты бот. Исправляем!"),
+    ("ШАГ 1", "Листай ленту", "3–5 дней по 20 минут\nв своей нише",
+     "Шаг один: три-пять дней листай ленту в своей нише."),
+    ("ШАГ 2", "Будь живым", "Досматривай, лайкай,\nкомментируй",
+     "Шаг два: досматривай, лайкай, комментируй."),
     ("ШАГ 3", "Заполни профиль", "Аватар, имя, описание",
-     "Третье: заполни профиль — аватар, имя и описание."),
+     "Шаг три: заполни профиль."),
     ("ШАГ 4", "Без VPN", "И не меняй часто\nустройство",
-     "Четвёртое: не пользуйся VPN и не меняй часто устройство."),
-    ("", "Пиши «готово»", "Поддержим друг друга\n\nСохрани, чтобы\nне потерять шаги",
-     "Новичкам проще расти вместе. Напиши в комментариях «готово» — и давай поддержим друг друга. Сохрани, чтобы не потерять шаги!"),
+     "Шаг четыре: никакого VPN."),
+    ("", "Пиши «готово»", "Поддержим друг друга!\n\nСохрани, чтобы\nне потерять",
+     "Напиши «готово» в комментариях — поддержим друг друга!"),
 ]
 
 
@@ -39,7 +37,7 @@ def tts(text, path):
     req = urllib.request.Request(
         f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}?output_format=mp3_44100_128",
         data=json.dumps({"text": text, "model_id": "eleven_multilingual_v2",
-                         "voice_settings": {"stability": 0.45, "similarity_boost": 0.8, "style": 0.35}}).encode(),
+                         "voice_settings": {"stability": 0.45, "similarity_boost": 0.8, "style": 0.5, "speed": 1.12}}).encode(),
         headers={"xi-api-key": "dummy", "Content-Type": "application/json"})
     with urllib.request.urlopen(req) as r, open(path, "wb") as f:
         f.write(r.read())
@@ -96,18 +94,18 @@ def slide(i, tag, big, small, path):
 
 clips = []
 for i, (tag, big, small, voice) in enumerate(SCENES):
-    mp3 = os.path.join(WORK, f"s{i}.mp3")
+    mp3 = os.path.join(WORK, "v_" + hashlib.md5(voice.encode()).hexdigest()[:10] + ".mp3")
     png = os.path.join(WORK, f"s{i}.png")
     mp4 = os.path.join(WORK, f"s{i}.mp4")
     tts(voice, mp3)
     slide(i, tag, big, small, png)
-    dur = duration(mp3) + 0.35
+    dur = duration(mp3) + 0.15
     fr = int(dur * 30)
     # лёгкий зум + появление
     vf = (f"scale=1296:2304,zoompan=z='1+0.04*on/{fr}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
-          f":d={fr}:s={W}x{H}:fps=30,fade=t=in:st=0:d=0.25,format=yuv420p")
+          f":d={fr}:s={W}x{H}:fps=30,fade=t=in:st=0:d=0.15,format=yuv420p")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-loop", "1", "-i", png, "-i", mp3,
-                    "-vf", vf, "-af", f"apad=pad_dur=0.35", "-t", f"{dur:.2f}",
+                    "-vf", vf, "-af", f"apad=pad_dur=0.15", "-t", f"{dur:.2f}",
                     "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-c:a", "aac", "-ar", "44100",
                     "-b:a", "160k", mp4], check=True)
     clips.append(mp4)
@@ -115,7 +113,18 @@ for i, (tag, big, small, voice) in enumerate(SCENES):
 lst = os.path.join(WORK, "list.txt")
 with open(lst, "w") as f:
     f.writelines(f"file '{c}'\n" for c in clips)
-final = os.path.join(OUT, "progrev_akkaunta.mp4")
+voiced = os.path.join(WORK, "voiced.mp4")
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst,
-                "-c", "copy", "-movflags", "+faststart", final], check=True)
+                "-c", "copy", voiced], check=True)
+total = duration(voiced)
+subprocess.run(["python3", os.path.join(OUT, "make_music.py"), f"{total + 0.5:.2f}"], check=True)
+final = os.path.join(OUT, "progrev_akkaunta.mp4")
+# музыка приглушается, когда звучит голос (sidechain), и громко играет в паузах
+subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", voiced, "-i", os.path.join(WORK, "music.wav"),
+                "-filter_complex",
+                "[0:a]asplit=2[v][sc];[1:a]volume=0.8[m];"
+                "[m][sc]sidechaincompress=threshold=0.03:ratio=4:attack=20:release=300[md];"
+                "[v][md]amix=inputs=2:duration=first:normalize=0,volume=3dB,alimiter=limit=0.95[a]",
+                "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+                "-movflags", "+faststart", final], check=True)
 print(final, duration(final))
