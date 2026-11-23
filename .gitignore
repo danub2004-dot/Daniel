@@ -1,1 +1,4 @@
 episode01/preview_*.mp4
+episode*/anim/video.mp4
+episode*/anim/mix.wav
+episode*/anim/render.log
