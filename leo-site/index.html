@@ -38,8 +38,17 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-2%)}60%{transform:translate(-2%,-4%)}80%{transform:translate(4%,2%)}}
 
 /* preloader */
-.pre{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:clip-path 1.1s var(--ease);clip-path:inset(0 0 0 0)}
-.pre.out{clip-path:inset(0 0 100% 0)}
+.pre{position:fixed;inset:0;z-index:100;display:grid;place-items:center;pointer-events:none}
+.pre .pt,.pre .pb{position:absolute;left:0;right:0;height:50.5%;background:var(--bg);transition:transform 1.3s var(--ease)}
+.pre .pt{top:0}.pre .pb{bottom:0}
+.pre .pt:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);box-shadow:0 0 20px var(--g);opacity:0;transition:opacity .3s}
+.pre.out .pt:after{opacity:1}
+.pre.out .pt{transform:translateY(-101%)}.pre.out .pb{transform:translateY(101%)}
+.pre .box,.pre .big{transition:opacity .4s,transform .8s var(--ease)}
+.pre.out .box,.pre.out .big{opacity:0;transform:scale(.9)}
+.pre .big{position:absolute;right:18px;bottom:calc(10px + var(--safe-b));font:900 clamp(80px,26vw,260px)/.8 Unbounded;letter-spacing:-.06em;color:rgba(255,255,255,.06)}
+.pre .tag{position:absolute;left:18px;bottom:calc(22px + var(--safe-b));font:600 10.5px Unbounded;letter-spacing:.3em;color:var(--dim);transition:opacity .4s}
+.pre.out .tag{opacity:0}
 .pre .box{text-align:center;position:relative}
 .pre img{width:min(62vw,340px);opacity:0;filter:blur(10px);animation:preIn 1.2s .1s var(--ease) forwards}
 @keyframes preIn{to{opacity:1;filter:none}}
@@ -104,7 +113,9 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 /* HERO */
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;overflow:hidden;padding:96px 0 28px;isolation:isolate}
 .hero .bgimg{position:absolute;inset:-6% 0 0;z-index:-3;will-change:transform}
-.hero .bgimg img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:saturate(1.15) brightness(.6) contrast(1.08)}
+.hero .bgimg img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:saturate(1.15) brightness(.6) contrast(1.08);transition:opacity .6s}
+.hero .bgimg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1s}
+.hero .bgimg.gl canvas{opacity:1}.hero .bgimg.gl img{opacity:0}
 .hero .shade{position:absolute;inset:0;z-index:-2;background:
   linear-gradient(180deg,rgba(5,8,6,.6) 0%,rgba(5,8,6,.1) 28%,rgba(5,8,6,.55) 58%,var(--bg) 100%),
   radial-gradient(120% 80% at 80% 10%,transparent 40%,rgba(5,8,6,.6))}
@@ -180,6 +191,17 @@ section{position:relative}
 .val h3{margin:36px 0 8px;font:700 clamp(16px,2vw,22px) Unbounded;letter-spacing:-.01em}
 .val p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
 
+/* zoom-through */
+.zoom{position:relative;height:260vh;background:var(--bg)}
+.zpin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center}
+.zimg{position:absolute;inset:0;clip-path:inset(0 0 0 0 round 0);will-change:clip-path}
+.gs .zimg{clip-path:inset(30% 24% 30% 24% round 28px)}
+.zimg img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(1.1);transform:scale(1.35);will-change:transform}
+.ztxt{position:relative;z-index:2;text-align:center;font:900 clamp(40px,11vw,170px)/.92 Unbounded;letter-spacing:-.05em;text-transform:uppercase;pointer-events:none}
+.ztxt span{display:block}
+.gs .ztxt{opacity:0}
+.zcap{position:absolute;bottom:calc(30px + var(--safe-b));left:0;right:0;text-align:center;font:600 10.5px Unbounded;letter-spacing:.3em;color:var(--muted);z-index:2}
+
 /* services */
 .svc-sec{background:var(--bg2);border-block:1px solid var(--line)}
 .svlist{border-top:1px solid var(--line2)}
@@ -197,6 +219,25 @@ section{position:relative}
 .sv .go{display:none}
 @media(min-width:760px){.sv{grid-template-columns:70px 1fr auto 60px;padding:34px 8px}.sv .go{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:1px solid var(--line2);transition:.4s var(--ease)}
   .sv:hover .go{background:var(--g);border-color:var(--g);color:#000;transform:rotate(45deg)}}
+.stack{display:grid;gap:14px;padding-bottom:20px}
+.sc{position:sticky;top:calc(86px + var(--i) * 10px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;min-height:230px;padding:22px;border-radius:28px;overflow:hidden;isolation:isolate;
+  background:linear-gradient(135deg,#132019,#0b120e);border:1px solid var(--line2);box-shadow:0 -20px 50px -20px rgba(0,0,0,.9);transform-origin:50% 0;will-change:transform}
+@media(min-width:900px){.sc{min-height:300px;padding:40px;top:calc(100px + var(--i) * 14px)}}
+.sc .ph{position:absolute;right:0;top:0;bottom:0;width:58%;z-index:-1;-webkit-mask-image:linear-gradient(90deg,transparent,#000 70%);mask-image:linear-gradient(90deg,transparent,#000 70%);opacity:.55;transition:opacity .6s}
+.sc:hover .ph{opacity:.8}
+.sc .ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(.3)}
+.sc .shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(11,18,14,.95) 30%,rgba(11,18,14,.3))}
+.sc .n{font:600 11px Unbounded;letter-spacing:.2em;color:var(--g)}
+.sc h3{margin:14px 0 10px;font:800 clamp(22px,5.6vw,58px)/1 Unbounded;overflow-wrap:anywhere;letter-spacing:-.04em;text-transform:uppercase;max-width:12ch}
+.sc p{margin:0;color:#b9c6bf;font-size:14px;line-height:1.5;max-width:30ch}
+.sc .meta{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.sc .meta span{padding:5px 11px;border-radius:999px;border:1px solid var(--line2);font-weight:700;font-size:12px;background:rgba(0,0,0,.3)}
+.sc .meta .rec{background:var(--g);color:#04140a;border-color:var(--g);font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.06em}
+.sc .rt{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;text-align:right}
+.sc .pr{font:900 clamp(22px,6vw,76px)/.9 Unbounded;letter-spacing:-.05em;white-space:nowrap}
+.sc .pr small{display:block;font:700 11px Manrope;letter-spacing:.25em;color:var(--g);margin-top:8px}
+.sc .go{width:54px;height:54px;border-radius:50%;background:var(--g);color:#04140a;display:grid;place-items:center;box-shadow:0 0 30px var(--glow);transition:transform .5s var(--ease)}
+.sc:hover .go{transform:rotate(45deg) scale(1.08)}
 .svimg{position:fixed;left:0;top:0;z-index:30;width:240px;height:300px;border-radius:20px;overflow:hidden;pointer-events:none;opacity:0;transform:scale(.6) rotate(-6deg);transition:opacity .3s,transform .5s var(--ease);box-shadow:0 30px 60px -20px #000}
 .svimg.on{opacity:1;transform:scale(1) rotate(-3deg)}
 .svimg img{width:100%;height:100%;object-fit:cover}
@@ -365,6 +406,9 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
 <div class="cur" id="cur"></div><div class="cur-dot" id="curDot"></div>
 
 <div class="pre" id="pre">
+  <div class="pt"></div><div class="pb"></div>
+  <div class="big" id="preBig">000</div>
+  <div class="tag">CHIȘINĂU · EST. LEO</div>
   <div class="box">
     <img src="img/logo-leo-white.webp" alt="LEO Barbershop">
     <div class="bar"><i id="preBar"></i></div>
@@ -400,7 +444,7 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
 
 <main id="top">
 <section class="hero" id="hero">
-  <div class="bgimg" id="heroBg"><img src="img/work-4.webp" alt="LEO Barbershop Chișinău" fetchpriority="high"></div>
+  <div class="bgimg" id="heroBg"><img id="heroImg" src="img/work-4.webp" alt="LEO Barbershop Chișinău" fetchpriority="high"><canvas id="glc" aria-hidden="true"></canvas></div>
   <div class="shade"></div>
   <div class="beam"></div>
 
@@ -453,13 +497,21 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
   </div>
 </section>
 
+<section class="zoom" id="zoom">
+  <div class="zpin">
+    <div class="zimg" id="zimg"><img src="img/work-2.webp" alt="LEO Barbershop" loading="lazy"></div>
+    <div class="ztxt" id="ztxt"><span data-i="z1"></span><span class="green" data-i="z2"></span></div>
+    <div class="zcap" id="zcap">LEO BARBERSHOP · CALEA IEȘILOR 6D</div>
+  </div>
+</section>
+
 <section class="sec svc-sec" id="servicii">
   <div class="wrap">
     <div class="sh">
       <div><span class="kicker"><b>02</b> <span data-i="nServices"></span></span><h2 class="h2" data-i="svcH"></h2></div>
       <p data-i="svcP"></p>
     </div>
-    <div class="svlist" id="svlist"></div>
+    <div class="stack" id="svlist"></div>
     <div class="svnote" data-i="svcNote"></div>
   </div>
   <div class="svimg" id="svimg"><img alt=""></div>
@@ -650,6 +702,7 @@ ro:{
   ring:"PROGRAMEAZĂ-TE • ONLINE • 30 SEC • ",
   mq1:["Fade","Tunsori","Barbă","Styling"], mq2:["Precizie","Stil","Confort","LEO"],
   stmt:"La LEO nu primești doar o tunsoare. Primești *precizie,* *stil* și o experiență la care vrei să revii — de fiecare dată.",
+  z1:"Precizie", z2:"la milimetru",
   stYears:"ani de experiență", stRating:"rating clienți", stBarbers:"barberi de top",
   vals:[["Precizie","Linii curate și simetrie la milimetru."],["Stil","Tunsori contemporane, potrivite ție."],["Confort","Atmosferă liniștită, dedicată doar ție."],["Profesionalism","Echipă experimentată, instrumente premium."]],
   svcH:"Servicii & prețuri", svcP:"Prețuri transparente, fără surprize. Apasă pe orice serviciu ca să te programezi.", rec:"Top", min:"min", lei:"LEI",
@@ -677,6 +730,7 @@ ru:{
   ring:"ЗАПИСАТЬСЯ • ОНЛАЙН • 30 СЕК • ",
   mq1:["Fade","Стрижки","Борода","Укладка"], mq2:["Точность","Стиль","Комфорт","LEO"],
   stmt:"В LEO ты получаешь не просто стрижку. Ты получаешь *точность,* *стиль* и сервис, к которому хочется возвращаться — каждый раз.",
+  z1:"Точность", z2:"до миллиметра",
   stYears:"лет опыта", stRating:"рейтинг клиентов", stBarbers:"топ-барбера",
   vals:[["Точность","Чистые линии и симметрия до миллиметра."],["Стиль","Современные стрижки под тебя."],["Комфорт","Спокойная атмосфера только для тебя."],["Профессионализм","Опытная команда, премиальные инструменты."]],
   svcH:"Услуги и цены", svcP:"Прозрачные цены без сюрпризов. Нажми на любую услугу, чтобы записаться.", rec:"Хит", min:"мин", lei:"ЛЕЙ",
@@ -726,11 +780,11 @@ function render(){
   $("#vals").innerHTML=t("vals").map((v,i)=>`<div class="val"><div class="n">0${i+1}</div><h3>${v[0]}</h3><p>${v[1]}</p></div>`).join("");
 
   $("#svlist").innerHTML=SERVICES.map((s,i)=>{const d=s[S.lang];return `
-    <a class="sv" href="${BOOK_SVC}" target="_blank" rel="noopener" data-img="${s.img}">
-      <span class="i">${String(i+1).padStart(2,"0")}</span>
-      <div><h3>${d[0]}</h3><div class="d"><span class="t">${s.dur} ${t("min")}</span>${s.rec?`<span class="rec">${t("rec")}</span>`:""}<span>${d[1]}</span></div></div>
-      <div class="p">${s.price}<small>${t("lei")}</small></div>
-      <span class="go">${ARROW}</span>
+    <a class="sc" style="--i:${i}" href="${BOOK_SVC}" target="_blank" rel="noopener">
+      <div class="ph"><img src="${IMG(s.img)}" alt="" loading="lazy"></div><div class="shade"></div>
+      <div><span class="n">${String(i+1).padStart(2,"0")} / ${String(SERVICES.length).padStart(2,"0")}</span><h3>${d[0]}</h3><p>${d[1]}</p>
+        <div class="meta"><span>⏱ ${s.dur} ${t("min")}</span>${s.rec?`<span class="rec">${t("rec")}</span>`:""}</div></div>
+      <div class="rt"><div class="pr">${s.price}<small>${t("lei")}</small></div><span class="go">${ARROW}</span></div>
     </a>`}).join("");
 
   $("#hz").innerHTML=WORKS.map((w,i)=>`<figure class="wk"><img src="${IMG(w[0])}" alt="${L(w)} — LEO Barbershop" loading="lazy" decoding="async">
@@ -763,6 +817,7 @@ function render(){
 /* ====================== INTERACTIONS ====================== */
 document.addEventListener("click",e=>{
   const b=e.target.closest("button,a");if(!b)return;
+  try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}
   if(b.dataset.lang){S.lang=b.dataset.lang;store.set("leo-lang",S.lang);render();return}
   if(b.id==="burger"){document.body.classList.toggle("mopen");return}
   if(b.closest(".mm"))document.body.classList.remove("mopen");
@@ -857,7 +912,15 @@ function setupDynamic(){
   const ws=$$("#stmt .w");
   add(ScrollTrigger.create({trigger:"#stmt",start:"top 80%",end:"bottom 45%",scrub:true,onUpdate:s=>ws.forEach((w,i)=>w.classList.toggle("on",i/ws.length<s.progress*1.05))}));
   $$(".h2").forEach(h=>add(gsap.fromTo(h,{yPercent:35,opacity:0},{yPercent:0,opacity:1,duration:1.2,ease:"expo.out",scrollTrigger:{trigger:h,start:"top 92%",once:true}})));
-  add(gsap.fromTo(".sv",{y:50,opacity:0},{y:0,opacity:1,duration:1,ease:"expo.out",stagger:.06,scrollTrigger:{trigger:"#svlist",start:"top 88%",once:true}}));
+  const cards=$$(".sc");
+  cards.forEach((c,i)=>{if(i===cards.length-1)return;
+    add(gsap.to(c,{scale:.9,filter:"brightness(.45)",ease:"none",scrollTrigger:{trigger:cards[i+1],start:"top 95%",end:"top 30%",scrub:true}}))});
+  // zoom-through
+  add(gsap.timeline({scrollTrigger:{trigger:"#zoom",start:"top top",end:"bottom bottom",scrub:true}})
+    .fromTo("#zimg",{clipPath:"inset(30% 24% 30% 24% round 28px)"},{clipPath:"inset(0% 0% 0% 0% round 0px)",ease:"power2.inOut",duration:1},0)
+    .fromTo("#zimg img",{scale:1.35},{scale:1,ease:"none",duration:1},0)
+    .fromTo("#ztxt",{opacity:0,scale:.55,letterSpacing:"0.2em"},{opacity:1,scale:1,letterSpacing:"-0.05em",ease:"power3.out",duration:.55},.35)
+    .to("#ztxt",{yPercent:-30,opacity:0,duration:.25},.85));
   const outer=$("#hzOuter"),hz=$("#hz");
   if(innerWidth>=768){
     outer.classList.remove("hz-m");
@@ -875,15 +938,21 @@ function setupDynamic(){
     onStart:()=>v.dataset.anim=1,onComplete:()=>{delete v.dataset.anim;gsap.set(v,{clearProps:"rotate,y,opacity"})}}));
   add(gsap.fromTo(".bigcta h2 > span",{yPercent:100,opacity:0},{yPercent:0,opacity:1,stagger:.12,duration:1.3,ease:"expo.out",scrollTrigger:{trigger:".bigcta",start:"top 78%",once:true}}));
   add(gsap.fromTo(".giant",{yPercent:40},{yPercent:0,ease:"none",scrollTrigger:{trigger:"footer",start:"top bottom",end:"bottom bottom",scrub:true}}));
+  $$(".kicker [data-i], .zcap").forEach(el=>{delete el.dataset.fin;add(ScrollTrigger.create({trigger:el,start:"top 92%",once:true,onEnter:()=>scramble(el)}))});
   ScrollTrigger.refresh();
 }
 
+const GL="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+";
+function scramble(el){
+  if(REDUCED||!el)return;const fin=el.dataset.fin||el.textContent;el.dataset.fin=fin;let f=0;const total=22;
+  clearInterval(el._sc);el._sc=setInterval(()=>{f++;el.textContent=fin.split("").map((c,i)=>c===" "?" ":(i<fin.length*f/total?c:GL[Math.random()*GL.length|0])).join("");if(f>=total){clearInterval(el._sc);el.textContent=fin}},38);
+}
 function intro(){
   document.body.classList.remove("loading");
   $("#pre").classList.add("out");
   if(HAS_GSAP&&!REDUCED){
     gsap.timeline({delay:.3})
-      .from("#heroBg img",{scale:1.3,duration:2.4,ease:"expo.out"},0)
+      .from("#heroBg",{scale:1.3,duration:2.4,ease:"expo.out"},0)
       .from("#heroH .ln > span,#heroH .sm > span",{yPercent:115,duration:1.4,ease:"expo.out",stagger:.09},.1)
       .from("#heroH .sm i",{scaleX:0,transformOrigin:"left",duration:1.3,ease:"expo.out"},.5)
       .from(".hero .top .chip",{y:-20,opacity:0,stagger:.08,duration:.8,ease:"expo.out"},.4)
@@ -891,10 +960,75 @@ function intro(){
       .from(".badge",{scale:0,rotate:-120,duration:1.4,ease:"expo.out"},.75)
       .from("#hdr .wrap > *",{y:-30,opacity:0,stagger:.05,duration:1,ease:"expo.out"},.5);
   }
-  setTimeout(()=>{const p=$("#pre");p&&p.remove()},1400);
+  setTimeout(()=>{const p=$("#pre");p&&p.remove()},1600);
+}
+
+/* ====================== WEBGL HERO ====================== */
+function heroGL(){
+  if(REDUCED)return;
+  const cv=$("#glc"),img=$("#heroImg");
+  let gl;try{gl=cv.getContext("webgl",{premultipliedAlpha:false,antialias:false})}catch(e){}
+  if(!gl)return;
+  const vs=`attribute vec2 p;varying vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0.,1.);}`;
+  const fs=`precision mediump float;varying vec2 uv;uniform sampler2D tex;uniform vec2 res,ims,m;uniform float t,vel,hov;
+  vec3 hash3(vec2 p){vec3 q=vec3(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)),dot(p,vec2(419.2,371.9)));return fract(sin(q)*43758.5453);}
+  float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+    float a=hash3(i).x,b=hash3(i+vec2(1,0)).x,c=hash3(i+vec2(0,1)).x,d=hash3(i+vec2(1,1)).x;return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}
+  void main(){
+    vec2 r=res/ims;float s=max(r.x,r.y);vec2 sz=ims*s;vec2 off=(res-sz)*vec2(.5,.8);
+    vec2 st=(uv*res-off)/sz;st.y=1.-st.y;
+    vec2 a=uv*res/min(res.x,res.y);vec2 mm=m*res/min(res.x,res.y);
+    float d=distance(a,mm);float ripple=smoothstep(.45,0.,d)*hov;
+    float n=noise(st*3.+t*.15)-.5;float n2=noise(st*7.-t*.2)-.5;
+    vec2 dir=normalize(a-mm+1e-4);
+    vec2 disp=vec2(n,n2)*.012+dir*ripple*.035*sin(d*28.-t*5.);
+    float ca=.003+abs(vel)*.02+ripple*.01;
+    vec2 q=st+disp;
+    float R=texture2D(tex,q+vec2(ca,0.)).r,G=texture2D(tex,q).g,B=texture2D(tex,q-vec2(ca,0.)).b;
+    vec3 col=vec3(R,G,B);
+    col=(col-.5)*1.08+.5;col*=.6;
+    col+=vec3(.15,.9,.45)*ripple*.22;
+    float sl=sin(uv.y*res.y*1.2)*.02;col-=sl;
+    float v=smoothstep(1.25,.25,length(uv-vec2(.5,.45)));col*=mix(.55,1.,v);
+    gl_FragColor=vec4(col,1.);
+  }`;
+  const sh=(type,src)=>{const o=gl.createShader(type);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(o);return o};
+  let pr;try{pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr)}catch(e){return}
+  const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(pr,"p");gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const U=n=>gl.getUniformLocation(pr,n);const uRes=U("res"),uIms=U("ims"),uM=U("m"),uT=U("t"),uV=U("vel"),uH=U("hov");
+  const go=()=>{
+    const tx=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tx);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+    try{gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img)}catch(e){return}
+    if(gl.getError()!==gl.NO_ERROR)return;
+    const dpr=Math.min(devicePixelRatio||1,1.5);
+    const size=()=>{const r=cv.getBoundingClientRect();cv.width=r.width*dpr;cv.height=r.height*dpr;gl.viewport(0,0,cv.width,cv.height)};
+    size();addEventListener("resize",size);
+    let mx=.7,my=.55,tmx=.7,tmy=.55,hov=0,thov=0,last=scrollY,vel=0,touched=0;const t0=performance.now();
+    const pt=(x,y)=>{const r=cv.getBoundingClientRect();tmx=(x-r.left)/r.width;tmy=1-(y-r.top)/r.height;thov=1};
+    addEventListener("pointermove",e=>pt(e.clientX,e.clientY),{passive:true});
+    addEventListener("touchmove",e=>{touched=performance.now();pt(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
+    addEventListener("touchstart",e=>{touched=performance.now();pt(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
+    $("#hero").addEventListener("pointerleave",()=>thov=0);
+    let vis=true;new IntersectionObserver(es=>vis=es[0].isIntersecting).observe($("#hero"));
+    $("#heroBg").classList.add("gl");
+    (function frame(){
+      requestAnimationFrame(frame);if(!vis)return;
+      const now=performance.now(),tt=(now-t0)/1000;
+      if(!FINE&&now-touched>1600){tmx=.5+Math.sin(tt*.5)*.28;tmy=.55+Math.cos(tt*.37)*.2;thov=.75}
+      mx+=(tmx-mx)*.07;my+=(tmy-my)*.07;hov+=(thov-hov)*.05;
+      vel+=((scrollY-last)/40-vel)*.2;last=scrollY;
+      gl.uniform2f(uRes,cv.width,cv.height);gl.uniform2f(uIms,img.naturalWidth,img.naturalHeight);
+      gl.uniform2f(uM,mx,my);gl.uniform1f(uT,tt);gl.uniform1f(uV,Math.max(-1,Math.min(1,vel)));gl.uniform1f(uH,hov);
+      gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    })();
+  };
+  if(img.complete&&img.naturalWidth)go();else img.addEventListener("load",go);
 }
 
 /* ====================== BOOT ====================== */
+heroGL();
 render();
 if(HAS_GSAP&&!REDUCED)setupStatic();
 window._ready=true;
@@ -907,7 +1041,7 @@ let rzT,lastW=innerWidth;addEventListener("resize",()=>{clearTimeout(rzT);rzT=se
   let done=0,shown=0,finished=false;const total=Math.max(imgs.length,1);
   imgs.forEach(i=>{if(i.complete)done++;else{i.addEventListener("load",()=>done++);i.addEventListener("error",()=>done++)}});
   const tick=()=>{const target=done/total*100;shown+=Math.max(.8,(target-shown)*.12);if(shown>target)shown=target;
-    $("#preBar").style.width=shown+"%";$("#preNum").textContent=String(Math.round(shown)).padStart(3,"0");
+    $("#preBar").style.width=shown+"%";$("#preNum").textContent=String(Math.round(shown)).padStart(3,"0");$("#preBig").textContent=String(Math.round(shown)).padStart(3,"0");
     if(shown>=100){if(!finished){finished=true;setTimeout(intro,250)}}else requestAnimationFrame(tick)};
   requestAnimationFrame(tick);
   setTimeout(()=>{done=total},3500);
