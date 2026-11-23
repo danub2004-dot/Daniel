@@ -22,7 +22,8 @@ html{scroll-behavior:smooth;scroll-padding-top:70px}
 html{background:#030604}
 html,body{margin:0;color:var(--text);font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 body{overflow-x:hidden;background:transparent}
-body.loading{overflow:hidden}
+body.loading{overflow:hidden;animation:unlock .01s 7s forwards}
+@keyframes unlock{to{overflow:visible}}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
@@ -82,7 +83,7 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
 /* ===== living background ===== */
 .bgfx{position:fixed;inset:0;z-index:-10;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#07130c 0%,#030604 60%);pointer-events:none}
 .bgfx .drift{position:absolute;inset:-20%;transform:translate3d(calc(var(--p,0) * -18vw),calc(var(--p,0) * -30vh),0) rotate(calc(var(--p,0) * 40deg));will-change:transform}
-.bgfx .a{position:absolute;border-radius:50%;filter:blur(70px);will-change:transform}
+.bgfx .a{position:absolute;border-radius:50%}
 .bgfx .a1{width:70vmax;height:70vmax;left:-10%;top:-15%;background:radial-gradient(circle,rgba(46,204,113,.38),rgba(46,204,113,0) 62%);animation:dr1 26s ease-in-out infinite alternate}
 .bgfx .a2{width:60vmax;height:60vmax;right:-15%;top:25%;background:radial-gradient(circle,rgba(20,160,140,.30),rgba(20,160,140,0) 62%);animation:dr2 32s ease-in-out infinite alternate}
 .bgfx .a3{width:55vmax;height:55vmax;left:15%;bottom:-20%;background:radial-gradient(circle,rgba(140,230,90,.20),rgba(140,230,90,0) 62%);animation:dr3 38s ease-in-out infinite alternate}
@@ -98,6 +99,20 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
 .bgfx canvas{position:absolute;inset:0;width:100%;height:100%}
 .bgfx .vig{position:absolute;inset:0;background:radial-gradient(130% 100% at 50% 50%,transparent 50%,rgba(0,0,0,.55))}
 
+/* ===== LITE MODE (phones/tablets): lighter, smoother ===== */
+.lite .grain,.lite .bgfx .lit,.lite .bgfx .spot,.lite .cur,.lite .cur-dot{display:none!important}
+.lite .bgfx .drift{transform:none}
+.lite .bgfx .a1,.lite .bgfx .a2,.lite .bgfx .a3,.lite .bgfx .a4{animation-duration:60s}
+.lite .chip,.lite .btn-o,.lite .st,.lite .quiz,.lite .tm .role,.lite .lb{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.lite .chip{background:rgba(5,8,6,.7)}
+.lite .quiz{background:linear-gradient(160deg,rgba(30,80,52,.85),rgba(10,20,14,.92))}
+.lite .hdr.solid{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(5,9,7,.94)}
+.lite .dock{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(12,20,15,.96)}
+.lite .hero .bgimg img{animation:kb 18s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.14) translate(-2%,1%)}}
+.lite .hero .beam{animation:none}
+.lite .voucher .gl{display:none}
+
 /* grain */
 .grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.06;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -105,7 +120,8 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-2%)}60%{transform:translate(-2%,-4%)}80%{transform:translate(4%,2%)}}
 
 /* preloader */
-.pre{position:fixed;inset:0;z-index:100;display:grid;place-items:center;pointer-events:none}
+.pre{position:fixed;inset:0;z-index:100;display:grid;place-items:center;pointer-events:none;animation:preKill .01s 7s forwards}
+@keyframes preKill{to{opacity:0;visibility:hidden}}
 .pre .pt,.pre .pb{position:absolute;left:0;right:0;height:50.5%;background:var(--bg);transition:transform 1.3s var(--ease)}
 .pre .pt{top:0}.pre .pb{bottom:0}
 .pre .pt:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);box-shadow:0 0 20px var(--g);opacity:0;transition:opacity .3s}
@@ -263,9 +279,9 @@ section{position:relative}
 .zpin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center}
 .zimg{position:absolute;inset:0;clip-path:inset(0 0 0 0 round 0);will-change:clip-path}
 .gs .zimg{clip-path:inset(30% 24% 30% 24% round 28px)}
-.zimg img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(1.1);transform:scale(1.35);will-change:transform}
-.ztxt{position:relative;z-index:2;text-align:center;font:900 clamp(40px,11vw,170px)/.92 Unbounded;letter-spacing:-.05em;text-transform:uppercase;pointer-events:none}
-.ztxt span{display:block}
+.zimg img{width:100%;height:100%;object-fit:cover;object-position:50% 35%;filter:brightness(.5) saturate(1.1);transform:scale(1.35);will-change:transform}
+.ztxt{position:relative;z-index:2;text-align:center;padding:0 12px;max-width:100%;font:900 clamp(26px,8.2vw,150px)/.98 Unbounded;overflow-wrap:anywhere;letter-spacing:-.05em;text-transform:uppercase;pointer-events:none}
+.ztxt span{display:block;text-shadow:0 6px 40px rgba(0,0,0,.75),0 2px 8px rgba(0,0,0,.5)}
 .gs .ztxt{opacity:0}
 .zcap{position:absolute;bottom:calc(30px + var(--safe-b));left:0;right:0;text-align:center;font:600 10.5px Unbounded;letter-spacing:.3em;color:var(--muted);z-index:2}
 
@@ -437,9 +453,14 @@ a.ci:hover{padding-left:10px}
 .ci b{font:700 clamp(14px,2vw,20px) Unbounded;letter-spacing:-.01em;word-break:break-word;min-width:0}
 .ci .ar{margin-left:auto;color:var(--dim);flex:none}
 .map{position:relative;border-radius:30px;overflow:hidden;min-height:380px;border:1px solid var(--line2);background:var(--card)}
-.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:invert(.92) hue-rotate(180deg) saturate(.5) brightness(.9) contrast(1.1)}
+.map{display:block;isolation:isolate}
+.map img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;z-index:-2;transition:transform 1.2s var(--ease)}
+.map:hover img{transform:scale(1.05)}
+.map:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(5,8,6,.15),rgba(5,8,6,.85))}
+.mapinfo{position:absolute;left:20px;right:20px;bottom:84px}
+.mapinfo b{display:block;margin-top:10px;font:800 clamp(22px,3vw,34px)/1.05 Unbounded;letter-spacing:-.02em}
 .map .pin{position:absolute;left:16px;right:16px;bottom:16px;display:flex;gap:8px}
-.map .pin .btn{flex:1;background:rgba(5,8,6,.8)}
+.map .pin .btn{flex:1;background:rgba(5,8,6,.8)}.map .pin .btn-g{background:var(--g)}
 
 /* footer */
 footer{position:relative;overflow:hidden;padding:80px 0 calc(110px + var(--safe-b));border-top:1px solid var(--line)}
@@ -574,7 +595,7 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
 
 <section class="zoom" id="zoom">
   <div class="zpin">
-    <div class="zimg" id="zimg"><img src="img/work-2.webp" alt="LEO Barbershop" loading="lazy"></div>
+    <div class="zimg" id="zimg"><img src="img/work-3.webp" alt="LEO Barbershop" loading="lazy"></div>
     <div class="ztxt" id="ztxt"><span data-i="z1"></span><span class="green" data-i="z2"></span></div>
     <div class="zcap" id="zcap">LEO BARBERSHOP · CALEA IEȘILOR 6D</div>
   </div>
@@ -691,9 +712,11 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
         <a class="ci" href="mailto:leobarbershopmd@gmail.com"><span class="k">E-mail</span><b>leobarbershopmd@gmail.com</b><span class="ar">↗</span></a>
         <a class="ci" href="https://www.instagram.com/leobarbershop.md" target="_blank" rel="noopener"><span class="k">Instagram</span><b>@leobarbershop.md</b><span class="ar">↗</span></a>
       </div>
-      <div class="map">
-        <iframe title="Map" loading="lazy" src="https://maps.google.com/maps?q=Calea%20Ie%C8%99ilor%206D%2C%20Chi%C8%99in%C4%83u&z=16&output=embed"></iframe>
-        <div class="pin"><a class="btn btn-o btn-sm" href="https://maps.google.com/?q=Calea+Iesilor+6D+Chisinau" target="_blank" rel="noopener">Google Maps</a><a class="btn btn-o btn-sm" href="https://waze.com/ul/hu8k7xe1we" target="_blank" rel="noopener">Waze</a></div>
+      <a class="map" href="https://maps.google.com/?q=Calea+Iesilor+6D+Chisinau" target="_blank" rel="noopener">
+        <img src="img/work-3.webp" alt="LEO Barbershop — Calea Ieșilor 6D" loading="lazy">
+        <div class="mapinfo"><span class="kicker" style="letter-spacing:.2em">📍 Chișinău</span><b>Str. Calea Ieșilor 6D</b></div>
+        <div class="pin"><span class="btn btn-g btn-sm">Google Maps <span class="ar">↗</span></span><span class="btn btn-o btn-sm" data-waze>Waze</span></div>
+      </a>
       </div>
     </div>
   </div>
@@ -857,6 +880,8 @@ const t=k=>T[S.lang][k];
 const HAS_GSAP=!!(window.gsap&&window.ScrollTrigger);
 const FINE=matchMedia("(hover:hover) and (pointer:fine)").matches;
 const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const LITE=!FINE||(navigator.deviceMemory&&navigator.deviceMemory<4);
+if(LITE)document.documentElement.classList.add("lite");
 if(HAS_GSAP&&!REDUCED)document.documentElement.classList.add("gs");
 const ARROW=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M8 7h9v9"/></svg>`;
 const isOpen=()=>{const h=new Date().getHours();return h>=HOURS.open&&h<HOURS.close};
@@ -916,6 +941,7 @@ function render(){
 
 /* ====================== INTERACTIONS ====================== */
 document.addEventListener("click",e=>{
+  if(e.target.closest("[data-waze]")){e.preventDefault();e.stopPropagation();window.open("https://waze.com/ul/hu8k7xe1we","_blank","noopener");return}
   const b=e.target.closest("button,a");if(!b)return;
   try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}
   if(b.dataset.lang){S.lang=b.dataset.lang;store.set("leo-lang",S.lang);render();return}
@@ -948,8 +974,8 @@ function onScroll(){
   lastY=y;
   const end=innerHeight+y>document.body.scrollHeight-200;
   $("#dock").classList.toggle("show",y>innerHeight*.8&&!end);
-  let cur="";for(const id of secs){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<140)cur=id}
-  $$("#nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+cur));
+  if(FINE){let cur="";for(const id of secs){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<140)cur=id}
+  $$("#nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+cur))}
   if(!HAS_GSAP||REDUCED)fallbackScroll();
 }
 addEventListener("scroll",onScroll,{passive:true});
@@ -996,7 +1022,9 @@ function setupStatic(){
   // marquee speeds up with scroll velocity
   const r1=$("#mq1"),r2=$("#mq2");let x1=0,x2=-r2.scrollWidth/4,vel=0;
   ScrollTrigger.create({onUpdate:s=>{vel=s.getVelocity()/250}});
-  gsap.ticker.add(()=>{const w1=r1.scrollWidth/4,w2=r2.scrollWidth/4;const sp=1+Math.min(Math.abs(vel),14);vel*=.9;
+  let mqVis=true;new IntersectionObserver(es=>mqVis=es[0].isIntersecting).observe($("#mq"));
+  const W1=()=>r1.scrollWidth/4,W2=()=>r2.scrollWidth/4;let w1c=W1(),w2c=W2();addEventListener("resize",()=>{w1c=W1();w2c=W2()});
+  gsap.ticker.add(()=>{if(!mqVis)return;const w1=w1c,w2=w2c;const sp=1+Math.min(Math.abs(vel),14);vel*=.9;
     x1-=.7*sp;x2+=.7*sp;if(x1<=-w1)x1+=w1;if(x2>=0)x2-=w2;r1.style.transform=`translate3d(${x1}px,0,0)`;r2.style.transform=`translate3d(${x2}px,0,0)`});
   $$(".rv").forEach(el=>ScrollTrigger.create({trigger:el,start:"top 90%",once:true,onEnter:()=>el.classList.add("in")}));
   $$(".cnt").forEach(el=>{const to=+el.dataset.to,dec=+el.dataset.dec||0,o={v:0};el.textContent=dec?"0.0":"0";
@@ -1065,7 +1093,7 @@ function intro(){
 
 /* ====================== WEBGL HERO ====================== */
 function heroGL(){
-  if(REDUCED)return;
+  if(REDUCED||LITE)return;
   const cv=$("#glc"),img=$("#heroImg");
   let gl;try{gl=cv.getContext("webgl",{premultipliedAlpha:false,antialias:false})}catch(e){}
   if(!gl)return;
@@ -1186,6 +1214,7 @@ document.addEventListener("click",e=>{const b=e.target.closest(".bk,[data-burst]
 
 /* ====================== 3D TILT ====================== */
 function initTilt(){
+  if(!FINE)return;
   $$(".tm,.wk,.qimg").forEach(el=>{
     if(el._tilt)return;el._tilt=1;el.classList.add("tilt");
     if(!el.querySelector(".glare")){const g=document.createElement("span");g.className="glare";el.appendChild(g)}
@@ -1218,22 +1247,19 @@ function initTilt(){
 /* ====================== LIVING BACKGROUND ====================== */
 (function(){
   const fx=$("#bgfx");
-  const upd=()=>{const max=document.documentElement.scrollHeight-innerHeight;fx.style.setProperty("--p",(max>0?scrollY/max:0).toFixed(4))};
-  addEventListener("scroll",upd,{passive:true});upd();
+  const upd=()=>{const max=document.documentElement.scrollHeight-innerHeight;fx.style.setProperty("--p",(max>0?scrollY/max:0).toFixed(3))};
+  if(!LITE){addEventListener("scroll",upd,{passive:true});upd()}
   const mv=(x,y)=>{fx.style.setProperty("--sx",x+"px");fx.style.setProperty("--sy",y+"px")};
-  addEventListener("pointermove",e=>mv(e.clientX,e.clientY),{passive:true});
-  addEventListener("touchmove",e=>mv(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
-  addEventListener("touchstart",e=>mv(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
-  if(!FINE&&!REDUCED){let a=0;let lastT=0;addEventListener("touchstart",()=>lastT=performance.now(),{passive:true});
-    (function idle(){a+=.004;if(performance.now()-lastT>2500)mv(innerWidth*(.5+Math.sin(a*1.3)*.4),innerHeight*(.5+Math.cos(a)*.35));requestAnimationFrame(idle)})()}
+  if(!LITE)addEventListener("pointermove",e=>mv(e.clientX,e.clientY),{passive:true});
   if(REDUCED)return;
   const cv=$("#dust"),c=cv.getContext("2d");let W,H,dpr=Math.min(devicePixelRatio||1,2),P=[];
-  const N=innerWidth<700?38:70;
+  const N=LITE?16:70;
   const size=()=>{W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;c.setTransform(dpr,0,0,dpr,0,0)};size();addEventListener("resize",size);
   for(let i=0;i<N;i++)P.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*.8+.2,r:Math.random()*1.6+.4,s:Math.random()*.25+.05,ph:Math.random()*6.28,g:Math.random()<.75});
   let ly=scrollY;
+  let lastF=0;
   (function draw(t){
-    requestAnimationFrame(draw);const dy=scrollY-ly;ly=scrollY;
+    requestAnimationFrame(draw);if(document.hidden)return;if(LITE&&t-lastF<33)return;lastF=t;const dy=scrollY-ly;ly=scrollY;
     c.clearRect(0,0,W,H);
     for(const p of P){
       p.y-=p.s*p.z+dy*p.z*.25;p.x+=Math.sin(t/2000+p.ph)*.15*p.z;
@@ -1241,7 +1267,7 @@ function initTilt(){
       const tw=.5+.5*Math.sin(t/700+p.ph);
       c.beginPath();c.arc(p.x,p.y,p.r*p.z,0,6.283);
       c.fillStyle=p.g?`rgba(90,230,150,${.15+.45*tw*p.z})`:`rgba(255,255,255,${.08+.3*tw*p.z})`;
-      c.shadowBlur=p.g?8:0;c.shadowColor="rgba(63,209,127,.8)";c.fill();
+      if(!LITE){c.shadowBlur=p.g?8:0;c.shadowColor="rgba(63,209,127,.8)"}c.fill();
     }
   })(0);
 })();
@@ -1264,7 +1290,7 @@ let rzT,lastW=innerWidth;addEventListener("resize",()=>{clearTimeout(rzT);rzT=se
     $("#preBar").style.width=shown+"%";$("#preNum").textContent=String(Math.round(shown)).padStart(3,"0");$("#preBig").textContent=String(Math.round(shown)).padStart(3,"0");
     if(shown>=100){if(!finished){finished=true;setTimeout(intro,250)}}else requestAnimationFrame(tick)};
   requestAnimationFrame(tick);
-  setTimeout(()=>{done=total},3500);
+  setTimeout(()=>{done=total},2200);
 })();
 </script>
 </body>
