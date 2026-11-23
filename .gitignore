@@ -1,1 +1,11 @@
 episode01/preview_*.mp4
+ep01/build/
+ep01/sound/*.wav
+ep01/voice_final.wav
+ep01/sound/ln.json
+ep01/*.mp4
+ep0*/build/*.mp4
+ep0*/build/l.txt
+ep0*/**/*.wav
+ep0*/*.wav
+ep0*/*.mp4

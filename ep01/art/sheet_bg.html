@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><body style="margin:0;background:#000">
+<svg id="s" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="lib.js"></script><script>
+const V=VAD; let s=`<defs>${V.defs()}</defs>`;
+const bgs=[['Прихожая',t=>V.bgHallway(0.5,{ring:1})+V.plates('С. ВАДУЛЕКА','03:00','00:00:12')],['Бар «У Иона»',t=>V.bgBar(0.3)],['Улица ночью',t=>V.bgStreet(0.4)],['Экран домофона',t=>V.bgIntercomScreen(0.2)]];
+bgs.forEach((b,i)=>{const x=(i%2)*540,y=Math.floor(i/2)*960;
+ s+=`<svg x="${x}" y="${y}" width="540" height="960" viewBox="0 0 1080 1920">${b[1]()}${V.overlay()}</svg>
+ <rect x="${x+14}" y="${y+890}" width="${b[0].length*17+30}" height="48" fill="#0a0d0f" opacity="0.85"/><text x="${x+28}" y="${y+924}" font-family="JetBrains Mono" font-weight="700" font-size="28" fill="#ffd84a">${b[0]}</text>`;});
+s+=`<line x1="540" y1="0" x2="540" y2="1920" stroke="#000" stroke-width="4"/><line x1="0" y1="960" x2="1080" y2="960" stroke="#000" stroke-width="4"/>`;
+document.getElementById('s').innerHTML=s;
+</script>
