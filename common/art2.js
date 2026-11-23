@@ -182,7 +182,7 @@ function driverSeat() {
 
 // ОСТАНОВКА «ТРАССА» сбоку: ночь, обочина, табличка, фонари. Автобус стоит по BUS_AT.
 function bgStop(p = {}) {
-  const q = Object.assign({ lamps: [1, 1], bus: '', busX: 0, glare: 0, man: '' }, p);
+  const q = Object.assign({ lamps: [1, 1], bus: '', busX: 0, glare: 0, man: '', name: 'ТРАССА' }, p);
   let s = `<rect width="1080" height="1920" fill="url(#gSkyHwy)"/>`;
   let seed = 21; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
   for (let i = 0; i < 60; i++) s += `<circle cx="${rnd() * 1080}" cy="${rnd() * 800}" r="${rnd() * 1.6 + 0.4}" fill="#cfd6ff" opacity="${rnd() * 0.5}"/>`;
@@ -207,7 +207,7 @@ function bgStop(p = {}) {
   s += `<g transform="translate(-30 380)"><rect x="842" y="1150" width="14" height="430" fill="#0a0c12"/>
     <rect x="760" y="1150" width="180" height="96" rx="8" fill="#e8e1cf" opacity=".9"/><rect x="760" y="1150" width="180" height="28" rx="8" fill="#2c5a3a"/>
     <text x="850" y="1171" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="20" fill="#e8e1cf">ОСТАНОВКА</text>
-    <text x="850" y="1222" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="38" fill="#141820">ТРАССА</text>
+    <text x="850" y="1222" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="${q.name.length > 7 ? 28 : 38}" fill="#141820">${q.name}</text>
     <circle cx="900" cy="1290" r="34" fill="${P.amber}"/><text x="900" y="1304" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="40" fill="#141820">7</text></g>`;
   s += q.man;
   if (q.glare) s += `<circle cx="-40" cy="1340" r="${300 + 500 * q.glare}" fill="url(#gAmber)" opacity="${q.glare}"/><rect width="1080" height="1920" fill="#fff4d8" opacity="${0.25 * q.glare}"/>`;
