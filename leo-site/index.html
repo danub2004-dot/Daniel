@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0e0c">
-<title>LEO Barbershop | Frizerie Bărbați Chișinău</title>
+<title>LEO Barbershop | Barbershop Bărbați Chișinău</title>
 <meta name="description" content="LEO Barbershop în Chișinău: tunsori moderne, fade și îngrijirea bărbii. Programare online în 30 de secunde — alege barberul, serviciul și ora.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -160,11 +160,32 @@ section.s{padding:84px 0}
 .pill{font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:7px;background:rgba(255,255,255,.05);color:var(--muted)}
 .pill.rec{background:rgba(63,181,116,.15);color:var(--green2);text-transform:uppercase;letter-spacing:.06em;font-size:10.5px}
 .svc .pr{text-align:right;flex:none}
-.svc .pr b{display:block;font-family:Unbounded;font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;transition:.2s}
+.svc .pr b{display:block;white-space:nowrap;font-family:Unbounded;font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;transition:.2s}
 .svc .pr small{font-size:12px;color:var(--dim);font-weight:700}
 .svc .go{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--card2);border:1px solid var(--line2);transition:.2s}
 .svc:hover .go{background:var(--green2);border-color:var(--green2);color:#fff}
 .svc-note{margin-top:16px;font-size:13px;color:var(--dim);display:flex;gap:8px;align-items:flex-start}
+
+/* gallery */
+.gal{columns:2;column-gap:10px}
+@media(min-width:760px){.gal{columns:3;column-gap:14px}}
+@media(min-width:1100px){.gal{columns:4}}
+.gi{position:relative;display:block;width:100%;margin:0 0 10px;break-inside:avoid;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
+@media(min-width:760px){.gi{margin-bottom:14px}}
+.gi img{width:100%;height:auto;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.gi:hover img{transform:scale(1.05)}
+.gi:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 60%,rgba(10,14,12,.85));opacity:.9}
+.gi span{position:absolute;z-index:1;left:12px;right:12px;bottom:10px;font-size:12.5px;font-weight:700;text-align:left;line-height:1.3}
+.gi.hide{display:none}
+.lb{position:fixed;inset:0;z-index:80;background:rgba(5,7,6,.96);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;touch-action:pan-y}
+.lb.on{opacity:1;pointer-events:auto}
+.lb figure{margin:0;max-width:min(92vw,720px);text-align:center}
+.lb img{max-height:78vh;max-width:100%;border-radius:18px;margin:0 auto}
+.lb figcaption{margin-top:14px;color:var(--muted);font-weight:700;font-size:14px}
+.lb-x,.lb-n{position:absolute;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid var(--line2);font-size:22px}
+.lb-x{top:calc(16px + env(safe-area-inset-top,0px));right:16px;font-size:16px}
+.lb-p{left:12px}.lb-nx{right:12px}
+@media(max-width:600px){.lb-n{top:auto;bottom:calc(24px + var(--safe-b))}.lb-p{left:calc(50% - 60px)}.lb-nx{right:calc(50% - 60px)}}
 
 /* team */
 .team{display:grid;gap:14px}
@@ -294,11 +315,11 @@ footer ul a:hover{color:var(--text)}
 <header class="hdr" id="hdr">
   <div class="container">
     <a href="#home" class="logo" id="logo" aria-label="LEO Barbershop">
-      <img src="https://leobarbershop.md/assets/logo-leo-white-C3cypYNJ.webp" alt="LEO Barbershop" onerror="this.parentNode.classList.add('noimg')">
+      <img src="img/logo-leo-white.webp" alt="LEO Barbershop" onerror="this.parentNode.classList.add('noimg')">
       <span class="txt">LEO<small>BARBERSHOP</small></span>
     </a>
     <nav class="nav" id="nav">
-      <a href="#despre" data-i="nAbout"></a><a href="#servicii" data-i="nServices"></a><a href="#echipa" data-i="nTeam"></a><a href="#vouchere" data-i="nVoucher"></a><a href="#recenzii" data-i="nReviews"></a><a href="#contact" data-i="nContact"></a>
+      <a href="#despre" data-i="nAbout"></a><a href="#servicii" data-i="nServices"></a><a href="#lucrari" data-i="nWorks"></a><a href="#echipa" data-i="nTeam"></a><a href="#vouchere" data-i="nVoucher"></a><a href="#recenzii" data-i="nReviews"></a><a href="#contact" data-i="nContact"></a>
     </nav>
     <div class="sp"></div>
     <div class="lang" role="group" aria-label="Language"><button data-lang="ro">RO</button><button data-lang="ru">RU</button></div>
@@ -310,10 +331,11 @@ footer ul a:hover{color:var(--text)}
 <div class="mmenu" id="mmenu">
   <a class="l" href="#despre"><b data-i="nAbout"></b><span>01</span></a>
   <a class="l" href="#servicii"><b data-i="nServices"></b><span>02</span></a>
-  <a class="l" href="#echipa"><b data-i="nTeam"></b><span>03</span></a>
-  <a class="l" href="#vouchere"><b data-i="nVoucher"></b><span>04</span></a>
-  <a class="l" href="#recenzii"><b data-i="nReviews"></b><span>05</span></a>
-  <a class="l" href="#contact"><b data-i="nContact"></b><span>06</span></a>
+  <a class="l" href="#lucrari"><b data-i="nWorks"></b><span>03</span></a>
+  <a class="l" href="#echipa"><b data-i="nTeam"></b><span>04</span></a>
+  <a class="l" href="#vouchere"><b data-i="nVoucher"></b><span>05</span></a>
+  <a class="l" href="#recenzii"><b data-i="nReviews"></b><span>06</span></a>
+  <a class="l" href="#contact"><b data-i="nContact"></b><span>07</span></a>
   <div class="bot">
     <a class="btn btn-primary book-link" target="_blank" rel="noopener"><span data-i="bookNow"></span> <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
     <a class="btn btn-ghost" href="tel:+37368622385">📞 +373 68 622 385</a>
@@ -342,7 +364,7 @@ footer ul a:hover{color:var(--text)}
     <div class="hero-media">
       <div class="photo">
         <span class="ph">LEO</span>
-        <img src="https://leobarbershop.md/assets/work-1-mIpFsM88.webp" alt="Tunsoare modernă LEO Barbershop" loading="eager" onerror="this.remove()">
+        <img src="img/work-1.webp" alt="Tunsoare modernă LEO Barbershop" loading="eager" onerror="this.remove()">
       </div>
       <div class="float b"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z"/></svg></div><div><b>5.0 / 5</b><small data-i="hundreds"></small></div></div>
       <div class="float a"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div><b>Calea Ieșilor 6D</b><small>Chișinău</small></div></div>
@@ -372,12 +394,31 @@ footer ul a:hover{color:var(--text)}
     </div>
     <div class="svc-tools reveal">
       <div class="tabs" id="tabs"></div>
-      <div class="lvl" id="lvl"><button data-l="top">★ Top Barber</button><button data-l="lead" class="lead">★★ Lead Barber</button></div>
+      
     </div>
     <div class="svcs" id="svcs"></div>
     <div class="svc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg><span data-i="svcNote"></span></div>
   </div>
 </section>
+
+<!-- WORKS -->
+<section class="s" id="lucrari">
+  <div class="container">
+    <div class="shead reveal">
+      <div><span class="eyebrow" data-i="nWorks"></span><h2 class="display" data-i="worksH"></h2></div>
+      <p data-i="worksP"></p>
+    </div>
+    <div class="gal" id="gal"></div>
+    <div style="text-align:center;margin-top:28px"><a class="btn btn-ghost" href="https://www.instagram.com/leobarbershop.md" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><span data-i="moreIg"></span></a></div>
+  </div>
+</section>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto">
+  <button class="lb-x" id="lbX" aria-label="Close">✕</button>
+  <button class="lb-n lb-p" id="lbP" aria-label="Prev">‹</button>
+  <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <button class="lb-n lb-nx" id="lbN" aria-label="Next">›</button>
+</div>
 
 <!-- TEAM -->
 <section class="s" id="echipa">
@@ -424,7 +465,7 @@ footer ul a:hover{color:var(--text)}
       <div class="voucher">
         <span class="notch l"></span><span class="notch r"></span>
         <div class="top">
-          <img src="https://leobarbershop.md/assets/logo-leo-white-C3cypYNJ.webp" alt="LEO" onerror="this.outerHTML='<b style=&quot;font-family:Unbounded;font-style:italic;font-size:24px&quot;>LEO</b>'">
+          <img src="img/logo-leo-white.webp" alt="LEO" onerror="this.outerHTML='<b style=&quot;font-family:Unbounded;font-style:italic;font-size:24px&quot;>LEO</b>'">
           <span class="vlbl">GIFT VOUCHER</span>
         </div>
         <div class="amt" id="vamt">500<small>LEI</small></div>
@@ -485,7 +526,7 @@ footer ul a:hover{color:var(--text)}
   <div class="container">
     <div class="fgrid">
       <div>
-        <a href="#home" class="logo"><img src="https://leobarbershop.md/assets/logo-leo-white-C3cypYNJ.webp" alt="LEO Barbershop" onerror="this.parentNode.classList.add('noimg')"><span class="txt">LEO<small>BARBERSHOP</small></span></a>
+        <a href="#home" class="logo"><img src="img/logo-leo-white.webp" alt="LEO Barbershop" onerror="this.parentNode.classList.add('noimg')"><span class="txt">LEO<small>BARBERSHOP</small></span></a>
         <p class="muted" style="max-width:340px;line-height:1.6;margin:18px 0 0" data-i="fTag"></p>
         <div class="soc">
           <a href="https://www.instagram.com/leobarbershop.md" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
@@ -516,32 +557,39 @@ const BOOK_SVC = "https://n932991.alteg.io/company/881004/personal/select-servic
 const HOURS = {open:9, close:20};
 
 const BARBERS = [
-  {id:"leonard", name:"Leonard Țurcanu", lead:true, img:"https://leobarbershop.md/assets/barber-1-E2guudFl.webp",
+  {id:"leonard", name:"Leonard Țurcanu", lead:true, img:"img/barber-1.webp",
    url:"https://n932991.alteg.io/company/881004/personal/select-services?o=m2337035",
    ro:["Fondator & Lead Barber","Fondatorul LEO. Viziune, disciplină și pasiune în fiecare detaliu."],
    ru:["Основатель & Lead Barber","Основатель LEO. Видение, дисциплина и страсть в каждой детали."]},
-  {id:"marius", name:"Marius Sofronii", lead:false, img:"https://leobarbershop.md/assets/barber-3-l9D5Irgc.webp",
+  {id:"marius", name:"Marius Sofronii", lead:false, img:"img/barber-3.webp",
    url:"https://n932991.alteg.io/company/881004/personal/select-services?o=m2887612",
    ro:["Top Barber","Fade-uri extrem de precise și styling care atrage privirile."],
    ru:["Top Barber","Очень точные фейды и укладка, которая притягивает взгляды."]},
-  {id:"ion", name:"Ion Patic", lead:false, img:"https://leobarbershop.md/assets/barber-2-DXgYrMq9.webp",
+  {id:"ion", name:"Ion Patic", lead:false, img:"img/barber-2.webp",
    url:"https://n932991.alteg.io/company/881004/personal/select-services?o=m2876198",
    ro:["Top Barber","Răbdare de maestru și ochi pentru detalii."],
    ru:["Top Barber","Терпение мастера и взгляд на детали."]},
 ];
 
-// price: [Top Barber, Lead Barber]
+// prices & durations as in the Altegio booking
 const SERVICES = [
-  {cat:"hair", dur:"45–60", p:[400,450], ro:["Tunsoare","Standard premium, finisaj profesional."], ru:["Стрижка","Премиальный стандарт, профессиональный финиш."]},
-  {cat:"hair", dur:"60–90", p:[600,700], rec:true, ro:["Complex (tunsoare + barbă)","Tunsoare și modelarea bărbii într-o singură vizită."], ru:["Комплекс (стрижка + борода)","Стрижка и оформление бороды за один визит."]},
-  {cat:"hair", dur:"60", p:[450,500], ro:["Tunsoare clasică (păr lung)","Lucrată cu foarfeca, atent la volum și textură."], ru:["Классическая стрижка (длинные волосы)","Ножницами, с вниманием к объёму и текстуре."]},
-  {cat:"beard",dur:"30", p:[250,300], ro:["Modelarea bărbii","Brici și produse premium, contur precis."], ru:["Оформление бороды","Опасная бритва и премиальные средства, чёткий контур."]},
-  {cat:"hair", dur:"15–30", p:[300,350], ro:["Tonarea părului","Uniformizarea și intensificarea nuanței."], ru:["Тонирование волос","Выравнивание и усиление оттенка."]},
-  {cat:"beard",dur:"30", p:[300,350], ro:["Tonarea bărbii","Culoare uniformă, aspect natural."], ru:["Тонирование бороды","Ровный цвет, естественный вид."]},
-  {cat:"care", dur:"30", p:[200,250], ro:["Black Mask","Mască neagră pentru curățarea profundă a tenului."], ru:["Black Mask","Чёрная маска для глубокого очищения кожи."]},
-  {cat:"care", dur:"15", p:[150,200], ro:["Corecția sprâncenelor","Curățare și conturare discretă."], ru:["Коррекция бровей","Аккуратная чистка и форма."]},
-  {cat:"care", dur:"15", p:[100,100], ro:["Ceară fierbinte (nas + urechi)","Rapid și eficient."], ru:["Горячий воск (нос + уши)","Быстро и эффективно."]},
+  {cat:"hair", dur:"45", price:"450 – 500", ro:["Tunsoare","Tunsoare realizată în funcție de forma feței și stilul tău."], ru:["Стрижка","Стрижка с учётом формы лица и твоего стиля."]},
+  {cat:"hair", dur:"60", price:"700", rec:true, ro:["Complex (tunsoare + barbă)","Un serviciu complet pentru îngrijirea părului și a bărbii."], ru:["Комплекс (стрижка + борода)","Полный уход за волосами и бородой."]},
+  {cat:"hair", dur:"60", price:"500", ro:["Tunsoare clasică (păr lung)","Tunsoare realizată cu foarfeca, atent la volum și textură."], ru:["Классическая стрижка (длинные волосы)","Ножницами, с вниманием к объёму и текстуре."]},
+  {cat:"beard",dur:"30", price:"300", ro:["Modelare barbă","Conturare și definire exactă a formei bărbii."], ru:["Оформление бороды","Точный контур и форма бороды."]},
+  {cat:"beard",dur:"30", price:"350", ro:["Tonare barbă","Uniformizarea culorii bărbii, aspect natural."], ru:["Тонирование бороды","Ровный цвет бороды, естественный вид."]},
+  {cat:"hair", dur:"30", price:"350", ro:["Tonarea părului","Corectarea sau intensificarea nuanței părului."], ru:["Тонирование волос","Коррекция или усиление оттенка волос."]},
+  {cat:"care", dur:"15", price:"200", ro:["Corecția sprâncenelor","Definire discretă și echilibrare a formei."], ru:["Коррекция бровей","Аккуратная форма и баланс бровей."]},
+  {cat:"care", dur:"15", price:"100", ro:["Ceară fierbinte (nas + urechi)","Îndepărtare rapidă și eficientă a firelor nedorite."], ru:["Горячий воск (нос + уши)","Быстрое и эффективное удаление лишних волос."]},
+  {cat:"care", dur:"30", price:"250", ro:["Black Mask (curățare facială)","Masca neagră curăță profund porii și împrospătează tenul."], ru:["Black Mask (очищение лица)","Чёрная маска глубоко очищает поры и освежает кожу."]},
 ];
+
+const WORKS = [
+  ["Tunsoare modernă","Современная стрижка"],["Tunsoare texturată cu fade","Текстурная стрижка с фейдом"],["Tunsoare cu volum și fade","Объёмная стрижка с фейдом"],
+  ["Crop cu fade lateral","Кроп с боковым фейдом"],["Tunsoare ginger texturată","Текстурная стрижка, рыжие волосы"],["Quiff cu skin fade","Квифф со скин-фейдом"],
+  ["Tunsoare cu volum și styling","Объём и укладка"],["Messy crop texturat","Текстурный небрежный кроп"],["Side part clasic","Классический боковой пробор"],
+  ["Bucle naturale","Естественные кудри"],["Texturat, profil lateral","Текстура, вид сбоку"],
+].map((c,i)=>({src:`img/work-${i+1}.webp`,ro:c[0],ru:c[1]}));
 
 const REVIEWS = [
   {n:"Andrei M.", f:true, ro:"Cel mai bun barbershop din oraș. Leonard e un adevărat profesionist — fiecare tunsoare e perfectă.", ru:"Лучший барбершоп в городе. Леонард — настоящий профессионал, каждая стрижка идеальна."},
@@ -554,18 +602,18 @@ const REVIEWS = [
 
 const T = {
 ro:{
-  nAbout:"Despre noi", nServices:"Servicii", nTeam:"Echipa", nVoucher:"Vouchere", nReviews:"Recenzii", nContact:"Contact",
+  nAbout:"Despre noi", nServices:"Servicii", nWorks:"Lucrări", worksH:"Lucrările noastre", worksP:"Fiecare tunsoare — făcută la noi, în LEO. Apasă pe foto ca s-o vezi mare.", moreIg:"Mai multe pe Instagram", nTeam:"Echipa", nVoucher:"Vouchere", nReviews:"Recenzii", nContact:"Contact",
   book:"Programează-te", bookNow:"Programează-te acum", seePrices:"Vezi prețurile", in30:"Alege barberul și ora în 30 de secunde",
   open:"Deschis acum · până la 20:00", closed:"Închis acum · deschidem la 9:00", openS:"Deschis", closedS:"Închis",
-  heroH:"Frizerie pentru bărbați <em>în Chișinău</em>",
+  heroH:"Barbershop pentru bărbați <em>în Chișinău</em>",
   heroP:"Tunsori moderne, fade și îngrijirea bărbii — realizate cu atenție la fiecare detaliu. Echipa noastră adaptează fiecare look stilului tău.",
   stYears:"ani experiență", stRating:"rating clienți", stDaily:"zilnic", hundreds:"sute de recenzii",
   marq:["Fade","Tunsori","Barbă","Styling","Black Mask","Precizie","Stil"],
   aboutH:"O experiență, nu doar o tunsoare", aboutP:"La LEO combinăm tehnica, instrumentele premium și o atmosferă în care chiar vrei să revii.",
   values:[["Precizie","Linii curate și simetrie la milimetru."],["Stil","Tunsori contemporane, potrivite fiecărui client."],["Confort","Atmosferă liniștită, dedicată doar ție."],["Profesionalism","Echipă experimentată și instrumente premium."]],
-  svcH:"Tunsori și barbă", svcP:"Prețurile diferă în funcție de nivelul barberului. Alege nivelul ca să vezi prețul exact.",
+  svcH:"Tunsori și barbă", svcP:"Prețuri transparente — fără surprize. Apasă pe serviciu ca să te programezi.",
   cats:{all:"Toate",hair:"Păr",beard:"Barbă",care:"Îngrijire"}, rec:"Recomandat", min:"min",
-  svcNote:"Prețul minim — Top Barber, maxim — Lead Barber. Programarea se confirmă pe platforma Altegio.",
+  svcNote:"Prețurile pot varia în funcție de barber. Prețul final îl vezi la programare.",
   teamH:"Echipa de barberi", teamP:"Ani de experiență și pasiune pentru meserie. Alege barberul tău.", bookWith:"Programează cu",
   bookH:"Rezervă-ți locul în câteva secunde", bookP:"Programare rapidă pe platforma oficială: alegi serviciul, barberul și ora — confirmarea vine imediat.",
   opts:[["Disponibilitate live","Vezi orele libere acum"],["Alege barberul","Leonard, Marius sau Ion"],["Alege serviciul","Tunsoare, barbă, îngrijire"]],
@@ -575,7 +623,7 @@ ro:{
   rvH:"Ce spun clienții noștri", loyal:"Client fidel", client:"Client",
   faqH:"Întrebări frecvente",
   faq:[["Cum mă programez?","Apasă „Programează-te”, alege serviciul, barberul și ora. Durează aproximativ 30 de secunde, iar confirmarea vine imediat."],
-       ["De ce prețurile au un interval?","Prețul minim este pentru Top Barber, cel maxim pentru Lead Barber (Leonard). Comută nivelul în secțiunea Servicii ca să vezi prețul exact."],
+       ["Cât costă o tunsoare?","Tunsoarea costă 450 – 500 lei, iar Complexul (tunsoare + barbă) — 700 lei. Toate prețurile sunt în secțiunea Servicii."],
        ["Pot să-mi mut programarea?","Da. Dacă nu reușești să ajungi, sună-ne din timp la +373 68 622 385 și te reprogramăm."],
        ["Ce program aveți?","Lucrăm zilnic, de la 9:00 până la 20:00, pe Str. Calea Ieșilor 6D."],
        ["Cum cumpăr un voucher cadou?","Sună-ne sau scrie-ne pe Instagram, iar voucherul personalizat îl ridici din salon."]],
@@ -583,7 +631,7 @@ ro:{
   fTag:"Stil, precizie și experiență la un nivel înalt. Pentru bărbatul modern.", fNav:"Navigare", rights:"Toate drepturile rezervate.",
 },
 ru:{
-  nAbout:"О нас", nServices:"Услуги", nTeam:"Команда", nVoucher:"Сертификаты", nReviews:"Отзывы", nContact:"Контакты",
+  nAbout:"О нас", nServices:"Услуги", nWorks:"Работы", worksH:"Наши работы", worksP:"Каждая стрижка — сделана у нас, в LEO. Нажми на фото, чтобы открыть.", moreIg:"Больше в Instagram", nTeam:"Команда", nVoucher:"Сертификаты", nReviews:"Отзывы", nContact:"Контакты",
   book:"Записаться", bookNow:"Записаться онлайн", seePrices:"Смотреть цены", in30:"Выбери мастера и время за 30 секунд",
   open:"Открыто · до 20:00", closed:"Закрыто · откроемся в 9:00", openS:"Открыто", closedS:"Закрыто",
   heroH:"Мужской барбершоп <em>в Кишинёве</em>",
@@ -592,9 +640,9 @@ ru:{
   marq:["Fade","Стрижки","Борода","Укладка","Black Mask","Точность","Стиль"],
   aboutH:"Это опыт, а не просто стрижка", aboutP:"В LEO сочетаются техника, премиальные инструменты и атмосфера, в которую хочется возвращаться.",
   values:[["Точность","Чистые линии и симметрия до миллиметра."],["Стиль","Современные стрижки под каждого клиента."],["Комфорт","Спокойная атмосфера, посвящённая только тебе."],["Профессионализм","Опытная команда и премиальные инструменты."]],
-  svcH:"Стрижки и борода", svcP:"Цена зависит от уровня мастера. Переключи уровень, чтобы увидеть точную стоимость.",
+  svcH:"Стрижки и борода", svcP:"Прозрачные цены — без сюрпризов. Нажми на услугу, чтобы записаться.",
   cats:{all:"Все",hair:"Волосы",beard:"Борода",care:"Уход"}, rec:"Рекомендуем", min:"мин",
-  svcNote:"Минимальная цена — Top Barber, максимальная — Lead Barber. Запись подтверждается на платформе Altegio.",
+  svcNote:"Цена может отличаться в зависимости от мастера. Итоговую стоимость видно при записи.",
   teamH:"Наши барберы", teamP:"Годы опыта и любовь к делу. Выбери своего мастера.", bookWith:"Записаться к",
   bookH:"Забронируй место за пару секунд", bookP:"Быстрая запись на официальной платформе: выбираешь услугу, мастера и время — подтверждение приходит сразу.",
   opts:[["Свободное время онлайн","Смотри окна прямо сейчас"],["Выбрать мастера","Леонард, Мариус или Ион"],["Выбрать услугу","Стрижка, борода, уход"]],
@@ -604,7 +652,7 @@ ru:{
   rvH:"Что говорят клиенты", loyal:"Постоянный клиент", client:"Клиент",
   faqH:"Частые вопросы",
   faq:[["Как записаться?","Нажми «Записаться», выбери услугу, мастера и время. Это занимает около 30 секунд, подтверждение приходит сразу."],
-       ["Почему у цен диапазон?","Минимальная цена — у Top Barber, максимальная — у Lead Barber (Леонард). Переключи уровень в разделе «Услуги», чтобы увидеть точную цену."],
+       ["Сколько стоит стрижка?","Стрижка — 450–500 лей, Комплекс (стрижка + борода) — 700 лей. Все цены — в разделе «Услуги»."],
        ["Можно перенести запись?","Да. Если не успеваешь, позвони заранее по номеру +373 68 622 385 — перенесём."],
        ["Какой у вас график?","Работаем ежедневно с 9:00 до 20:00, ул. Калea Ешилор 6D."],
        ["Как купить подарочный сертификат?","Позвони или напиши в Instagram, а именной сертификат заберёшь в салоне."]],
@@ -652,6 +700,7 @@ function render(){
     </article>`}).join("");
   const ourls=[BOOK_TIME,BOOK_MASTER,BOOK_SVC];
   $("#opts").innerHTML=t("opts").map((o,i)=>`<a class="opt" href="${ourls[i]}" target="_blank" rel="noopener"><span class="ic">${svg(ICONS.opts[i])}</span><div><b>${o[0]}</b><small>${o[1]}</small></div><span class="ar">${ICONS.arrowUR}</span></a>`).join("");
+  $("#gal").innerHTML=WORKS.map((w,i)=>`<button class="gi reveal" data-g="${i}"><img src="${w.src}" alt="${w[S.lang]} — LEO Barbershop" loading="lazy" decoding="async"><span>${w[S.lang]}</span></button>`).join("");
   $("#vlist").innerHTML=t("vList").map(x=>`<li>${x}</li>`).join("");
   $("#vamts").innerHTML=[300,500,700,1000].map(v=>`<button class="tab ${S.voucher===v?"on":""}" data-v="${v}">${v} L</button>`).join("");
   $("#vamt").innerHTML=S.voucher+"<small>LEI</small>";
@@ -663,13 +712,11 @@ function render(){
 
 function renderServices(){
   $("#tabs").innerHTML=["all","hair","beard","care"].map(c=>`<button class="tab ${S.cat===c?"on":""}" data-c="${c}">${t("cats")[c]}</button>`).join("");
-  $$("#lvl button").forEach(b=>b.classList.toggle("on",b.dataset.l===S.lvl));
-  const li=S.lvl==="lead"?1:0;
   $("#svcs").innerHTML=SERVICES.filter(s=>S.cat==="all"||s.cat===S.cat).map(s=>{const d=s[S.lang];return `
     <a class="svc" href="${BOOK_SVC}" target="_blank" rel="noopener">
       <div class="b"><h3>${d[0]} ${s.rec?`<span class="pill rec">${t("rec")}</span>`:""}</h3><p>${d[1]}</p>
         <div class="meta"><span class="pill">⏱ ${s.dur} ${t("min")}</span></div></div>
-      <div class="pr"><b>${s.p[li]}</b><small>MDL</small></div>
+      <div class="pr"><b>${s.price}</b><small>lei</small></div>
       <span class="go">${ICONS.arrowUR}</span>
     </a>`}).join("");
 }
@@ -679,16 +726,30 @@ document.addEventListener("click",e=>{
   const b=e.target.closest("button,a");if(!b)return;
   if(b.dataset.lang){S.lang=b.dataset.lang;ls.set("leo-lang",S.lang);render();return}
   if(b.dataset.c){S.cat=b.dataset.c;renderServices();return}
-  if(b.dataset.l){S.lvl=b.dataset.l;renderServices();return}
   if(b.dataset.v){S.voucher=+b.dataset.v;$$("#vamts .tab").forEach(x=>x.classList.toggle("on",x===b));$("#vamt").innerHTML=S.voucher+"<small>LEI</small>";return}
+  if(b.dataset.g!=null){openLb(+b.dataset.g);return}
+  if(b.id==="lbX"){closeLb();return}
+  if(b.id==="lbP"){lbGo(-1);return}
+  if(b.id==="lbN"){lbGo(1);return}
   if(b.id==="burger"){document.body.classList.toggle("menu-open");return}
   if(b.closest(".mmenu")) document.body.classList.remove("menu-open");
   if(b.closest(".q")){const q=b.closest(".q");const o=!q.classList.contains("open");$$(".q").forEach(x=>{x.classList.remove("open");x.querySelector("button").setAttribute("aria-expanded","false")});if(o){q.classList.add("open");b.setAttribute("aria-expanded","true")}return}
   if(b.id==="rvPrev"||b.id==="rvNext"){const r=$("#rv");r.scrollBy({left:(b.id==="rvNext"?1:-1)*(r.querySelector(".rcard").offsetWidth+14),behavior:"smooth"})}
 });
 
+/* lightbox */
+let lbI=0;
+function lbShow(){const w=WORKS[lbI];$("#lbImg").src=w.src;$("#lbImg").alt=w[S.lang];$("#lbCap").textContent=w[S.lang]+"  ·  "+(lbI+1)+" / "+WORKS.length}
+function openLb(i){lbI=i;lbShow();$("#lb").classList.add("on");document.body.style.overflow="hidden"}
+function closeLb(){$("#lb").classList.remove("on");document.body.style.overflow=""}
+function lbGo(d){lbI=(lbI+d+WORKS.length)%WORKS.length;lbShow()}
+$("#lb").addEventListener("click",e=>{if(e.target.id==="lb")closeLb()});
+addEventListener("keydown",e=>{if(!$("#lb").classList.contains("on"))return;if(e.key==="Escape")closeLb();if(e.key==="ArrowLeft")lbGo(-1);if(e.key==="ArrowRight")lbGo(1)});
+let tx=null;$("#lb").addEventListener("touchstart",e=>tx=e.touches[0].clientX,{passive:true});
+$("#lb").addEventListener("touchend",e=>{if(tx==null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)lbGo(dx<0?1:-1);tx=null});
+
 /* scroll: header, dock, active nav */
-const secs=["despre","servicii","echipa","vouchere","recenzii","contact"];
+const secs=["despre","servicii","lucrari","echipa","vouchere","recenzii","contact"];
 function onScroll(){
   const y=scrollY;
   $("#hdr").classList.toggle("solid",y>20);
