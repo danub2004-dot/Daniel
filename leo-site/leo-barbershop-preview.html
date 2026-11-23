@@ -32,6 +32,53 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .outline{color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.35)}
 .green{color:var(--g)}
 
+.prog{position:fixed;left:0;top:0;height:3px;width:100%;z-index:70;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--g2),var(--g),#c9ffe0);box-shadow:0 0 14px var(--g),0 0 4px var(--g)}
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+.burst{position:fixed;inset:0;z-index:99;pointer-events:none}
+
+/* quiz */
+.quiz{position:relative;border-radius:34px;padding:28px 20px;overflow:hidden;isolation:isolate;
+  background:linear-gradient(160deg,rgba(30,80,52,.55),rgba(10,20,14,.7));border:1px solid rgba(63,209,127,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+@media(min-width:900px){.quiz{padding:56px}}
+.quiz:before{content:"";position:absolute;right:-120px;top:-120px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(63,209,127,.35),transparent 65%);z-index:-1}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}
+.qsteps{display:flex;gap:6px}.qsteps i{width:34px;height:4px;border-radius:4px;background:rgba(255,255,255,.12);transition:.4s}.qsteps i.on{background:var(--g);box-shadow:0 0 10px var(--g)}
+.qback{font:600 11px Unbounded;letter-spacing:.15em;color:var(--muted);visibility:hidden}.qback.on{visibility:visible}
+.qq{font:800 clamp(24px,4.5vw,52px)/1.05 Unbounded;letter-spacing:-.03em;margin:0 0 22px}
+.qopts{display:grid;gap:10px}
+@media(min-width:700px){.qopts{grid-template-columns:repeat(2,1fr)}}
+.qo{display:flex;align-items:center;gap:14px;padding:18px;border-radius:20px;text-align:left;background:rgba(5,10,7,.45);border:1px solid var(--line2);font-weight:700;font-size:15.5px;transition:transform .3s var(--ease),border-color .3s,background .3s}
+.qo:hover,.qo:active{border-color:var(--g);background:rgba(63,209,127,.12);transform:translateY(-2px)}
+.qo .em{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.06)}
+.qo small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-top:2px}
+.qpane{animation:qin .6s var(--ease)}
+@keyframes qin{from{opacity:0;transform:translateX(40px)}}
+.qres{display:grid;gap:22px;align-items:center}
+@media(min-width:860px){.qres{grid-template-columns:.9fr 1.1fr}}
+.qimg{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:4/4.6;box-shadow:0 30px 60px -20px rgba(0,0,0,.7)}
+.qimg img{width:100%;height:100%;object-fit:cover}
+.qimg:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(0,0,0,.7))}
+.qmatch{position:absolute;left:16px;bottom:16px;z-index:2;display:flex;align-items:center;gap:12px}
+.qmatch svg{width:64px;height:64px;transform:rotate(-90deg)}
+.qmatch circle{fill:none;stroke-width:6}
+.qmatch b{font:800 22px Unbounded}.qmatch small{display:block;font-size:11px;color:#cfe;letter-spacing:.15em;font-weight:700}
+.qlabel{font:600 11px Unbounded;letter-spacing:.25em;color:var(--g)}
+.qname{font:900 clamp(30px,6vw,70px)/.95 Unbounded;letter-spacing:-.04em;text-transform:uppercase;margin:12px 0}
+.qprice{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.qprice span{padding:8px 14px;border-radius:999px;border:1px solid var(--line2);font-weight:800;font-size:14px;background:rgba(0,0,0,.25)}
+.qprice span.g{background:var(--g);color:#04140a;border-color:var(--g)}
+.qbar{display:flex;align-items:center;gap:14px;padding:14px;border-radius:20px;background:rgba(0,0,0,.3);border:1px solid var(--line2);margin-bottom:18px}
+.qbar img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--g)}
+.qbar small{display:block;color:var(--muted);font-size:12px;font-weight:600}.qbar b{font-size:16px}
+.qwhy{color:#cfdcd5;line-height:1.6;margin:0 0 20px}
+.qacts{display:flex;gap:10px;flex-wrap:wrap}
+
+/* tilt glare */
+.tilt{transform-style:preserve-3d;transition:transform .5s var(--ease)}
+.tilt.moving{transition:transform .08s linear}
+.tilt .glare{position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.28),transparent 50%);opacity:0;transition:opacity .4s;mix-blend-mode:overlay}
+.tilt.moving .glare{opacity:1}
+
 /* ===== living background ===== */
 .bgfx{position:fixed;inset:0;z-index:-10;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#07130c 0%,#030604 60%);pointer-events:none}
 .bgfx .drift{position:absolute;inset:-20%;transform:translate3d(calc(var(--p,0) * -18vw),calc(var(--p,0) * -30vh),0) rotate(calc(var(--p,0) * 40deg));will-change:transform}
@@ -241,15 +288,16 @@ section{position:relative}
   .sv:hover .go{background:var(--g);border-color:var(--g);color:#000;transform:rotate(45deg)}}
 .stack{display:grid;gap:14px;padding-bottom:20px}
 .sc{position:sticky;top:calc(86px + var(--i) * 10px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;min-height:230px;padding:22px;border-radius:28px;overflow:hidden;isolation:isolate;
-  background:linear-gradient(135deg,#132019,#0b120e);border:1px solid var(--line2);box-shadow:0 -20px 50px -20px rgba(0,0,0,.9);transform-origin:50% 0;will-change:transform}
+  background:linear-gradient(135deg,rgba(38,92,62,.92),rgba(18,40,28,.94) 55%,rgba(14,30,22,.95));border:1px solid rgba(63,209,127,.35);box-shadow:0 -10px 40px -18px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12);transform-origin:50% 0;will-change:transform}
 @media(min-width:900px){.sc{min-height:300px;padding:40px;top:calc(100px + var(--i) * 14px)}}
-.sc .ph{position:absolute;right:0;top:0;bottom:0;width:58%;z-index:-1;-webkit-mask-image:linear-gradient(90deg,transparent,#000 70%);mask-image:linear-gradient(90deg,transparent,#000 70%);opacity:.55;transition:opacity .6s}
+.sc .ph{position:absolute;right:0;top:0;bottom:0;width:60%;z-index:-1;-webkit-mask-image:linear-gradient(90deg,transparent,#000 60%);mask-image:linear-gradient(90deg,transparent,#000 60%);opacity:.85;transition:opacity .6s}
 .sc:hover .ph{opacity:.8}
-.sc .ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(.3)}
-.sc .shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(11,18,14,.95) 30%,rgba(11,18,14,.3))}
+.sc .ph img{width:100%;height:100%;object-fit:cover}
+.sc .shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(22,52,36,.92) 32%,rgba(22,52,36,.15))}
+.sc:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(400px circle at 0% 0%,rgba(63,209,127,.25),transparent 60%)}
 .sc .n{font:600 11px Unbounded;letter-spacing:.2em;color:var(--g)}
 .sc h3{margin:14px 0 10px;font:800 clamp(22px,5.6vw,58px)/1 Unbounded;overflow-wrap:anywhere;letter-spacing:-.04em;text-transform:uppercase;max-width:12ch}
-.sc p{margin:0;color:#b9c6bf;font-size:14px;line-height:1.5;max-width:30ch}
+.sc p{margin:0;color:#d6e6dc;font-size:14px;line-height:1.5;max-width:30ch}
 .sc .meta{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
 .sc .meta span{padding:5px 11px;border-radius:999px;border:1px solid var(--line2);font-weight:700;font-size:12px;background:rgba(0,0,0,.3)}
 .sc .meta .rec{background:var(--g);color:#04140a;border-color:var(--g);font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.06em}
@@ -428,6 +476,7 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
   <canvas id="dust"></canvas><div class="vig"></div>
 </div>
 <div class="grain"></div>
+<div class="prog" id="prog"></div>
 <div class="cur" id="cur"></div><div class="cur-dot" id="curDot"></div>
 
 <div class="pre" id="pre">
@@ -457,6 +506,7 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
 <div class="mm" id="mm">
   <a class="l" href="#despre" style="transition-delay:.15s"><small>01</small><span data-i="nAbout"></span></a>
   <a class="l" href="#servicii" style="transition-delay:.2s"><small>02</small><span data-i="nServices"></span></a>
+  <a class="l" href="#stil" style="transition-delay:.22s"><small>✦</small><span data-i="qKick"></span></a>
   <a class="l" href="#lucrari" style="transition-delay:.25s"><small>03</small><span data-i="nWorks"></span></a>
   <a class="l" href="#echipa" style="transition-delay:.3s"><small>04</small><span data-i="nTeam"></span></a>
   <a class="l" href="#vouchere" style="transition-delay:.35s"><small>05</small><span data-i="nVoucher"></span></a>
@@ -540,6 +590,16 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
     <div class="svnote" data-i="svcNote"></div>
   </div>
   <div class="svimg" id="svimg"><img alt=""></div>
+</section>
+
+<section class="sec" id="stil" style="padding-top:60px">
+  <div class="wrap">
+    <div class="sh">
+      <div><span class="kicker"><b>✦</b> <span data-i="qKick"></span></span><h2 class="h2" data-i="qH"></h2></div>
+      <p data-i="qP"></p>
+    </div>
+    <div class="quiz" id="quiz"></div>
+  </div>
 </section>
 
 <section class="sec works" id="lucrari">
@@ -678,6 +738,7 @@ footer ul a{color:var(--muted);font-weight:600;transition:color .2s}footer ul a:
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
 /* ====================== DATA ====================== */
 const BOOK="https://n932991.alteg.io/company/881004/personal/menu?o=m-1";
@@ -729,6 +790,12 @@ ro:{
   mq1:["Fade","Tunsori","Barbă","Styling"], mq2:["Precizie","Stil","Confort","LEO"],
   stmt:"La LEO nu primești doar o tunsoare. Primești *precizie,* *stil* și o experiență la care vrei să revii — de fiecare dată.",
   z1:"Precizie", z2:"la milimetru",
+  qKick:"Test 15 sec", qH:"Ce look ți se potrivește?", qP:"Răspunde la 3 întrebări — îți alegem serviciul și barberul perfect.",
+  qBack:"← ÎNAPOI", qMatch:"POTRIVIRE", qFor:"Recomandat pentru tine", qBarber:"Barberul tău", qAgain:"Reia testul", qBook:"Programează cu",
+  qs:[["Ce facem azi?",[["✂️","Tunsoare","Doar părul"],["🧔","Tunsoare + barbă","Look complet"],["🪒","Doar barba","Contur și formă"],["✨","Îngrijire față","Mască și ceară"]]],
+      ["Ce lungime are părul?",[["⚡","Scurt","Până la 5 cm"],["〰️","Mediu","5–10 cm"],["🌊","Lung","Peste 10 cm"]]],
+      ["Ce stil îți place?",[["🎩","Clasic","Elegant, curat"],["🔥","Modern / fade","Trendy, tranziții fine"],["💎","Îndrăzneț","Să atragă privirile"]]]],
+  why:{"1":"Fade-uri precise și tranziții curate — un look modern care ține săptămâni.","0":"Linii curate și simetrie — eleganță clasică, fără compromis.","2":"Formă cu caracter, lucrată de fondatorul LEO — pentru cei care vor să iasă în evidență."},
   stYears:"ani de experiență", stRating:"rating clienți", stBarbers:"barberi de top",
   vals:[["Precizie","Linii curate și simetrie la milimetru."],["Stil","Tunsori contemporane, potrivite ție."],["Confort","Atmosferă liniștită, dedicată doar ție."],["Profesionalism","Echipă experimentată, instrumente premium."]],
   svcH:"Servicii & prețuri", svcP:"Prețuri transparente, fără surprize. Apasă pe orice serviciu ca să te programezi.", rec:"Top", min:"min", lei:"LEI",
@@ -757,6 +824,12 @@ ru:{
   mq1:["Fade","Стрижки","Борода","Укладка"], mq2:["Точность","Стиль","Комфорт","LEO"],
   stmt:"В LEO ты получаешь не просто стрижку. Ты получаешь *точность,* *стиль* и сервис, к которому хочется возвращаться — каждый раз.",
   z1:"Точность", z2:"до миллиметра",
+  qKick:"Тест 15 сек", qH:"Какой образ тебе подходит?", qP:"Ответь на 3 вопроса — подберём идеальную услугу и мастера.",
+  qBack:"← НАЗАД", qMatch:"СОВПАДЕНИЕ", qFor:"Рекомендуем тебе", qBarber:"Твой мастер", qAgain:"Пройти заново", qBook:"Записаться к",
+  qs:[["Что делаем сегодня?",[["✂️","Стрижка","Только волосы"],["🧔","Стрижка + борода","Полный образ"],["🪒","Только борода","Контур и форма"],["✨","Уход за лицом","Маска и воск"]]],
+      ["Какая длина волос?",[["⚡","Короткие","До 5 см"],["〰️","Средние","5–10 см"],["🌊","Длинные","Больше 10 см"]]],
+      ["Какой стиль нравится?",[["🎩","Классика","Элегантно, чисто"],["🔥","Модерн / фейд","Трендово, плавные переходы"],["💎","Дерзкий","Чтобы оборачивались"]]]],
+  why:{"1":"Точные фейды и чистые переходы — современный образ, который держится неделями.","0":"Чистые линии и симметрия — классическая элегантность без компромиссов.","2":"Форма с характером от основателя LEO — для тех, кто хочет выделяться."},
   stYears:"лет опыта", stRating:"рейтинг клиентов", stBarbers:"топ-барбера",
   vals:[["Точность","Чистые линии и симметрия до миллиметра."],["Стиль","Современные стрижки под тебя."],["Комфорт","Спокойная атмосфера только для тебя."],["Профессионализм","Опытная команда, премиальные инструменты."]],
   svcH:"Услуги и цены", svcP:"Прозрачные цены без сюрпризов. Нажми на любую услугу, чтобы записаться.", rec:"Хит", min:"мин", lei:"ЛЕЙ",
@@ -837,6 +910,8 @@ function render(){
 
   $("#faqL").innerHTML=t("faq").map((q,i)=>`<div class="q${i===0?" open":""}"><button aria-expanded="${i===0}"><span>${q[0]}</span><span class="pm">+</span></button><div class="a"><div><p>${q[1]}</p></div></div></div>`).join("");
 
+  if(typeof renderQuiz==="function")renderQuiz();
+  if(typeof initTilt==="function")setTimeout(initTilt,50);
   if(window._ready)setupDynamic();
 }
 
@@ -940,7 +1015,7 @@ function setupDynamic(){
   $$(".h2").forEach(h=>add(gsap.fromTo(h,{yPercent:35,opacity:0},{yPercent:0,opacity:1,duration:1.2,ease:"expo.out",scrollTrigger:{trigger:h,start:"top 92%",once:true}})));
   const cards=$$(".sc");
   cards.forEach((c,i)=>{if(i===cards.length-1)return;
-    add(gsap.to(c,{scale:.9,filter:"brightness(.45)",ease:"none",scrollTrigger:{trigger:cards[i+1],start:"top 95%",end:"top 30%",scrub:true}}))});
+    add(gsap.to(c,{scale:.95,ease:"none",scrollTrigger:{trigger:cards[i+1],start:"top 95%",end:"top 30%",scrub:true}}))});
   // zoom-through
   add(gsap.timeline({scrollTrigger:{trigger:"#zoom",start:"top top",end:"bottom bottom",scrub:true}})
     .fromTo("#zimg",{clipPath:"inset(30% 24% 30% 24% round 28px)"},{clipPath:"inset(0% 0% 0% 0% round 0px)",ease:"power2.inOut",duration:1},0)
@@ -1053,6 +1128,94 @@ function heroGL(){
   if(img.complete&&img.naturalWidth)go();else img.addEventListener("load",go);
 }
 
+/* ====================== QUIZ ====================== */
+const Q={step:0,a:[]};
+function renderQuiz(){
+  const el=$("#quiz"),qs=t("qs");
+  const steps=`<div class="qsteps">${[0,1,2,3].map(i=>`<i class="${i<=Q.step?"on":""}"></i>`).join("")}</div>`;
+  if(Q.step<3){
+    const [q,opts]=qs[Q.step];
+    el.innerHTML=`<div class="qtop">${steps}<button class="qback ${Q.step?"on":""}" data-qb>${t("qBack")}</button></div>
+      <div class="qpane"><h3 class="qq">${q}</h3><div class="qopts">${opts.map((o,i)=>`<button class="qo" data-qa="${i}"><span class="em">${o[0]}</span><span>${o[1]}<small>${o[2]}</small></span></button>`).join("")}</div></div>`;
+    return;
+  }
+  const [what,len,style]=Q.a;
+  let svc=0,img="work-1";
+  if(what===1){svc=1;img="work-2"}else if(what===2){svc=3;img="work-4"}else if(what===3){svc=8;img="work-3"}
+  else{svc=len===2?2:0;img=len===2?"work-10":["work-9","work-6","work-5"][style]}
+  const barber=BARBERS[[2,1,0][style]];
+  const S1=SERVICES[svc],d=S1[S.lang];const extra=what===3?SERVICES[7]:null;
+  const match=92+((what*7+len*3+style*5)%8);
+  el.innerHTML=`<div class="qtop">${steps}<button class="qback on" data-qr>${t("qAgain")} ↺</button></div>
+    <div class="qpane qres">
+      <div class="qimg tilt"><img src="${IMG(img)}" alt=""><span class="glare"></span>
+        <div class="qmatch"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" stroke="rgba(255,255,255,.15)"/><circle id="qring" cx="32" cy="32" r="27" stroke="#3fd17f" stroke-linecap="round" stroke-dasharray="170" stroke-dashoffset="170" style="transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1)"/></svg>
+          <div><b id="qpct">0%</b><small>${t("qMatch")}</small></div></div></div>
+      <div>
+        <span class="qlabel">${t("qFor")}</span>
+        <div class="qname">${d[0]}${extra?` + ${extra[S.lang][0]}`:""}</div>
+        <div class="qprice"><span class="g">${S1.price}${extra?" + "+extra.price:""} ${t("lei")}</span><span>⏱ ${S1.dur+(extra?extra.dur:0)} ${t("min")}</span></div>
+        <p class="qwhy">${t("why")[style]}</p>
+        <div class="qbar"><img src="${IMG(barber.img)}" alt=""><div><small>${t("qBarber")}</small><b>${barber.name}</b></div></div>
+        <div class="qacts"><a class="btn btn-g bk-x" data-burst href="${barber.url}" target="_blank" rel="noopener">${t("qBook")} ${barber.first}<span class="ar">↗</span></a></div>
+      </div>
+    </div>`;
+  requestAnimationFrame(()=>setTimeout(()=>{$("#qring").style.strokeDashoffset=170-170*match/100;
+    const o={v:0},pe=$("#qpct");if(window.gsap)gsap.to(o,{v:match,duration:1.6,ease:"expo.out",onUpdate:()=>pe.textContent=Math.round(o.v)+"%"});else pe.textContent=match+"%";
+    const r=$("#quiz .qimg").getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,90);
+    initTilt();},60));
+}
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-qa]");if(a){Q.a[Q.step]=+a.dataset.qa;if(Q.a[0]!==0&&Q.a[0]!==undefined&&Q.step===0){Q.a[1]=0;Q.step=2}else Q.step++;renderQuiz();return}
+  if(e.target.closest("[data-qb]")){Q.step=(Q.step===2&&Q.a[0]!==0)?0:Math.max(0,Q.step-1);renderQuiz();return}
+  if(e.target.closest("[data-qr]")){Q.step=0;Q.a=[];renderQuiz();return}
+});
+
+/* ====================== PARTICLE BURST ====================== */
+function burst(x,y,n=40){
+  if(REDUCED)return;
+  const cv=document.createElement("canvas");cv.className="burst";document.body.appendChild(cv);
+  const d=Math.min(devicePixelRatio||1,2);cv.width=innerWidth*d;cv.height=innerHeight*d;const c=cv.getContext("2d");c.scale(d,d);
+  const cols=["#3fd17f","#b8ffd6","#f2c14e","#ffffff","#1f9a57"];
+  const ps=Array.from({length:n},()=>{const a=Math.random()*6.283,v=Math.random()*9+3;return{x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-4,r:Math.random()*4+2,c:cols[Math.random()*cols.length|0],life:1,rot:Math.random()*6,vr:(Math.random()-.5)*.4,sq:Math.random()<.5}});
+  (function f(){c.clearRect(0,0,innerWidth,innerHeight);let alive=false;
+    for(const p of ps){p.vy+=.28;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.life-=.012;p.rot+=p.vr;if(p.life>0){alive=true;c.save();c.globalAlpha=p.life;c.translate(p.x,p.y);c.rotate(p.rot);c.fillStyle=p.c;
+      if(p.sq)c.fillRect(-p.r,-p.r/2,p.r*2,p.r);else{c.beginPath();c.arc(0,0,p.r,0,6.283);c.fill()}c.restore()}}
+    if(alive)requestAnimationFrame(f);else cv.remove()})();
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".bk,[data-burst],.btn-g");if(b)burst(e.clientX,e.clientY,46)},true);
+
+/* ====================== 3D TILT ====================== */
+function initTilt(){
+  $$(".tm,.wk,.qimg").forEach(el=>{
+    if(el._tilt)return;el._tilt=1;el.classList.add("tilt");
+    if(!el.querySelector(".glare")){const g=document.createElement("span");g.className="glare";el.appendChild(g)}
+    const mv=(x,y)=>{const r=el.getBoundingClientRect();const px=(x-r.left)/r.width,py=(y-r.top)/r.height;if(px<0||px>1||py<0||py>1)return;
+      el.classList.add("moving");el.style.transform=`perspective(900px) rotateY(${(px-.5)*14}deg) rotateX(${(.5-py)*12}deg) scale(1.02)`;el.style.setProperty("--gx",px*100+"%");el.style.setProperty("--gy",py*100+"%")};
+    const end=()=>{el.classList.remove("moving");el.style.transform=""};
+    el.addEventListener("pointermove",e=>{if(e.pointerType==="mouse")mv(e.clientX,e.clientY)});
+    el.addEventListener("pointerleave",end);
+    let sx,sy,tilting=false;
+    el.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;tilting=true;mv(sx,sy)},{passive:true});
+    el.addEventListener("touchmove",e=>{if(tilting)mv(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
+    el.addEventListener("touchend",end);el.addEventListener("touchcancel",end);
+  });
+}
+
+/* ====================== PROGRESS + SMOOTH SCROLL ====================== */
+(function(){
+  const pb=$("#prog");const up=()=>{const m=document.documentElement.scrollHeight-innerHeight;pb.style.transform=`scaleX(${m>0?scrollY/m:0})`};
+  addEventListener("scroll",up,{passive:true});up();
+  if(window.Lenis&&FINE&&!REDUCED){
+    const lenis=new Lenis({duration:1.15,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true});
+    window._lenis=lenis;
+    if(HAS_GSAP){lenis.on("scroll",ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0)}
+    else{(function raf(t){lenis.raf(t);requestAnimationFrame(raf)})(0)}
+    document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const id=a.getAttribute("href");const tg=id.length>1&&document.querySelector(id);
+      if(tg){e.preventDefault();lenis.scrollTo(tg,{offset:-60})}else if(id==="#top"){e.preventDefault();lenis.scrollTo(0)}});
+  }
+})();
+
 /* ====================== LIVING BACKGROUND ====================== */
 (function(){
   const fx=$("#bgfx");
@@ -1085,6 +1248,7 @@ function heroGL(){
 })();
 
 /* ====================== BOOT ====================== */
+renderQuiz();initTilt();
 heroGL();
 render();
 if(HAS_GSAP&&!REDUCED)setupStatic();
