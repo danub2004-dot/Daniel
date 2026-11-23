@@ -25,6 +25,8 @@ if EP == 'episode02':
     T_END = le(11) + 4.4
 elif EP == 'episode03':
     T_END = le(12) + 4.4
+elif EP == 'episode04':
+    T_END = le(10) + 4.4
 N = int((T_END + 0.5) * SR)
 L = np.zeros(N); R = np.zeros(N)
 
@@ -67,6 +69,33 @@ if EP == 'episode02':
     put('breath', ls(10) + 0.2, 0.3)
     put('stinger', ls(11) - 0.25, 0.75)
     put('glitch', TT, 0.45)
+elif EP == 'episode04':
+    TT = le(10) + 0.7
+    tBus = ls(8) - 0.3
+    bed('drone', 0, TT + 0.5, 0.22, 2.0)
+    bed('rain', 0, ls(7) - 0.3, 0.05); bed('rain', ls(7) - 0.5, ls(10) - 0.2, 0.34, 0.4)
+    put('vibrate', 0.0, 0.35)
+    put('stinger', wt(0, 'какого') - 0.05, 0.55)
+    put('whoosh', ls(1) - 0.45, 0.3)
+    put('clock', ls(1) + 0.2, 0.25)
+    put('glitch', wt(1, 'кеды') + 0.45, 0.3)
+    put('whoosh', ls(2) - 0.45, 0.25)
+    put('heartbeat', ls(2), 0.35)
+    put('glitch', wt(3, 'нет') - 0.05, 0.4)
+    put('glitch', wt(3, 'кольца'), 0.3)
+    put('whoosh', ls(4) - 0.45, 0.3)
+    put('heartbeat', ls(4), 0.4)
+    put('notify', wt(5, 'сообщение') - 0.1, 0.5)
+    put('whoosh', ls(6) - 0.45, 0.3)
+    put('whoosh', wt(7, 'фары') - 0.6, 0.45)
+    put('bus_arrive', tBus - 1.5, 0.6, pan=0.4)
+    put('bus_door_open', wt(8, 'двери') - 0.05, 0.55)
+    bed('bus_idle', tBus + 3.5, ls(10) - 0.2, 0.22, 0.6)
+    put('breath', ls(8) + 2.0, 0.25)
+    put('stinger', wt(9, 'пустым') - 0.1, 0.5)
+    put('notify', wt(10, 'садись') - 0.15, 0.5)
+    put('glitch', wt(10, 'смена') - 0.05, 0.3)
+    put('stinger', TT, 0.7)
 else:
     TT = le(12) + 0.7
     tBus, tGo = wt(4, 'подъехал') - 0.25, wt(9, 'автобус') - 0.1

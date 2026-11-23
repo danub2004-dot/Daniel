@@ -114,9 +114,10 @@ function bus(p = {}) {
   s += `<path d="M44,-${H} L${L - 22},-${H} Q${L},-${H} ${L},-${H - 22} L${L},-46 L0,-46 L0,-${H - 70} Q0,-${H} 44,-${H}Z" fill="#5d6574"/>`;
   s += `<rect x="0" y="-122" width="${L}" height="76" fill="#3e4452"/><rect x="0" y="-156" width="${L}" height="14" fill="${P.amber}" opacity=".8"/>`;
   // окна салона
-  [[170, 300], [312, 452], [632, 762], [774, 904], [916, 1068]].forEach(([a, b]) => {
-    s += `<rect x="${a}" y="-352" width="${b - a}" height="150" rx="10" fill="#0d1a26"/><rect x="${a}" y="-352" width="${b - a}" height="150" rx="10" fill="url(#gBusIn)" opacity="${0.55 * q.inner}"/>`;
-  });
+  const WINS = [[170, 300], [312, 452], [632, 762], [774, 904], [916, 1068]];
+  WINS.forEach(([a, b]) => s += `<rect x="${a}" y="-352" width="${b - a}" height="150" rx="10" fill="#0d1a26"/>`);
+  if (q.passengers) s += `<clipPath id="busWins">${WINS.map(([a, b]) => `<rect x="${a}" y="-352" width="${b - a}" height="150" rx="10"/>`).join('')}</clipPath><g clip-path="url(#busWins)">${q.passengers}</g>`;
+  WINS.forEach(([a, b]) => s += `<rect x="${a}" y="-352" width="${b - a}" height="150" rx="10" fill="url(#gBusIn)" opacity="${0.55 * q.inner}"/>`);
   // лобовое стекло + водитель
   s += `<clipPath id="busWin"><path d="M14,-360 L150,-360 L150,-176 L8,-176Z"/></clipPath><path d="M14,-360 L150,-360 L150,-176 L8,-176Z" fill="#0d1a26"/>
     <g clip-path="url(#busWin)"><rect x="0" y="-360" width="160" height="190" fill="url(#gBusIn)" opacity="${0.5 * q.inner}"/>${q.driver}</g>
@@ -171,6 +172,65 @@ function bgStreet(p = {}) {
   s += `<rect y="1850" width="1080" height="70" fill="#232838"/><rect y="1850" width="1080" height="8" fill="#2c3246"/>`;
   if (q.flash) s += `<rect width="1080" height="1920" fill="#fff4d8" opacity="${q.flash}"/>`;
   return s;
+}
+
+// пустое кресло водителя (для лобового стекла автобуса)
+function driverSeat() {
+  return `<path d="M44,-300 Q44,-330 74,-330 L110,-330 Q130,-330 130,-300 L130,-200 L44,-200Z" fill="#2a2f3a"/><rect x="40" y="-210" width="100" height="30" rx="8" fill="#22262f"/>
+    <circle cx="150" cy="-230" r="40" fill="none" stroke="#1a1d24" stroke-width="10"/>`;
+}
+
+// ОСТАНОВКА «ТРАССА» сбоку: ночь, обочина, табличка, фонари. Автобус стоит по BUS_AT.
+function bgStop(p = {}) {
+  const q = Object.assign({ lamps: [1, 1], bus: '', busX: 0, glare: 0, man: '' }, p);
+  let s = `<rect width="1080" height="1920" fill="url(#gSkyHwy)"/>`;
+  let seed = 21; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  for (let i = 0; i < 60; i++) s += `<circle cx="${rnd() * 1080}" cy="${rnd() * 800}" r="${rnd() * 1.6 + 0.4}" fill="#cfd6ff" opacity="${rnd() * 0.5}"/>`;
+  // элеватор и поле на горизонте
+  s += `<rect x="80" y="900" width="60" height="250" fill="#0b0c16"/><rect x="146" y="930" width="60" height="220" fill="#0b0c16"/><rect x="212" y="880" width="60" height="270" fill="#0b0c16"/>
+    <polygon points="70,900 282,860 282,880 70,920" fill="#0b0c16"/><circle cx="242" cy="852" r="5" fill="${P.red}"/>
+    <rect y="1150" width="1080" height="770" fill="#0c0e15"/>`;
+  // фонари
+  [[300, 0], [860, 1]].forEach(([x, i]) => {
+    const on = q.lamps[i] ?? 1;
+    s += `<rect x="${x}" y="560" width="14" height="900" fill="#05060b"/><path d="M${x + 7},566 q-50,-40 -100,0" stroke="#05060b" stroke-width="12" fill="none"/>
+      <rect x="${x - 120}" y="560" width="52" height="18" rx="5" fill="${on > 0.3 ? '#ffd9a0' : '#3a2f22'}"/><circle cx="${x - 94}" cy="576" r="150" fill="url(#gAmber)" opacity="${on}"/>
+      <polygon points="${x - 94},590 ${x - 330},1460 ${x + 140},1460" fill="url(#gCone)" opacity="${0.6 * on}"/>`;
+  });
+  // дорога (полоса) и обочина
+  s += `<rect y="1180" width="1080" height="300" fill="#181b24"/><rect y="1180" width="1080" height="6" fill="#c9c2a8" opacity=".3"/>`;
+  for (let x = -40; x < 1080; x += 180) s += `<rect x="${x}" y="1320" width="100" height="10" fill="${P.amber}" opacity=".45"/>`;
+  if (q.bus) s += `<g transform="translate(${BUS_AT.x + q.busX} ${BUS_AT.y}) scale(${BUS_AT.s})">${q.bus}</g>`;
+  s += `<rect y="1480" width="1080" height="440" fill="#14161e"/>`;
+  for (let i = 0; i < 120; i++) s += `<rect x="${rnd() * 1080}" y="${1490 + rnd() * 420}" width="${3 + rnd() * 5}" height="3" fill="#2a2e3a" opacity="${0.4 + rnd() * 0.5}"/>`;
+  // табличка остановки
+  s += `<g transform="translate(-30 380)"><rect x="842" y="1150" width="14" height="430" fill="#0a0c12"/>
+    <rect x="760" y="1150" width="180" height="96" rx="8" fill="#e8e1cf" opacity=".9"/><rect x="760" y="1150" width="180" height="28" rx="8" fill="#2c5a3a"/>
+    <text x="850" y="1171" text-anchor="middle" font-family="Inter Display" font-weight="800" font-size="20" fill="#e8e1cf">ОСТАНОВКА</text>
+    <text x="850" y="1222" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="38" fill="#141820">ТРАССА</text>
+    <circle cx="900" cy="1290" r="34" fill="${P.amber}"/><text x="900" y="1304" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="40" fill="#141820">7</text></g>`;
+  s += q.man;
+  if (q.glare) s += `<circle cx="-40" cy="1340" r="${300 + 500 * q.glare}" fill="url(#gAmber)" opacity="${q.glare}"/><rect width="1080" height="1920" fill="#fff4d8" opacity="${0.25 * q.glare}"/>`;
+  return s;
+}
+
+// ЖУРНАЛ СМЕН: лист с таблицей и одинаковыми подписями
+function shiftLog(p = {}) {
+  const q = Object.assign({ rows: 14, hl: 0 }, p);
+  let s = `<g transform="rotate(-3 540 960)"><rect x="110" y="300" width="860" height="1300" rx="10" fill="#d9d2c0"/><rect x="110" y="300" width="860" height="1300" rx="10" fill="#000" opacity=".25"/>
+    <text x="540" y="400" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="46" fill="#2a2620">ЖУРНАЛ СМЕН</text>
+    <text x="540" y="450" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="24" fill="#4a443a">АВТОПАРК · НОЧНЫЕ РЕЙСЫ</text>
+    <line x1="150" y1="490" x2="930" y2="490" stroke="#4a443a" stroke-width="3"/>
+    <text x="160" y="530" font-family="JetBrains Mono" font-weight="800" font-size="24" fill="#4a443a">ДАТА</text><text x="420" y="530" font-family="JetBrains Mono" font-weight="800" font-size="24" fill="#4a443a">МАРШРУТ</text><text x="700" y="530" font-family="JetBrains Mono" font-weight="800" font-size="24" fill="#4a443a">ПОДПИСЬ</text>`;
+  for (let i = 0; i < q.rows; i++) {
+    const y = 590 + i * 70, d = String(24 - i).padStart(2, '0');
+    s += `<line x1="150" y1="${y + 20}" x2="930" y2="${y + 20}" stroke="#8a8270" stroke-width="1.5"/>
+      <text x="160" y="${y}" font-family="JetBrains Mono" font-size="26" fill="#3a352c">${d}.08</text>
+      <text x="420" y="${y}" font-family="JetBrains Mono" font-weight="800" font-size="28" fill="#8a2a24">№ 7</text>
+      <path d="M700,${y - 4} q20,-26 34,0 t30,-6 q14,-20 26,4 l40,-10" stroke="#1d2a5a" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+  }
+  if (q.hl) s += `<rect x="680" y="550" width="240" height="${q.rows * 70}" fill="none" stroke="${P.red}" stroke-width="8" rx="10" opacity="${q.hl}"/>`;
+  return s + `</g>`;
 }
 
 if (typeof module !== 'undefined') module.exports = { defs2, phoneScreen2, mark2, tema2, neighborBack, bgRoom, reflection, bus, bgStreet, WIN, BUS_AT };
