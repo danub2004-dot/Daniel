@@ -28,5 +28,6 @@ try{
   for(const f of ["robots.txt","sitemap.xml","site.webmanifest","og.jpg","favicon-32.png","icon-192.png","icon-512.png","apple-touch-icon.png","404.html"])
     if(fs.existsSync(path.join(root,f)))fs.copyFileSync(path.join(root,f),path.join(dist,f));
   fs.cpSync(path.join(root,"img"),path.join(dist,"img"),{recursive:true});
-  console.log("dist ready:",fs.readdirSync(dist).join(", "));
+  const docs=path.join(root,"..","docs");fs.rmSync(docs,{recursive:true,force:true});fs.cpSync(dist,docs,{recursive:true});fs.writeFileSync(path.join(docs,".nojekyll"),"");
+  console.log("dist + docs ready:",fs.readdirSync(dist).join(", "));
 }finally{srv.kill()}
