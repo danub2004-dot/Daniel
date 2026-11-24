@@ -29,6 +29,7 @@ function mark2(p = {}) {
 // Тёма + жуткая улыбка
 function tema2(p = {}) {
   let s = tema(p);
+  if (p.glowEyes) s = s.replace(/<\/g><\/g>$/, `<circle cx="0" cy="-254" r="60" fill="url(#gCyan)" opacity="${p.glowEyes}"/><circle cx="-12" cy="-254" r="7.5" fill="${P.cyan}" opacity="${p.glowEyes}"/><circle cx="12" cy="-254" r="7.5" fill="${P.cyan}" opacity="${p.glowEyes}"/></g></g>`);
   if (p.creepy) s = s.replace(/<path d="M-6,-234 Q0,-230 6,-234"[^>]*\/>/, `<path d="M-14,-238 Q0,-222 14,-238" stroke="${P.pjB}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`);
   return s;
 }
