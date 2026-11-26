@@ -31,6 +31,8 @@ elif EP == 'episode05':
     T_END = le(9) + 4.4
 elif EP == 'episode06':
     T_END = le(10) + 4.4
+elif EP == 'etazh10/ep01':
+    T_END = le(9) + 4.4
 N = int((T_END + 0.5) * SR)
 L = np.zeros(N); R = np.zeros(N)
 
@@ -156,6 +158,34 @@ elif EP == 'episode06':
     put('heartbeat', ls(9), 0.4)
     put('notify', wt(10, 'выйдешь') - 0.2, 0.5)
     put('stinger', le(10) - 0.4, 0.55)
+    put('stinger', TT, 0.7)
+elif EP == 'etazh10/ep01':
+    TT = le(9) + 0.7
+    bed('drone', 0, TT + 0.5, 0.2, 2.0)
+    bed('rain', 0, ls(1) - 0.3, 0.3, 0.5)
+    bed('bulb_buzz', ls(1) - 0.3, ls(6) - 0.3, 0.12, 0.5)
+    put('stinger', wt(0, 'десятого') - 0.1, 0.45)
+    put('steps', ls(1), 0.35)
+    put('button', wt(2, 'нажала') + 0.3, 0.5)
+    put('lift_hum', wt(2, 'нажала') + 0.5, 0.25, dur=10.5, fade=0.8)
+    put('glitch', wt(2, 'сверху') - 0.1, 0.3)
+    for w in ['девять', 'восемь']: put('clock', wt(3, w) - 0.1, 0.25)
+    put('clock', wt(3, 'десять') - 0.1, 0.25)
+    put('heartbeat', wt(3, 'живу') - 0.5, 0.4)
+    put('lift_ding', wt(4, 'двери') - 0.4, 0.5)
+    put('lift_doors', wt(4, 'двери') - 0.2, 0.5)
+    put('stinger', wt(4, 'землёй') - 0.1, 0.3)
+    put('steps', wt(5, 'но') - 0.1, 0.3, dur=1.6)
+    put('button', wt(6, 'нажала') + 0.05, 0.5)
+    put('lift_doors', wt(6, 'двери') - 0.6, 0.45)
+    bed('lift_hum', wt(6, 'двери') + 0.4, ls(7), 0.3, 0.4)
+    put('glitch', wt(6, 'свет') - 0.1, 0.45)
+    put('lift_ding', ls(7) - 0.4, 0.45)
+    put('lift_doors', ls(7) - 0.2, 0.4)
+    put('steps', wt(7, 'выскочила') - 0.4, 0.45, dur=1.5)
+    put('heartbeat', ls(8) - 0.2, 0.45)
+    put('whoosh', wt(8, 'над') - 0.4, 0.35)
+    put('stinger', wt(9, 'горела') - 0.1, 0.6)
     put('stinger', TT, 0.7)
 else:
     TT = le(12) + 0.7
