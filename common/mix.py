@@ -33,6 +33,8 @@ elif EP == 'episode06':
     T_END = le(10) + 4.4
 elif EP == 'etazh10/ep01':
     T_END = le(9) + 4.4
+elif EP == 'shorts/komu':
+    T_END = le(8) + 2.8
 N = int((T_END + 0.5) * SR)
 L = np.zeros(N); R = np.zeros(N)
 
@@ -187,6 +189,23 @@ elif EP == 'etazh10/ep01':
     put('whoosh', wt(8, 'над') - 0.4, 0.35)
     put('stinger', wt(9, 'горела') - 0.1, 0.6)
     put('stinger', TT, 0.7)
+elif EP == 'shorts/komu':
+    bed('drone', 0, T_END, 0.2, 1.0)
+    bed('bulb_buzz', 0, T_END, 0.05, 1.0)
+    put('clock', 0.05, 0.3)
+    put('creak', wt(0, 'иди') - 0.6, 0.2, pan=0.3)
+    for k in __import__('numpy').linspace(wt(1, 'мам'), le(1), 9): put('clock', k, 0.07, dur=0.05)
+    put('notify', wt(2, 'ночной') - 0.75, 0.5)
+    put('whoosh', ls(3) - 0.45, 0.3)
+    put('breath', wt(3, 'это') - 0.3, 0.3)
+    put('stinger', wt(4, 'знает') - 0.2, 0.45)
+    put('vibrate', wt(5, 'вибрирует') - 0.2, 0.6)
+    put('notify', wt(5, 'не') - 0.2, 0.45)
+    put('heartbeat', ls(6) - 0.4, 0.5)
+    put('creak', wt(6, 'медленно'), 0.5)
+    put('notify', wt(7, 'открой') - 0.2, 0.4)
+    put('stinger', wt(7, 'мама') - 0.1, 0.55)
+    put('glitch', ls(8) - 0.3, 0.35)
 else:
     TT = le(12) + 0.7
     tBus, tGo = wt(4, 'подъехал') - 0.25, wt(9, 'автобус') - 0.1
